@@ -1,5 +1,9 @@
 NAME		=	test
 
+NAMESPACE1	=	ft
+
+NAMESPACE2	=	std
+
 SRCS		=	main.cpp
 
 OBJS		=	$(addprefix $(OBJDIR)/, $(SRCS:.cpp=.o))
@@ -15,7 +19,7 @@ CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98
 
 $(OBJDIR)/%.o	:	%.cpp
 				@mkdir -p $(@D)
-				$(CXX) $(CXXFLAGS) -c $< -o $@
+				$(CXX) $(CXXFLAGS) -D NAMESPACE=$(NAMESPACE1) -c $< -o $@
 
 
 $(NAME)			:	$(OBJS)

@@ -8,7 +8,7 @@
 
 namespace ft
 {
-	template <typename T, class Container = std::vector<T> >
+	template <typename T, class Container = std::vector<T> > // /!\ std::vector a remplacer par ft::vector une fois qu'il sera implemente
 	class stack
 	{
 		private :
