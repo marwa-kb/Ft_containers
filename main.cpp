@@ -13,8 +13,8 @@ int main()
 	v.push_back(4);
 	v.push_back(3);
 	v.push_back(2);
-	NAMESPACE::stack<int> s(v);
-	NAMESPACE::stack<int> s2 = s;
+	NAMESPACE::stack<int, std::vector<int> > s(v);
+	NAMESPACE::stack<int, std::vector<int> > s2 = s;
 	std::cout << "empty : " << s.empty() << std::endl
 		<< "top : " << s.top() << std::endl
 		<< "size : " << s.size() << std::endl
