@@ -33,16 +33,18 @@ int main()
 
 	std::cout << std::endl << "VECTOR" << std::endl;
 	NAMESPACE::vector<int> v(3, 41);
-	//v.push_back(4);
-	//v.push_back(3);
-	//v.push_back(2);
-	std::cout << "empty ? " << v.empty() << std::endl;
+	std::cout << "capacity = " << v.capacity() << std::endl;
+	v.push_back(4);
+	v.push_back(3);
+	v.push_back(2);
+	std::cout << "capacity = " << v.capacity() << std::endl;
 	int size = v.size();
 	std::cout << "size = " << size << std::endl;
 	for (int i = 0; i < size; i++)
 		std::cout << "value = " << v[i] << std::endl;
 		
-	NAMESPACE::vector<int> v2 = v;
+/*	NAMESPACE::vector<int> v2 = v;
+	v2.push_back(5);
 	int size2 = v2.size();
 	std::cout << "size2 = " << size2 << std::endl;
 	for (int j = 0; j < size2; j++)
@@ -50,7 +52,6 @@ int main()
 	std::cout << "value2 front = " << v2.front() << std::endl;
 	std::cout << "value2 back = " << v2.back() << std::endl;
 	std::cout << "value2 data = " << v2.data() << std::endl;
-		
-	
+	*/
 	return (0);
 }

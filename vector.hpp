@@ -29,6 +29,7 @@ namespace ft
 			allocator_type	_alloc;
 			T*				_tab;
 			size_type		_size;
+			size_type		_capacity;
 
 
 		public :
@@ -36,15 +37,15 @@ namespace ft
 			/************* CONSTRUCTOR AND  DESTRUCTOR *************/
 
 			explicit vector (const allocator_type & alloc = allocator_type())
-				: _tab(NULL), _size(0) {
+				: _tab(NULL), _size(0), _capacity(10) {
 					(void)alloc;
 				};
 
 			explicit vector (size_type n, const value_type & val = value_type(),
 							const allocator_type & alloc = allocator_type())
-				: _size(n) {
+				: _size(n), _capacity(n * 2) {//capacity more ?
 					(void)alloc;
-					_tab = _alloc.allocate(n);
+					_tab = _alloc.allocate(_capacity);
 					value_type x = val;
 					for (size_type i = 0; i < n; i++)
 						_alloc.construct(&_tab[i], x);
@@ -60,9 +61,8 @@ namespace ft
 
 			~vector() {
 				this->clear();
-				_alloc.deallocate(_tab, _size);
+				_alloc.deallocate(_tab, _capacity);
 				_tab = NULL;
-				_size = 0;
 			};
 		
 			/****************** MEMBER  FUNCTIONS ******************/
@@ -71,10 +71,11 @@ namespace ft
 				if (this->_tab)
 				{
 					this->clear();
-					_alloc.deallocate(_tab, _size);
+					_alloc.deallocate(_tab, _capacity);
 				}
 				_size = other._size;
-				_tab = _alloc.allocate(_size);
+				_capacity = other._capacity;
+				_tab = _alloc.allocate(_capacity);
 				for (size_type i = 0; i < _size; i++)
 					_alloc.construct(&_tab[i], value_type(other[i]));
 				return (*this);
@@ -89,7 +90,10 @@ namespace ft
 			};
 /*
 			void assign (size_type n, const value_type& val) {
-
+				this->clear();
+				value_type x(val);
+				for (size_type i = 0; i < n; i++)
+					this->push_back(x);
 			};
 
 			template <class InputIterator>
@@ -145,19 +149,28 @@ namespace ft
 			size_type size() const {
 				return (_size);
 			};
-/*
-			size_type max_size() const {
 
+			size_type max_size() const {
+				return (_alloc.max_size());
 			};
 
 			void reserve (size_type n) {
-
+				if (n > _capacity)
+				{
+					T* tab = _alloc.allocate(n * 2); //or greater?
+					for (size_type i = 0; i < _size; i++)
+						_alloc.construct(&tab[i], _tab[i]);
+					this->clear();
+					_alloc.deallocate(_tab, _capacity);
+					_tab = tab;
+					_capacity = n * 2;// or greater ?
+				}
 			};
 
 			size_type capacity() const {
-				
+				return (_capacity);
 			};
-*/
+
 			void clear() {
 				for (size_type i = 0; i < _size; i++)
 					_alloc.destroy(&_tab[i]);
@@ -185,15 +198,32 @@ namespace ft
 			iterator erase (iterator first, iterator last) {
 
 			};
-
-			void push_back (const value_type & val) {
-
+*/
+			void push_back(const value_type & val) {
+				if (_size + 1 > _capacity)
+				{
+					T* tab = _alloc.allocate(_capacity * 2);
+					for (size_type i = 0; i < _size; i++)
+						_alloc.construct(&tab[i], value_type(_tab[i]));
+					_alloc.construct(&tab[_size], value_type(val));
+					this->clear();
+					_alloc.deallocate(_tab, _capacity);
+					_tab = tab;
+					_size++;
+					_capacity = _capacity * 2; //more?
+				}
+				else
+				{
+					_alloc.construct(&_tab[_size], value_type(val));
+					_size++;
+				}
 			};
 
 			void pop_back() {
-
+				_alloc.destroy(&_tab[_size - 1]);
+				_size--;
 			};
-
+/*
 			void resize (size_type n, value_type val = value_type()) {
 
 			};
