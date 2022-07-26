@@ -42,6 +42,13 @@ int main()
 	std::cout << "size = " << size << std::endl;
 	for (int i = 0; i < size; i++)
 		std::cout << "value = " << v[i] << std::endl;
+	v.pop_back();
+	v.pop_back();
+	std::cout << "capacity = " << v.capacity() << std::endl;
+	size = v.size();
+	std::cout << "size = " << size << std::endl;
+	for (int i = 0; i < size; i++)
+		std::cout << "value = " << v[i] << std::endl;
 		
 /*	NAMESPACE::vector<int> v2 = v;
 	v2.push_back(5);
