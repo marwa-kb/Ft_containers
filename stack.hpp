@@ -38,6 +38,11 @@ namespace ft
 
 			/****************** MEMBER  FUNCTIONS ******************/
 			
+			stack & operator=(const stack & other) {
+				c = other.c;
+				return (*this);
+			};
+
 			reference top() {
 				return (c.back());
 			};
@@ -63,12 +68,8 @@ namespace ft
 			};
 
 
-			/********************** OPERATORS **********************/
+			/**************** NON MEMBER  FUNCTIONS ****************/
 			
-			stack & operator=(const stack & other) {
-				c = other.c;
-				return (*this);
-			};
 			
 			friend bool operator==(const ft::stack<T, Container> & lhs, const ft::stack<T, Container> & rhs) {
 				return (lhs.c == rhs.c);
