@@ -4,12 +4,13 @@
 #include <stack>
 #include <vector>
 #include "vector.hpp"
+// #include "iterator.hpp"
 #include "colors.h"
 
 
 int main()
 {
-/*
+
 	std::cout << UO << "STACK" << NC << std::endl;
 	std::vector<int> v;
 	v.push_back(4);
@@ -30,7 +31,7 @@ int main()
 		<< "!= : " << (s != s2) << std::endl;
 	std::stack<int, std::vector<int> > essai(v);
 	std::stack<int, std::vector<int> > essai2(v);
-*/
+
 
 	std::cout << std::endl << UO << "VECTOR" << NC << std::endl;
 	
@@ -83,17 +84,11 @@ int main()
 	for (int i = 0; i < size1; i++)
 		std::cout << "value = " << v1[i] << std::endl;
 
-	std::cout << (v1 == v2 ? "true" : "false") << std::endl;
+	std::cout << (v1 == v2 ? "same" : "different") << std::endl;
+	std::cout << (v1 != v1 ? "not same" : "not different") << std::endl;
 
-/*	NAMESPACE::vector<int> v2 = v;
-	v2.push_back(5);
-	int size2 = v2.size();
-	std::cout << "size2 = " << size2 << std::endl;
-	for (int j = 0; j < size2; j++)
-		std::cout << "value2 = " << v2[j] << std::endl;
-	std::cout << "value2 front = " << v2.front() << std::endl;
-	std::cout << "value2 back = " << v2.back() << std::endl;
-	std::cout << "value2 data = " << v2.data() << std::endl;
-	*/
+	// NAMESPACE::vector<int> c;
+	// NAMESPACE::vector<int>::iterator beg = c.begin();
+//	NAMESPACE::vector<char>::iterator end;
 	return (0);
 }

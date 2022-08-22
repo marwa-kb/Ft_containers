@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <exception>
 #include "colors.h"
+#include "iterator.hpp"
 
 
 namespace ft
@@ -16,22 +17,26 @@ namespace ft
 	{
 		private :
 
-			typedef T				value_type;
-			typedef Allocator 		allocator_type;
-			typedef std::size_t		size_type;
-			typedef std::ptrdiff_t	difference_type;
-			typedef T&				reference;
-			typedef const T&		const_reference;
-			typedef T*				pointer;
-			typedef T* const		const_pointer;
+			typedef T										value_type;
+			typedef Allocator 								allocator_type;
+			typedef std::size_t								size_type;
+			typedef std::ptrdiff_t							difference_type;
+			typedef T&										reference;
+			typedef const T&								const_reference;
+			typedef T*										pointer;
+			typedef T* const								const_pointer;
+			typedef ft::iterator_traits<value_type>			iterator;
+			typedef	ft::iterator_traits<const value_type>	const_iterator;
+			typedef	ft::reverse_iterator<iterator>			reverse_iterator;
+			typedef	ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 
 		protected :
 
-			allocator_type	_alloc;
 			T*				_tab;
 			size_type		_size;
 			size_type		_capacity;
+			allocator_type	_alloc;
 
 
 		public :
@@ -261,11 +266,11 @@ namespace ft
 
 
 			/********************** ITERATORS **********************/
-/*
+
     		iterator begin() {
-
+				return (&_tab[0]);
 			};
-
+/*
 			const_iterator begin() const {
 
 			};
@@ -357,6 +362,5 @@ namespace ft
 */
 	};
 }
-
 
 #endif
