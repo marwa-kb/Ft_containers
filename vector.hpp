@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <cstddef>
+#include <stdexcept>
 #include <exception>
 #include "colors.h"
 
@@ -35,6 +36,7 @@ namespace ft
 
 		public :
 
+
 			/************* CONSTRUCTOR AND  DESTRUCTOR *************/
 
 			explicit vector (const allocator_type & alloc = allocator_type())
@@ -51,10 +53,10 @@ namespace ft
 					for (size_type i = 0; i < n; i++)
 						_alloc.construct(&_tab[i], x);
 			};
-/*
-			template <class InputIterator>
-			vector (InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type());
-*/
+
+			// template <class InputIterator>
+			// vector (InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type());
+
 			vector (const vector & x)
 				: _tab(NULL) {
 					*this = x;
@@ -90,14 +92,19 @@ namespace ft
 			const_reference operator[] (size_type n) const {
 				return (_tab[n]);
 			};
-/*
-			void assign (size_type n, const value_type& val) {
-				this->clear();
-				value_type x(val);
-				for (size_type i = 0; i < n; i++)
-					this->push_back(x);
-			};
 
+			void assign(size_type n, const value_type & val) {
+				this->clear();
+				if (n > _capacity)
+					this->reserve(n);
+				for (size_type i = 0; i < n; i++)
+				{
+					value_type x(val);
+					this->push_back(x);
+				}
+				_size = n;
+			};
+/*
 			template <class InputIterator>
   			void assign (InputIterator first, InputIterator last) {
 
@@ -110,13 +117,13 @@ namespace ft
 			
 			reference at(size_type n) {
 				if (n >= _size)
-					throw (OutOfRange());
+					throw (std::out_of_range("vector::out of range"));
 				return (_tab[n]);
 			};
 
 			const_reference at(size_type n) const {
 				if (n >= _size)					
-					throw (OutOfRange());
+					throw (std::out_of_range("vector::out of range"));
 				return (_tab[n]);
 			};
 
@@ -158,10 +165,10 @@ namespace ft
 
 			void reserve(size_type n) {
 				if (n > this->max_size())
-					throw (std::length_error);
+					throw (std::length_error("vector::reserve"));
 				if (n > _capacity)
 				{
-					T* tab = _alloc.allocate(n); //or greater?
+					T* tab = _alloc.allocate(n);
 					for (size_type i = 0; i < _size; i++)
 						_alloc.construct(&tab[i], _tab[i]);
 					int size = _size;
@@ -169,7 +176,7 @@ namespace ft
 					_alloc.deallocate(_tab, _capacity);
 					_tab = tab;
 					_size = size;
-					_capacity = n; // or greater ?
+					_capacity = n;
 				}
 			};
 
@@ -217,7 +224,7 @@ namespace ft
 					_alloc.deallocate(_tab, _capacity);
 					_tab = tab;
 					_size = size + 1;
-					_capacity = _capacity * 2; //more?
+					_capacity = _capacity * 2;
 				}
 				else
 				{
@@ -230,15 +237,28 @@ namespace ft
 				_alloc.destroy(&_tab[_size - 1]);
 				_size--;
 			};
-/*
+
 			void resize (size_type n, value_type val = value_type()) {
-
+				if (n < _size)
+				{
+					size_type i = _size - n; 
+					for (size_type j = 0; j < i; j++)
+						this->pop_back();
+				}
+				else if (n > _size)
+				{
+					if (n > _capacity)
+						this->reserve(n);
+					size_type i = n - _size;
+					for (size_type j = 0; j < i; j++)
+						this->push_back(val);
+				}
 			};
 
-			void swap (vector & x) {
+			// void swap (vector & x) {
 
-			};
-*/
+			// };
+
 
 			/********************** ITERATORS **********************/
 /*
@@ -276,7 +296,7 @@ namespace ft
 
 */
 			/**************** NON MEMBER  FUNCTIONS ****************/
-/*			
+		
 			friend bool operator==(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
 				if (lhs.size() == rhs.size())
 				{
@@ -321,12 +341,12 @@ namespace ft
 			// 	//
 			// }
 			
-			template <class T, class Alloc>
-			void swap (vector<T,Alloc>& x, vector<T,Alloc>& y) {
-*/
+			// template <class T, class Alloc>
+			// void swap (vector<T,Alloc>& x, vector<T,Alloc>& y) {
+
 			
 			/********************* EXCEPTIONS **********************/
-
+/*
 			class OutOfRange : public std::exception
 			{
 				public :
@@ -334,7 +354,7 @@ namespace ft
 						return ("Out of limits");
 					};
 			};
-
+*/
 	};
 }
 

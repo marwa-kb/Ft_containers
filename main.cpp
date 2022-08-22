@@ -35,33 +35,34 @@ int main()
 	std::cout << std::endl << UO << "VECTOR" << NC << std::endl;
 	
 	NAMESPACE::vector<int> v2;
-	std::cout << "size = " << v2.size() << std::endl;
-	std::cout << "capacity = " << v2.capacity() << std::endl;
-	v2.clear();
-	std::cout << "size = " << v2.size() << std::endl;
-	std::cout << "capacity = " << v2.capacity() << std::endl;
+	std::cout << GN << "size = " << v2.size() << NC << std::endl;
+	std::cout << GN << "capacity = " << v2.capacity() << NC << std::endl;
 	v2.reserve(3);
 	std::cout << "size = " << v2.size() << std::endl;
 	std::cout << "capacity = " << v2.capacity() << std::endl;
 	v2.push_back(74);
 	v2.push_back(74);
 	v2.push_back(74);
+	v2.push_back(89);
+	int size = v2.size();
+	for (int i = 0; i < size; i++)
+		std::cout << YE << v2[i] << NC << std::endl;
 	std::cout << MA << "size = " << v2.size() << NC << std::endl;
 	std::cout << MA << "capacity = " << v2.capacity() << NC << std::endl;
-	v2.clear();
-	std::cout << "size = " << v2.size() << std::endl;
-	std::cout << "capacity = " << v2.capacity() << std::endl;
-	try
-	{
-		v2.reserve(v2.max_size() + 1);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
+	v2.assign(5, 10);
+	v2.push_back(89);
+	size = v2.size();
+	for (int j = 0; j < size; j++)
+		std::cout << YE << v2.at(j) << NC << std::endl;
+	std::cout << MA << "size = " << v2.size() << NC << std::endl;
+	std::cout << MA << "capacity = " << v2.capacity() << NC << std::endl;
+	v2.push_back(89);
+	v2.resize(101, 12);
+	size = v2.size();
+	std::cout << RE << "size = " << v2.size() << NC << std::endl;
+	std::cout << RE << "capacity = " << v2.capacity() << NC << std::endl;
 	
 
-/*
 	NAMESPACE::vector<int> v1(3, 41);
 	std::cout << "size = " << v1.size() << std::endl;
 	v1.push_back(4);
@@ -70,18 +71,20 @@ int main()
 	std::cout << "size = " << v1.size() << std::endl;
 	v1.push_back(2);
 	std::cout << "size = " << v1.size() << std::endl;
-	int size = v1.size();
-	std::cout << "size = " << size << std::endl;
-	for (int i = 0; i < size; i++)
+	int size1 = v1.size();
+	std::cout << "size = " << size1 << std::endl;
+	for (int i = 0; i < size1; i++)
 		std::cout << "value = " << v1[i] << std::endl;
 	v1.pop_back();
 	v1.pop_back();
 	std::cout << "capacity = " << v1.capacity() << std::endl;
-	size = v1.size();
-	std::cout << "size = " << size << std::endl;
-	for (int i = 0; i < size; i++)
+	size1 = v1.size();
+	std::cout << "size = " << size1 << std::endl;
+	for (int i = 0; i < size1; i++)
 		std::cout << "value = " << v1[i] << std::endl;
-*/
+
+	std::cout << (v1 == v2 ? "true" : "false") << std::endl;
+
 /*	NAMESPACE::vector<int> v2 = v;
 	v2.push_back(5);
 	int size2 = v2.size();

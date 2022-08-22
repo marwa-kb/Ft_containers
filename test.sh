@@ -1,11 +1,12 @@
 make re >/dev/null
 make clean >/dev/null
-./ft > mine
-./std > real
+./ft > mine 2>&1
+./std > real 2>&1
 diff mine real > result
 if [ -s result ]
 then
     echo "❌ Error"
+	cat result
 else
     echo "✅ No difference between ft and std !"
 fi
