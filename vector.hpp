@@ -5,6 +5,7 @@
 #include <string>
 #include <cstddef>
 #include <exception>
+#include "colors.h"
 
 
 namespace ft
@@ -37,19 +38,19 @@ namespace ft
 			/************* CONSTRUCTOR AND  DESTRUCTOR *************/
 
 			explicit vector (const allocator_type & alloc = allocator_type())
-				: _tab(NULL), _size(0), _capacity(10) {
+				: _tab(NULL), _size(0), _capacity(0) {
 					(void)alloc;
-				};
+			};
 
 			explicit vector (size_type n, const value_type & val = value_type(),
 							const allocator_type & alloc = allocator_type())
-				: _size(n), _capacity(n * 2) {//capacity more ?
+				: _size(n), _capacity(n) {//capacity more ?
 					(void)alloc;
 					_tab = _alloc.allocate(_capacity);
 					value_type x = val;
 					for (size_type i = 0; i < n; i++)
 						_alloc.construct(&_tab[i], x);
-				};
+			};
 /*
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type());
@@ -57,7 +58,7 @@ namespace ft
 			vector (const vector & x)
 				: _tab(NULL) {
 					*this = x;
-				}
+			}
 
 			~vector() {
 				this->clear();
@@ -65,6 +66,7 @@ namespace ft
 				_tab = NULL;
 			};
 		
+
 			/****************** MEMBER  FUNCTIONS ******************/
 
 			vector & operator=(const vector & other) {
@@ -106,13 +108,13 @@ namespace ft
 				return (x);
 			};
 			
-			reference at (size_type n) {
+			reference at(size_type n) {
 				if (n >= _size)
 					throw (OutOfRange());
 				return (_tab[n]);
 			};
 
-			const_reference at (size_type n) const {
+			const_reference at(size_type n) const {
 				if (n >= _size)					
 					throw (OutOfRange());
 				return (_tab[n]);
@@ -154,16 +156,20 @@ namespace ft
 				return (_alloc.max_size());
 			};
 
-			void reserve (size_type n) {
+			void reserve(size_type n) {
+				if (n > this->max_size())
+					throw (std::length_error);
 				if (n > _capacity)
 				{
-					T* tab = _alloc.allocate(n * 2); //or greater?
+					T* tab = _alloc.allocate(n); //or greater?
 					for (size_type i = 0; i < _size; i++)
 						_alloc.construct(&tab[i], _tab[i]);
+					int size = _size;
 					this->clear();
 					_alloc.deallocate(_tab, _capacity);
 					_tab = tab;
-					_capacity = n * 2;// or greater ?
+					_size = size;
+					_capacity = n; // or greater ?
 				}
 			};
 
@@ -206,10 +212,11 @@ namespace ft
 					for (size_type i = 0; i < _size; i++)
 						_alloc.construct(&tab[i], value_type(_tab[i]));
 					_alloc.construct(&tab[_size], value_type(val));
+					size_type size = _size;
 					this->clear();
 					_alloc.deallocate(_tab, _capacity);
 					_tab = tab;
-					_size++;
+					_size = size + 1;
 					_capacity = _capacity * 2; //more?
 				}
 				else

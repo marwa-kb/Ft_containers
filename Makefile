@@ -1,4 +1,4 @@
-NAME		=	test
+NAME		=	containers
 
 NAMESPACE1	=	ft
 
@@ -50,4 +50,4 @@ fclean			:	clean
 
 re				:	fclean all
 
-.PHONY			:	all clean fclean re
+.PHONY			:	all clean fclean re test
