@@ -27,7 +27,7 @@ namespace ft
 			typedef T* const												const_pointer;
 			typedef typename ft::iterator_traits<pointer>::pointer			iterator;
 			// typedef	typename ft::iterator_traits<const pointer>::pointer	const_iterator;
-			// typedef	ft::reverse_iterator<iterator>							reverse_iterator;
+			typedef	typename ft::reverse_iterator<iterator>::pointer					reverse_iterator;
 			// typedef	ft::reverse_iterator<const_iterator>					const_reverse_iterator;
 
 

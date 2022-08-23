@@ -10,7 +10,7 @@
 
 int main()
 {
-/*
+
 	std::cout << UO << "STACK" << NC << std::endl;
 	std::vector<int> v;
 	v.push_back(4);
@@ -32,7 +32,7 @@ int main()
 	std::stack<int, std::vector<int> > essai(v);
 	std::stack<int, std::vector<int> > essai2(v);
 
-*/
+
 	std::cout << std::endl << UO << "VECTOR" << NC << std::endl;
 	
 	NAMESPACE::vector<int> v2;
@@ -94,5 +94,6 @@ int main()
 	for (; beg != end; beg++)
 		std::cout << BY << *beg << " " << NC;
 	std::cout << std::endl;
+	
 	return (0);
 }
