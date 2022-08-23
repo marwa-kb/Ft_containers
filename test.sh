@@ -10,5 +10,5 @@ then
 else
     echo "✅ No difference between ft and std !"
 fi
-make fclean >/dev/null
+#make fclean >/dev/null
 rm mine real result

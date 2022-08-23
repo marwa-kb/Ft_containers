@@ -11,13 +11,12 @@ namespace ft
 	template <typename T, class Container = std::vector<T> > // /!\ std::vector a remplacer par ft::vector une fois qu'il sera implemente
 	class stack
 	{
-		private :
 
-			typedef Container							container_type;
-			typedef typename Container::value_type		value_type;
+		public:
+
+			typedef Container						container_type;
+			typedef typename Container::value_type	value_type;
 			typedef typename Container::size_type		size_type;
-			typedef typename Container::reference		reference;
-			typedef typename Container::const_reference	const_reference;
 
 
 		protected :
@@ -43,11 +42,11 @@ namespace ft
 				return (*this);
 			};
 
-			reference top() {
+			value_type & top() {
 				return (c.back());
 			};
 
-			const_reference top() const {
+			const value_type & top() const {
 				return (c.back());
 			};
 
