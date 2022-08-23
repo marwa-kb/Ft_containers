@@ -87,8 +87,12 @@ int main()
 	std::cout << (v1 == v2 ? "same" : "different") << std::endl;
 	std::cout << (v1 != v1 ? "not same" : "not different") << std::endl;
 
-	// NAMESPACE::vector<int> c;
-	// NAMESPACE::vector<int>::iterator beg = c.begin();
-//	NAMESPACE::vector<char>::iterator end;
+	NAMESPACE::vector<int>::iterator beg = v1.begin();
+	NAMESPACE::vector<int>::iterator end = v1.end();
+	std::cout << BG << "beginning = " << *beg << NC << std::endl;
+	std::cout << BG << "end = " << *end << NC << std::endl;
+	for (; beg != end; beg++)
+		std::cout << BY << *beg << " " << NC;
+	std::cout << std::endl;
 	return (0);
 }

@@ -15,20 +15,20 @@ namespace ft
 	template <class T, class Allocator = std::allocator<T> >
 	class vector
 	{
-		private :
+		public :
 
-			typedef T										value_type;
-			typedef Allocator 								allocator_type;
-			typedef std::size_t								size_type;
-			typedef std::ptrdiff_t							difference_type;
-			typedef T&										reference;
-			typedef const T&								const_reference;
-			typedef T*										pointer;
-			typedef T* const								const_pointer;
-			typedef ft::iterator_traits<value_type>			iterator;
-			typedef	ft::iterator_traits<const value_type>	const_iterator;
-			typedef	ft::reverse_iterator<iterator>			reverse_iterator;
-			typedef	ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+			typedef T														value_type;
+			typedef Allocator 												allocator_type;
+			typedef std::size_t												size_type;
+			typedef std::ptrdiff_t											difference_type;
+			typedef T&														reference;
+			typedef const T&												const_reference;
+			typedef T*														pointer;
+			typedef T* const												const_pointer;
+			typedef typename ft::iterator_traits<pointer>::pointer			iterator;
+			// typedef	typename ft::iterator_traits<const pointer>::pointer	const_iterator;
+			// typedef	ft::reverse_iterator<iterator>							reverse_iterator;
+			// typedef	ft::reverse_iterator<const_iterator>					const_reverse_iterator;
 
 
 		protected :
@@ -270,19 +270,19 @@ namespace ft
     		iterator begin() {
 				return (&_tab[0]);
 			};
-/*
-			const_iterator begin() const {
 
+/*			const_iterator begin() const {
+				return (&_tab[0]);
 			};
-
+*/
 			iterator end() {
-
+				return (&_tab[_size]);
 			};
-
+/*
 			const_iterator end() const {
-				
-			};
-
+				return (&_tab[_size]);
+			};*/
+/*
 			reverse_iterator rbegin() {
 
 			};
