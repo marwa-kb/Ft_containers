@@ -25,14 +25,15 @@ else
 	echo "⏱️  \e[1;37mTesting performance...\e[0m"
 	echo "\e[0;33mSTD $1:\e[0m"
 	time -p ./std $1 >/dev/null
-	echo "\e[0;33mFT $1:\e[0m"
+	echo "\n\e[0;33mFT $1:\e[0m"
 	time -p ./ft $1 >/dev/null
 fi
 
-
+# not necessary
 if [ "$1" = "c" ] || [ "$2" = "c" ]
 then
 	make fclean >/dev/null
 fi	
+#
 
 rm mine real result

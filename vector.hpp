@@ -31,7 +31,7 @@ namespace ft
 			// typedef	ft::reverse_iterator<const_iterator>					const_reverse_iterator;
 
 
-		protected :
+		private :
 
 			T*				_tab;
 			size_type		_size;

@@ -45,27 +45,31 @@ namespace ft
 			typedef typename ft::iterator_traits<Iterator>::pointer				pointer;
 			typedef typename ft::iterator_traits<Iterator>::reference			reference;
 	
-		// public :
 
+		protected :
+
+			iterator_type current;
+
+
+		public :
 
 			/******************** CONSTRUCTORS *********************/
 
-			// reverse_iterator();
-// 
-			// explicit reverse_iterator (iterator_type it);
-// 
-			// template <class Iter>
-  			// reverse_iterator (const reverse_iterator<Iter>& rev_it);
-// 
+			reverse_iterator() {};
+
+			explicit reverse_iterator (iterator_type x) : current(x) {};
+
+			template <class Iter>
+  			reverse_iterator (const reverse_iterator<Iter> & other) : current(other.current) {};
+
 
 			/****************** MEMBER  FUNCTIONS ******************/
 
-	/*		iterator_type base() const { //????
-				iterator_type x = this - 1;
-				return (*x);
+			iterator_type base() const {
+				return (current);
 			};
 
-			reference operator*() const {
+/*			reference operator*() const {
 
 			};
 
