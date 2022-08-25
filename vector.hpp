@@ -281,20 +281,21 @@ namespace ft
 /*
 			const_iterator end() const {
 				return (&_tab[_size]);
-			};*/
-/*
-			reverse_iterator rbegin() {
-
 			};
-
+*/
+			// reverse_iterator rbegin() {
+				// return ()
+// 
+			// };
+/*
 			const_reverse_iterator rbegin() const {
 
 			};
+*/
+			// reverse_iterator rend() {
 
-			reverse_iterator rend() {
-
-			};
-
+			// };
+/*
 			const_reverse_iterator rend() const {
 				
 			};
