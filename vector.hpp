@@ -27,7 +27,7 @@ namespace ft
 			typedef T* const												const_pointer;
 			typedef typename ft::iterator_traits<pointer>::pointer			iterator;
 			// typedef	typename ft::iterator_traits<const pointer>::pointer	const_iterator;
-			typedef	typename ft::reverse_iterator<iterator>::pointer					reverse_iterator;
+			typedef	typename ft::reverse_iterator<iterator>::pointer		reverse_iterator;
 			// typedef	ft::reverse_iterator<const_iterator>					const_reverse_iterator;
 
 
@@ -283,18 +283,21 @@ namespace ft
 				return (&_tab[_size]);
 			};
 */
-			// reverse_iterator rbegin() {
-				// return ()
-// 
-			// };
+			reverse_iterator rbegin() {
+				std::cout << BC << "ICIIII DANS VECTOR rbegin" << NC << std::endl;
+				reverse_iterator x;
+				x = &_tab[_size];
+				return (x);
+			};
 /*
 			const_reverse_iterator rbegin() const {
 
 			};
 */
-			// reverse_iterator rend() {
-
-			// };
+			reverse_iterator rend() {
+				std::cout << BC << "ICIIII DANS VECTOR rend" << NC << std::endl;
+				return (&_tab[0]);
+			};
 /*
 			const_reverse_iterator rend() const {
 				

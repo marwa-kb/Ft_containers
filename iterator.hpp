@@ -1,3 +1,6 @@
+#ifndef ITERATOR_HPP
+# define ITERATOR_HPP
+
 #include <string>
 
 namespace ft
@@ -55,48 +58,37 @@ namespace ft
 
 			/******************** CONSTRUCTORS *********************/
 
-			reverse_iterator() {};
+			reverse_iterator() {
+				std::cout << BO << "BIEN DANS REVERSE ITERATOR" << NC << std::endl;
+			};
 
-			explicit reverse_iterator (iterator_type x) : current(x) {};
+			explicit reverse_iterator(iterator_type x) : current(x) {
+				std::cout << BO << "BIEN DANS REVERSE ITERATOR" << NC << std::endl;
+			};
 
 			template <class Iter>
-  			reverse_iterator (const reverse_iterator<Iter> & other) : current(other.current) {};
+  			reverse_iterator(const reverse_iterator<Iter> & other) : current(other.current) {
+				std::cout << BO << "BIEN DANS REVERSE ITERATOR" << NC << std::endl;
+			};
 
 
 			/****************** MEMBER  FUNCTIONS ******************/
+
+			template <class Iter>
+			reverse_iterator & operator=(const reverse_iterator<Iter> & other) {
+				current = other.base();
+			};
 
 			iterator_type base() const {
 				return (current);
 			};
 
-/*			reference operator*() const {
-
+			reference operator*() const {
+				std::cout << BP << "ICIIII" << NC << std::endl;
+				iterator_type tmp = current;
+				return (*--tmp);
 			};
-
-			reference operator+ const {
-
-			};
-
-			reference operator++ const {
-
-			};
-
-			reference operator+= const {
-
-			};
-
-			reference operator- const {
-
-			};
-
-			reference operator-- const {
-
-			};
-
-			reference operator-= const {
-
-			};
-
+/*
 			reference operator-> const {
 
 			};
@@ -105,36 +97,81 @@ namespace ft
 
 			};
 */
-			
+			reverse_iterator & operator++() {
+				std::cout << BP << "ICIIII" << NC << std::endl;
+				--current;
+				return (*this);
+			}
+
+			reverse_iterator & operator--() {
+				++current;
+				return (*this);
+			}
+
+			reverse_iterator operator++(int) {
+				reverse_iterator tmp = *this;
+				--current;
+				return (tmp);
+			}
+
+			reverse_iterator operator--(int) {
+				reverse_iterator tmp = *this;
+				++current;
+				return (tmp);
+			}
+/*
+			reverse_iterator operator+(difference_type n) const {
+
+			}
+
+			reverse_iterator operator-(difference_type n) const {
+
+			}
+
+			reverse_iterator & operator+=(difference_type n) {
+
+			}
+
+			reverse_iterator & operator-=(difference_type n) {
+
+			}
+
+	*/		
 			/**************** NON MEMBER  FUNCTIONS ****************/
+/*
+			friend bool operator==(const std::reverse_iterator<Iterator1> & lhs, const std::reverse_iterator<Iterator2> & rhs) {
 
-			// friend bool operator== (const reverse_iterator<Iterator>& lhs,
-            //        const reverse_iterator<Iterator>& rhs);
-
-
-			// friend bool operator!= (const reverse_iterator<Iterator>& lhs,
-            //        const reverse_iterator<Iterator>& rhs);
-
-
-			// friend bool operator<  (const reverse_iterator<Iterator>& lhs,
-            //        const reverse_iterator<Iterator>& rhs);
-
-
-			// friend bool operator<= (const reverse_iterator<Iterator>& lhs,
-            //        const reverse_iterator<Iterator>& rhs);
-
-
-			// friend bool operator>  (const reverse_iterator<Iterator>& lhs,
-            //        const reverse_iterator<Iterator>& rhs);
-
-			// friend bool operator>= (const reverse_iterator<Iterator>& lhs,
-            //        const reverse_iterator<Iterator>& rhs);
-
-
-			// friend reverse_iterator<Iterator> operator+(difference_type n, const reverse_iterator<Iterator>& rev_it);
-			
-			// friend reverse_iterator<Iterator>::difference_type operator-(const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs);
+			};
 	
-	};
+			friend bool operator!=(const std::reverse_iterator<Iterator1> & lhs, const std::reverse_iterator<Iterator2> & rhs) {
+
+			};
+
+			friend bool operator<(const std::reverse_iterator<Iterator1> & lhs, const std::reverse_iterator<Iterator2> & rhs) {
+
+			};
+
+			friend bool operator<=(const std::reverse_iterator<Iterator1> & lhs, const std::reverse_iterator<Iterator2> & rhs) {
+
+			};
+
+			friend bool operator>(const std::reverse_iterator<Iterator1> & lhs, const std::reverse_iterator<Iterator2> & rhs) {
+
+			};
+
+			friend bool operator>=(const std::reverse_iterator<Iterator1> & lhs, const std::reverse_iterator<Iterator2> & rhs) {
+
+			};
+
+			friend reverse_iterator<Iterator> operator+(difference_type n, const reverse_iterator<Iterator> & it) {
+
+			};
+			
+			friend difference_type operator-(const reverse_iterator<Iterator> & lhs, const reverse_iterator<Iterator> & rhs) {
+
+			};	
+	*/};
 
 }
+
+#endif

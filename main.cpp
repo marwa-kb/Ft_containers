@@ -4,6 +4,7 @@
 #include <stack>
 #include <vector>
 #include "vector.hpp"
+#include "iterator.hpp"
 #include "colors.h"
 
 
@@ -97,6 +98,16 @@ int main(int argc, char *argv[])
 		for (; beg != end; beg++)
 			std::cout << BY << *beg << " " << NC;
 		std::cout << std::endl;
+
+
+		NAMESPACE::vector<int>::reverse_iterator rbeg = v1.rbegin();
+		NAMESPACE::vector<int>::reverse_iterator rend = v1.rend();
+		std::cout << BG << "rbeginning = " << *rbeg << NC << std::endl;
+		std::cout << BG << "rend = " << *rend << NC << std::endl;
+		for (; rbeg != rend; rbeg++)
+			std::cout << BY << *rbeg << " " << NC;
+		std::cout << std::endl;
+
 	}
 
 	return (0);
