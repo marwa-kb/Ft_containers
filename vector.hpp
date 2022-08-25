@@ -24,11 +24,11 @@ namespace ft
 			typedef T&														reference;
 			typedef const T&												const_reference;
 			typedef T*														pointer;
-			typedef T* const												const_pointer;
+			typedef const T*												const_pointer;
 			typedef typename ft::iterator_traits<pointer>::pointer			iterator;
-			// typedef	typename ft::iterator_traits<const pointer>::pointer	const_iterator;
-			typedef	typename ft::reverse_iterator<iterator>::pointer		reverse_iterator;
-			// typedef	ft::reverse_iterator<const_iterator>					const_reverse_iterator;
+			typedef	typename ft::iterator_traits<const_pointer>::pointer	const_iterator;
+			typedef	typename ft::reverse_iterator<iterator>					reverse_iterator;
+			typedef	typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 
 
 		private :
@@ -268,42 +268,38 @@ namespace ft
 			/********************** ITERATORS **********************/
 
     		iterator begin() {
-				return (&_tab[0]);
+				return (iterator(_tab));
 			};
 
-/*			const_iterator begin() const {
-				return (&_tab[0]);
+			const_iterator begin() const {
+				return (const_iterator(_tab));
 			};
-*/
+
 			iterator end() {
-				return (&_tab[_size]);
+				return (iterator(_tab + _size));
 			};
-/*
+
 			const_iterator end() const {
-				return (&_tab[_size]);
+				return (const_iterator(_tab + _size));
 			};
-*/
+
 			reverse_iterator rbegin() {
-				std::cout << BC << "ICIIII DANS VECTOR rbegin" << NC << std::endl;
-				reverse_iterator x;
-				x = &_tab[_size];
-				return (x);
+				return (reverse_iterator(_tab + _size));
 			};
-/*
+
 			const_reverse_iterator rbegin() const {
-
+				return (const_reverse_iterator(_tab + _size));
 			};
-*/
+
 			reverse_iterator rend() {
-				std::cout << BC << "ICIIII DANS VECTOR rend" << NC << std::endl;
-				return (&_tab[0]);
-			};
-/*
-			const_reverse_iterator rend() const {
-				
+				return (reverse_iterator(_tab));
 			};
 
-*/
+			const_reverse_iterator rend() const {
+				return (const_reverse_iterator(_tab));
+			};
+
+
 			/**************** NON MEMBER  FUNCTIONS ****************/
 		
 			friend bool operator==(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {

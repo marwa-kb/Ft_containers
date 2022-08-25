@@ -16,6 +16,7 @@ namespace ft
 		typedef typename Iterator::iterator_category	iterator_category;
 	};
 
+
 	template <class T>
 	struct iterator_traits<T*>
 	{
@@ -26,6 +27,7 @@ namespace ft
 		typedef std::random_access_iterator_tag	iterator_category;
 	};
 
+
 	template <class T>
 	struct iterator_traits<const T*>
 	{
@@ -35,6 +37,7 @@ namespace ft
 		typedef const T&						reference;
 		typedef std::random_access_iterator_tag	iterator_category;
 	};
+
 
 	template <class Iterator>
 	class reverse_iterator
@@ -58,18 +61,12 @@ namespace ft
 
 			/******************** CONSTRUCTORS *********************/
 
-			reverse_iterator() {
-				std::cout << BO << "BIEN DANS REVERSE ITERATOR" << NC << std::endl;
-			};
+			reverse_iterator() {};
 
-			explicit reverse_iterator(iterator_type x) : current(x) {
-				std::cout << BO << "BIEN DANS REVERSE ITERATOR" << NC << std::endl;
-			};
+			explicit reverse_iterator(iterator_type x) : current(x) {};
 
 			template <class Iter>
-  			reverse_iterator(const reverse_iterator<Iter> & other) : current(other.current) {
-				std::cout << BO << "BIEN DANS REVERSE ITERATOR" << NC << std::endl;
-			};
+  			reverse_iterator(const reverse_iterator<Iter> & other) : current(other.base()) {};
 
 
 			/****************** MEMBER  FUNCTIONS ******************/
@@ -77,6 +74,7 @@ namespace ft
 			template <class Iter>
 			reverse_iterator & operator=(const reverse_iterator<Iter> & other) {
 				current = other.base();
+				return (*this);
 			};
 
 			iterator_type base() const {
@@ -84,7 +82,6 @@ namespace ft
 			};
 
 			reference operator*() const {
-				std::cout << BP << "ICIIII" << NC << std::endl;
 				iterator_type tmp = current;
 				return (*--tmp);
 			};
@@ -92,13 +89,12 @@ namespace ft
 			reference operator-> const {
 
 			};
-
-			reference operator[] const {
-
-			};
 */
+			reference operator[](difference_type n) const {  // NEW, A TESTER
+				return (this->base()[- n - 1]);
+			};
+
 			reverse_iterator & operator++() {
-				std::cout << BP << "ICIIII" << NC << std::endl;
 				--current;
 				return (*this);
 			}
@@ -138,15 +134,15 @@ namespace ft
 
 	*/		
 			/**************** NON MEMBER  FUNCTIONS ****************/
-/*
-			friend bool operator==(const std::reverse_iterator<Iterator1> & lhs, const std::reverse_iterator<Iterator2> & rhs) {
 
+			friend bool operator==(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
+				return (lhs.current == rhs.current);
 			};
 	
-			friend bool operator!=(const std::reverse_iterator<Iterator1> & lhs, const std::reverse_iterator<Iterator2> & rhs) {
-
+			friend bool operator!=(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
+				return (lhs.current != rhs.current);
 			};
-
+/*
 			friend bool operator<(const std::reverse_iterator<Iterator1> & lhs, const std::reverse_iterator<Iterator2> & rhs) {
 
 			};
