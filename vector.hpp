@@ -17,18 +17,18 @@ namespace ft
 	{
 		public :
 
-			typedef T														value_type;
-			typedef Allocator 												allocator_type;
-			typedef std::size_t												size_type;
-			typedef std::ptrdiff_t											difference_type;
-			typedef T&														reference;
-			typedef const T&												const_reference;
-			typedef T*														pointer;
-			typedef const T*												const_pointer;
-			typedef typename ft::iterator_traits<pointer>::pointer			iterator;
-			typedef	typename ft::iterator_traits<const_pointer>::pointer	const_iterator;
-			typedef	typename ft::reverse_iterator<iterator>					reverse_iterator;
-			typedef	typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
+			typedef T												value_type;
+			typedef Allocator 										allocator_type;
+			typedef std::size_t										size_type;
+			typedef std::ptrdiff_t									difference_type;
+			typedef T&												reference;
+			typedef const T&										const_reference;
+			typedef T*												pointer;
+			typedef const T*										const_pointer;
+			typedef typename ft::iterator_traits<pointer>			iterator;
+			typedef	typename ft::iterator_traits<const_pointer>		const_iterator;
+			typedef	typename ft::reverse_iterator<iterator>			reverse_iterator;
+			typedef	typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 
 		private :
@@ -283,21 +283,21 @@ namespace ft
 				return (const_iterator(_tab + _size));
 			};
 
-			reverse_iterator rbegin() {
-				return (reverse_iterator(_tab + _size));
-			};
+			// reverse_iterator rbegin() {
+			// 	return (reverse_iterator(_tab + _size));
+			// };
 
-			const_reverse_iterator rbegin() const {
-				return (const_reverse_iterator(_tab + _size));
-			};
+			// const_reverse_iterator rbegin() const {
+			// 	return (const_reverse_iterator(_tab + _size));
+			// };
 
-			reverse_iterator rend() {
-				return (reverse_iterator(_tab));
-			};
+			// reverse_iterator rend() {
+			// 	return (reverse_iterator(_tab));
+			// };
 
-			const_reverse_iterator rend() const {
-				return (const_reverse_iterator(_tab));
-			};
+			// const_reverse_iterator rend() const {
+			// 	return (const_reverse_iterator(_tab));
+			// };
 
 
 			/**************** NON MEMBER  FUNCTIONS ****************/

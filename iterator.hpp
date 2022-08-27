@@ -2,11 +2,13 @@
 # define ITERATOR_HPP
 
 #include <string>
+#include <type_traits>
+#include "utils.hpp"
 
 namespace ft
 {
 
-	template <class Iterator>
+	template <class Iterator, typename std::enable_if<std::is_integral<Iterator>::value, bool>::type* = false>
 	struct iterator_traits
 	{
 		typedef typename Iterator::difference_type		difference_type;
@@ -36,6 +38,17 @@ namespace ft
 		typedef const T*						pointer;
 		typedef const T&						reference;
 		typedef std::random_access_iterator_tag	iterator_category;
+	};
+
+
+	template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
+	struct iterator
+	{
+		typedef Category	iterator_category;
+		typedef T			value_type;
+		typedef Distance	difference_type;
+		typedef Pointer		pointer;
+		typedef Reference	reference;
 	};
 
 

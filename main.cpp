@@ -100,13 +100,13 @@ int main(int argc, char *argv[])
 		std::cout << std::endl;
 
 
-		NAMESPACE::vector<int>::const_reverse_iterator rbeg = v1.rbegin();
-		NAMESPACE::vector<int>::const_reverse_iterator rend = v1.rend();
-		std::cout << BG << "rbeginning = " << *rbeg << NC << std::endl;
-		std::cout << BG << "rend = " << *rend << NC << std::endl;
-		for (; rbeg != rend; rbeg++)
-			std::cout << BY << *rbeg << " " << NC;
-		std::cout << std::endl;
+		// NAMESPACE::vector<int>::const_reverse_iterator rbeg = v1.rbegin();
+		// NAMESPACE::vector<int>::const_reverse_iterator rend = v1.rend();
+		// std::cout << BG << "rbeginning = " << *rbeg << NC << std::endl;
+		// std::cout << BG << "rend = " << *rend << NC << std::endl;
+		// for (; rbeg != rend; rbeg++)
+		// 	std::cout << BY << *rbeg << " " << NC;
+		// std::cout << std::endl;
 
 	}
 
