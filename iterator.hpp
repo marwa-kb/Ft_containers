@@ -8,7 +8,7 @@
 namespace ft
 {
 
-	template <class Iterator, typename std::enable_if<std::is_integral<Iterator>::value, bool>::type* = false>
+	template <class Iterator>
 	struct iterator_traits
 	{
 		typedef typename Iterator::difference_type		difference_type;
@@ -41,7 +41,7 @@ namespace ft
 	};
 
 
-	template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
+/*	template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 	struct iterator
 	{
 		typedef Category	iterator_category;
@@ -50,7 +50,135 @@ namespace ft
 		typedef Pointer		pointer;
 		typedef Reference	reference;
 	};
+*/
 
+	template <class Iterator>
+	class iterator
+	{
+		public :
+
+			typedef Iterator													iterator_type;
+			typedef typename ft::iterator_traits<Iterator>::iterator_category	iterator_category;
+			typedef typename ft::iterator_traits<Iterator>::value_type			value_type;
+			typedef typename ft::iterator_traits<Iterator>::difference_type		difference_type;
+			typedef typename ft::iterator_traits<Iterator>::pointer				pointer;
+			typedef typename ft::iterator_traits<Iterator>::reference			reference;
+	
+
+		protected :
+
+			iterator_type current;
+
+
+		public :
+
+			/******************** CONSTRUCTORS *********************/
+
+			iterator() {};
+
+			explicit iterator(iterator_type x) : current(x) {};
+
+			template <class Iter>
+  			iterator(const iterator<Iter> & other) : current(other.base()) {};
+
+
+			/****************** MEMBER  FUNCTIONS ******************/
+
+			template <class Iter>
+			iterator & operator=(const iterator<Iter> & other) {
+				current = other.base();
+				return (*this);
+			};
+
+			iterator_type base() const {
+				return (current);
+			};
+
+			reference operator*() const {
+				return (*current);
+			};
+
+			reference operator->() const {
+				return (current);
+			};
+
+			reference operator[](difference_type n) const {  // NEW, A TESTER
+				return (current[n]);
+			};
+
+			iterator & operator++() {
+				++current;
+				return (*this);
+			}
+
+			iterator & operator--() {
+				--current;
+				return (*this);
+			}
+
+			iterator operator++(int) {
+				iterator tmp = *this;
+				++current;
+				return (tmp);
+			}
+
+			iterator operator--(int) {
+				iterator tmp = *this;
+				--current;
+				return (tmp);
+			}
+/*
+			iterator operator+(difference_type n) const {
+
+			}
+
+			iterator operator-(difference_type n) const {
+
+			}
+
+			iterator & operator+=(difference_type n) {
+
+			}
+
+			iterator & operator-=(difference_type n) {
+
+			}
+
+*/			
+			/**************** NON MEMBER  FUNCTIONS ****************/
+
+			friend bool operator==(const ft::iterator<Iterator> & lhs, const ft::iterator<Iterator> & rhs) {
+				return (lhs.current == rhs.current);
+			};
+	
+			friend bool operator!=(const ft::iterator<Iterator> & lhs, const ft::iterator<Iterator> & rhs) {
+				return (lhs.current != rhs.current);
+			};
+/*
+			friend bool operator<(const std::iterator<Iterator1> & lhs, const std::iterator<Iterator2> & rhs) {
+
+			};
+
+			friend bool operator<=(const std::iterator<Iterator1> & lhs, const std::iterator<Iterator2> & rhs) {
+
+			};
+
+			friend bool operator>(const std::iterator<Iterator1> & lhs, const std::iterator<Iterator2> & rhs) {
+
+			};
+
+			friend bool operator>=(const std::iterator<Iterator1> & lhs, const std::iterator<Iterator2> & rhs) {
+
+			};
+
+			friend iterator<Iterator> operator+(difference_type n, const iterator<Iterator> & it) {
+
+			};
+			
+			friend difference_type operator-(const iterator<Iterator> & lhs, const iterator<Iterator> & rhs) {
+
+			};	
+	*/};
 
 	template <class Iterator>
 	class reverse_iterator
@@ -99,7 +227,7 @@ namespace ft
 				return (*--tmp);
 			};
 /*
-			reference operator-> const {
+			reference operator->() const {
 
 			};
 */
