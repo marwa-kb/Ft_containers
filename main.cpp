@@ -91,22 +91,22 @@ int main(int argc, char *argv[])
 		std::cout << (v1 == v2 ? "same" : "different") << std::endl;
 		std::cout << (v1 != v1 ? "not same" : "not different") << std::endl;
 
-		NAMESPACE::vector<int>::const_iterator beg = v1.begin();
-		NAMESPACE::vector<int>::const_iterator end = v1.end();
-		std::cout << BG << "beginning = " << *beg << NC << std::endl;
-		std::cout << BG << "end = " << *end << NC << std::endl;
-		for (; beg != end; beg++)
-			std::cout << BY << *beg << " " << NC;
-		std::cout << std::endl;
+		// NAMESPACE::vector<int>::const_iterator beg = v1.begin();
+		// NAMESPACE::vector<int>::const_iterator end = v1.end();
+		// std::cout << BG << "beginning = " << *beg << NC << std::endl;
+		// std::cout << BG << "end = " << *end << NC << std::endl;
+		// for (; beg != end; beg++)
+		// 	std::cout << BY << *beg << " " << NC;
+		// std::cout << std::endl;
 
 
-		NAMESPACE::vector<int>::const_reverse_iterator rbeg = v1.rbegin();
-		NAMESPACE::vector<int>::const_reverse_iterator rend = v1.rend();
-		std::cout << BG << "rbeginning = " << *rbeg << NC << std::endl;
-		std::cout << BG << "rend = " << *rend << NC << std::endl;
-		for (; rbeg != rend; rbeg++)
-			std::cout << BY << *rbeg << " " << NC;
-		std::cout << std::endl;
+		// NAMESPACE::vector<int>::const_reverse_iterator rbeg = v1.rbegin();
+		// NAMESPACE::vector<int>::const_reverse_iterator rend = v1.rend();
+		// std::cout << BG << "rbeginning = " << *rbeg << NC << std::endl;
+		// std::cout << BG << "rend = " << *rend << NC << std::endl;
+		// for (; rbeg != rend; rbeg++)
+		// 	std::cout << BY << *rbeg << " " << NC;
+		// std::cout << std::endl;
 
 	}
 
