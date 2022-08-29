@@ -8,7 +8,7 @@
 namespace ft
 {
 
-	template <class Iterator>
+	template <class Iterator, class A = void>
 	struct iterator_traits
 	{
 		typedef typename Iterator::difference_type		difference_type;
@@ -19,8 +19,8 @@ namespace ft
 	};
 
 
-	template <class T, typename std::enable_if<std::is_integral<T>::value, void>::type>
-	struct iterator_traits<T*>
+	template <class T>
+	struct iterator_traits<T*, typename ft::enable_if<std::is_integral<T>::value>::type>
 	{
 		typedef std::ptrdiff_t					difference_type;
 		typedef T								value_type;
@@ -31,7 +31,7 @@ namespace ft
 
 
 	template <class T>
-	struct iterator_traits<const T*>
+	struct iterator_traits<const T*, typename ft::enable_if<std::is_integral<const T>::value>::type>
 	{
 		typedef std::ptrdiff_t					difference_type;
 		typedef T								value_type;
@@ -73,11 +73,11 @@ namespace ft
 
 			/****************** MEMBER  FUNCTIONS ******************/
 
-			// template <class Iter>
-			// my_iterator & operator=(const my_iterator<Iter> & other) {
-				// current = other.base();
-				// return (*this);
-			// };
+			template <class Iter>
+			my_iterator & operator=(const my_iterator<Iter> & other) {
+				current = other.base();
+				return (*this);
+			};
 
 			iterator_type base() const {
 				return (current);
@@ -168,6 +168,7 @@ namespace ft
 
 			};	
 	*/};
+
 
 	template <class Iterator>
 	class reverse_iterator

@@ -108,6 +108,9 @@ int main(int argc, char *argv[])
 			std::cout << BY << *rbeg << " " << NC;
 		std::cout << std::endl;
 
+		NAMESPACE::vector<int>::iterator iter;
+		NAMESPACE::vector<int>::const_iterator const_iter;
+		const_iter = iter;
 	}
 
 	return (0);
