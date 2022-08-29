@@ -19,7 +19,7 @@ namespace ft
 	};
 
 
-	template <class T>
+	template <class T, typename std::enable_if<std::is_integral<T>::value, void>::type>
 	struct iterator_traits<T*>
 	{
 		typedef std::ptrdiff_t					difference_type;
@@ -40,17 +40,6 @@ namespace ft
 		typedef std::random_access_iterator_tag	iterator_category;
 	};
 
-
-/*	template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
-	struct iterator
-	{
-		typedef Category	iterator_category;
-		typedef T			value_type;
-		typedef Distance	difference_type;
-		typedef Pointer		pointer;
-		typedef Reference	reference;
-	};
-*/
 
 	template <class Iterator>
 	class my_iterator
@@ -84,11 +73,11 @@ namespace ft
 
 			/****************** MEMBER  FUNCTIONS ******************/
 
-			template <class Iter>
-			my_iterator & operator=(const my_iterator<Iter> & other) {
-				current = other.base();
-				return (*this);
-			};
+			// template <class Iter>
+			// my_iterator & operator=(const my_iterator<Iter> & other) {
+				// current = other.base();
+				// return (*this);
+			// };
 
 			iterator_type base() const {
 				return (current);

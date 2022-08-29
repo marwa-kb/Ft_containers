@@ -1,3 +1,10 @@
+# not necessary
+if [ "$1" = "x" ] || [ "$2" = "x" ]
+then
+	clear
+fi	
+#
+
 make re >/dev/null
 make clean >/dev/null
 
@@ -21,7 +28,7 @@ then
 	echo "❌ \e[1;31mError\e[0m"
 	cat result
 else
-	echo "✅ \e[1;32mNo difference between ft $1 and std $1 !\e[0m\n"
+	echo "✅ \e[1;32mNo difference between ft and std !\e[0m\n"
 	echo "⏱️  \e[1;37mTesting performance...\e[0m"
 	echo "\e[0;33mSTD $1:\e[0m"
 	time -p ./std $1 >/dev/null

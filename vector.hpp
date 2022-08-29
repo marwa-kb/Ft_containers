@@ -26,10 +26,10 @@ namespace ft
 			typedef const T&										const_reference;
 			typedef T*												pointer;
 			typedef const T*										const_pointer;
-			// typedef typename ft::iterator<pointer>					iterator;
-			// typedef	typename ft::iterator<const_pointer>			const_iterator;
-			// typedef	typename ft::reverse_iterator<iterator>			reverse_iterator;
-			// typedef	typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+			typedef typename ft::my_iterator<pointer>				iterator;
+			typedef	typename ft::my_iterator<const_pointer>			const_iterator;
+			typedef	typename ft::reverse_iterator<pointer>			reverse_iterator;
+			// typedef	typename ft::reverse_iterator<const pointer>	const_reverse_iterator;
 
 
 		private :
@@ -268,16 +268,16 @@ namespace ft
 
 			/********************** ITERATORS **********************/
 
-    /*		iterator begin() {
+  			iterator begin() {
 				return (iterator(_tab));
-			};
-
-			const_iterator begin() const {
-				return (const_iterator(_tab));
 			};
 
 			iterator end() {
 				return (iterator(_tab + _size));
+			};
+
+			const_iterator begin() const {
+				return (const_iterator(_tab));
 			};
 
 			const_iterator end() const {
@@ -288,18 +288,18 @@ namespace ft
 				return (reverse_iterator(_tab + _size));
 			};
 
-			// const_reverse_iterator rbegin() const {
-				// return (const_reverse_iterator(_tab + _size));
-			// };
-
 			reverse_iterator rend() {
 				return (reverse_iterator(_tab));
 			};
 
+			// const_reverse_iterator rbegin() const {
+				// return (const_reverse_iterator(_tab + _size));
+			// };
+// 
 			// const_reverse_iterator rend() const {
 				// return (const_reverse_iterator(_tab));
 			// };
-*/
+
 
 			/**************** NON MEMBER  FUNCTIONS ****************/
 		
