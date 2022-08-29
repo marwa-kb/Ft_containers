@@ -1,3 +1,4 @@
+
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
@@ -25,10 +26,10 @@ namespace ft
 			typedef const T&										const_reference;
 			typedef T*												pointer;
 			typedef const T*										const_pointer;
-			typedef typename ft::iterator<pointer>					iterator;
-			typedef	typename ft::iterator<const_pointer>			const_iterator;
-			typedef	typename ft::reverse_iterator<iterator>			reverse_iterator;
-			typedef	typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+			// typedef typename ft::iterator<pointer>					iterator;
+			// typedef	typename ft::iterator<const_pointer>			const_iterator;
+			// typedef	typename ft::reverse_iterator<iterator>			reverse_iterator;
+			// typedef	typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 
 		private :
@@ -68,7 +69,7 @@ namespace ft
 			}
 
 			~vector() {
-				this->clear();
+				clear();
 				_alloc.deallocate(_tab, _capacity);
 				_tab = NULL;
 			};
@@ -77,9 +78,9 @@ namespace ft
 			/****************** MEMBER  FUNCTIONS ******************/
 
 			vector & operator=(const vector & other) {
-				if (this->_tab)
+				if (_tab)
 				{
-					this->clear();
+					clear();
 					_alloc.deallocate(_tab, _capacity);
 				}
 				_size = other._size;
@@ -99,13 +100,13 @@ namespace ft
 			};
 
 			void assign(size_type n, const value_type & val) {
-				this->clear();
+				clear();
 				if (n > _capacity)
-					this->reserve(n);
+					reserve(n);
 				for (size_type i = 0; i < n; i++)
 				{
 					value_type x(val);
-					this->push_back(x);
+					push_back(x);
 				}
 				_size = n;
 			};
@@ -169,7 +170,7 @@ namespace ft
 			};
 
 			void reserve(size_type n) {
-				if (n > this->max_size())
+				if (n > max_size())
 					throw (std::length_error("vector::reserve"));
 				if (n > _capacity)
 				{
@@ -177,7 +178,7 @@ namespace ft
 					for (size_type i = 0; i < _size; i++)
 						_alloc.construct(&tab[i], _tab[i]);
 					int size = _size;
-					this->clear();
+					clear();
 					_alloc.deallocate(_tab, _capacity);
 					_tab = tab;
 					_size = size;
@@ -225,7 +226,7 @@ namespace ft
 						_alloc.construct(&tab[i], value_type(_tab[i]));
 					_alloc.construct(&tab[_size], value_type(val));
 					size_type size = _size;
-					this->clear();
+					clear();
 					_alloc.deallocate(_tab, _capacity);
 					_tab = tab;
 					_size = size + 1;
@@ -248,15 +249,15 @@ namespace ft
 				{
 					size_type i = _size - n; 
 					for (size_type j = 0; j < i; j++)
-						this->pop_back();
+						pop_back();
 				}
 				else if (n > _size)
 				{
 					if (n > _capacity)
-						this->reserve(n);
+						reserve(n);
 					size_type i = n - _size;
 					for (size_type j = 0; j < i; j++)
-						this->push_back(val);
+						push_back(val);
 				}
 			};
 
@@ -267,7 +268,7 @@ namespace ft
 
 			/********************** ITERATORS **********************/
 
-    		iterator begin() {
+    /*		iterator begin() {
 				return (iterator(_tab));
 			};
 
@@ -298,7 +299,7 @@ namespace ft
 			// const_reverse_iterator rend() const {
 				// return (const_reverse_iterator(_tab));
 			// };
-
+*/
 
 			/**************** NON MEMBER  FUNCTIONS ****************/
 		
