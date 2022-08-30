@@ -122,6 +122,17 @@ int main(int argc, char *argv[])
 		// iter = const_iter;
 
 	}
-
+/*
+	if (argv[1] && std::string(argv[1]) == "int")
+	{
+		 std::cout << std::boolalpha;
+  		std::cout << "is_integral:" << std::endl;
+  		std::cout << "char: " << NAMESPACE::is_integral<char>::value << std::endl;
+  		std::cout << "int: " << NAMESPACE::is_integral<int>::value << std::endl;
+  		std::cout << "bool: " << NAMESPACE::is_integral<bool>::value << std::endl;
+  		std::cout << "std::vector<int> : " << NAMESPACE::is_integral<std::vector<int> >::value << std::endl;
+  		std::cout << "unsigned long: " << NAMESPACE::is_integral<unsigned long>::value << std::endl;
+	}
+*/
 	return (0);
 }

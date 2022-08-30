@@ -1,7 +1,7 @@
 #ifndef UTILS_HPP
 # define UTILS_HPP
 
-#include <string>
+// #include <stdint.h>
 
 namespace ft
 {
@@ -21,65 +21,86 @@ namespace ft
 
 
 	/***************** IS_INTEGRAL *****************/
-/*
-	template <class T>
-	struct is_integral
+
+	// typedef uint_least16_t char16_t;
+	// typedef uint_least32_t char32_t;
+	
+	template <class T, T v>
+	struct integral_constant
 	{
+		typedef T							value_type;
+	   	typedef ft::integral_constant<T,v>	type;
+
+		static const T value = v;
+
+		operator value_type() const {
+			return (value);
+		}
+	};
+
+	typedef ft::integral_constant<bool, true>	true_type;
+	typedef ft::integral_constant<bool, false>	false_type;
+
+	template <class T>
+	struct is_integral //: public false_type
+	{
+
 		typedef bool								value_type;
-		typedef std::integral_constant<bool, value>	type;
 
-		static value_type value const;
+		static const value_type value = false;
 
-		value_type operator bool() {
+		typedef ft::integral_constant<bool, value>	type;
+
+		operator bool() {
 			return (value);
 		};
 	};
 
 	template <>
-	struct is_integral<bool> {};
+	struct is_integral<bool> : public true_type {};
 
 	template <>
-	struct is_integral<char> {};
+	struct is_integral<char>  : public true_type {};
+	
+	// template <>
+	// struct is_integral<char16_t>  : public true_type {};
+	
+	// template <>
+	// struct is_integral<char32_t>  : public true_type {};
 	
 	template <>
-	struct is_integral<char16_t> {};
+	struct is_integral<wchar_t>  : public true_type {};
 	
 	template <>
-	struct is_integral<char32_t> {};
+	struct is_integral<signed char>  : public true_type {};
 	
 	template <>
-	struct is_integral<wchar_t> {};
+	struct is_integral<short int>  : public true_type {};
 	
 	template <>
-	struct is_integral<signed char> {};
+	struct is_integral<int>  : public true_type {};
 	
 	template <>
-	struct is_integral<short int> {};
+	struct is_integral<long int>  : public true_type {};
 	
 	template <>
-	struct is_integral<int> {};
+	struct is_integral<long long int>  : public true_type {};
 	
 	template <>
-	struct is_integral<long int> {};
-	
-	template <>
-	struct is_integral<long long int> {};
-	
-	template <>
-	struct is_integral<unsigned char> {};
+	struct is_integral<unsigned char>  : public true_type {};
 
 	template <>
-	struct is_integral<unsigned short int> {};
+	struct is_integral<unsigned short int>  : public true_type {};
 
 	template <>
-	struct is_integral<unsigned int> {};
+	struct is_integral<unsigned int>  : public true_type {};
 
 	template <>
-	struct is_integral<unsigned long int> {};
+	struct is_integral<unsigned long int>  : public true_type {};
 
 	template <>
-	struct is_integral<unsigned long long int> {};
-*/
+	struct is_integral<unsigned long long int>  : public true_type {};
+
 }
 
 #endif
