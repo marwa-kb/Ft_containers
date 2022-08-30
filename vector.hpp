@@ -45,12 +45,12 @@ namespace ft
 
 			/************* CONSTRUCTOR AND  DESTRUCTOR *************/
 
-			explicit vector (const allocator_type & alloc = allocator_type())
+			explicit vector(const allocator_type & alloc = allocator_type())
 				: _tab(NULL), _size(0), _capacity(0) {
 					(void)alloc;
 			};
 
-			explicit vector (size_type n, const value_type & val = value_type(),
+			explicit vector(size_type n, const value_type & val = value_type(),
 							const allocator_type & alloc = allocator_type())
 				: _size(n), _capacity(n) {//capacity more ?
 					(void)alloc;
@@ -63,7 +63,7 @@ namespace ft
 			// template <class InputIterator>
 			// vector (InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type());
 
-			vector (const vector & x)
+			vector(const vector & x)
 				: _tab(NULL) {
 					*this = x;
 			}
@@ -221,6 +221,8 @@ namespace ft
 			void push_back(const value_type & val) {
 				if (_size + 1 > _capacity)
 				{
+					if (!_capacity)
+						_capacity++;
 					T* tab = _alloc.allocate(_capacity * 2);
 					for (size_type i = 0; i < _size; i++)
 						_alloc.construct(&tab[i], value_type(_tab[i]));

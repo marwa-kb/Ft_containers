@@ -91,34 +91,36 @@ int main(int argc, char *argv[])
 		std::cout << (v1 == v2 ? "same" : "different") << std::endl;
 		std::cout << (v1 != v1 ? "not same" : "not different") << std::endl;
 
+		std::cout << BC << "------------" << NC << std::endl;
 
-		NAMESPACE::vector<float> test;
-		test.push_back(5.1f);
-		test.push_back(50.9f);
-		test.push_back(500.88f);
+		NAMESPACE::vector<std::string> test;
+		test.push_back("hey");
+		test.push_back("how are you");
+		test.push_back("man");
 		
-		NAMESPACE::vector<float>::const_iterator beg = test.begin();
-		NAMESPACE::vector<float>::const_iterator end = test.end();
+
+		NAMESPACE::vector<std::string>::iterator beg = test.begin();
+		NAMESPACE::vector<std::string>::iterator end = test.end();
+
 		std::cout << BG << "beginning = " << *beg << NC << std::endl;
-		std::cout << BG << "end = " << *end << NC << std::endl;
 		for (; beg != end; beg++)
 			std::cout << BY << *beg << " " << NC;
 		std::cout << std::endl;
 
 
-		NAMESPACE::vector<float>::const_reverse_iterator rbeg = test.rbegin();
-		NAMESPACE::vector<float>::const_reverse_iterator rend = test.rend();
+		NAMESPACE::vector<std::string>::const_reverse_iterator rbeg = test.rbegin();
+		NAMESPACE::vector<std::string>::const_reverse_iterator rend = test.rend();
 		std::cout << BG << "rbeginning = " << *rbeg << NC << std::endl;
 		std::cout << BG << "rend = " << *rend << NC << std::endl;
 		for (; rbeg != rend; rbeg++)
 			std::cout << BY << *rbeg << " " << NC;
-		std::cout << std::endl;
+		std::cout << std::endl << BC << "------------" << NC << std::endl;
 
-		NAMESPACE::vector<int>::reverse_iterator iter;
-		NAMESPACE::vector<int>::const_reverse_iterator const_iter;
+		NAMESPACE::vector<std::string>::reverse_iterator iter;
+		NAMESPACE::vector<std::string>::const_reverse_iterator const_iter;
 		const_iter = iter;
 		// iter = const_iter;
-		// NAMESPACE::iterator_traits<int>  a;
+
 	}
 
 	return (0);
