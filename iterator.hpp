@@ -93,7 +93,7 @@ namespace ft
 				return (current);
 			};
 
-			reference operator[](difference_type n) const {  // NEW, A TESTER
+			reference operator[](difference_type n) const {
 				return (current[n]);
 			};
 
@@ -118,58 +118,60 @@ namespace ft
 				--current;
 				return (tmp);
 			}
-/*
-			my_iterator operator+(difference_type n) const {
 
+			my_iterator operator+(difference_type n) const {
+				return (my_iterator(current + n));
 			}
 
 			my_iterator operator-(difference_type n) const {
-
+				return (my_iterator(current - n));
 			}
 
 			my_iterator & operator+=(difference_type n) {
-
+				current += n;
+				return (*this);
 			}
 
 			my_iterator & operator-=(difference_type n) {
-
+				current -= n;
+				return (*this);
 			}
 
-*/			
+
 			/**************** NON MEMBER  FUNCTIONS ****************/
 
 			friend bool operator==(const my_iterator<Iterator> & lhs, const my_iterator<Iterator> & rhs) {
-				return (lhs.current == rhs.current);
+				return (lhs.base() == rhs.base());
 			};
 	
 			friend bool operator!=(const my_iterator<Iterator> & lhs, const my_iterator<Iterator> & rhs) {
-				return (lhs.current != rhs.current);
-			};
-/*
-			friend bool operator<(const ft::my_iterator<Iterator1> & lhs, const ft::my_iterator<Iterator2> & rhs) {
-
+				return (lhs.base() != rhs.base());
 			};
 
-			friend bool operator<=(const ft::my_iterator<Iterator1> & lhs, const ft::my_iterator<Iterator2> & rhs) {
-
+			friend bool operator<(const ft::my_iterator<Iterator> & lhs, const ft::my_iterator<Iterator> & rhs) {
+				return (lhs.base() < rhs.base());
 			};
 
-			friend bool operator>(const ft::my_iterator<Iterator1> & lhs, const ft::my_iterator<Iterator2> & rhs) {
-
+			friend bool operator<=(const ft::my_iterator<Iterator> & lhs, const ft::my_iterator<Iterator> & rhs) {
+				return (lhs.base() <= rhs.base());
 			};
 
-			friend bool operator>=(const ft::my_iterator<Iterator1> & lhs, const ft::my_iterator<Iterator2> & rhs) {
-
+			friend bool operator>(const ft::my_iterator<Iterator> & lhs, const ft::my_iterator<Iterator> & rhs) {
+				return (lhs.base() > rhs.base());
 			};
 
-			friend iterator<Iterator> operator+(difference_type n, const iterator<Iterator> & it) {
+			friend bool operator>=(const ft::my_iterator<Iterator> & lhs, const ft::my_iterator<Iterator> & rhs) {
+				return (lhs.base() >= rhs.base());
+			};
 
+			friend my_iterator<Iterator> operator+(difference_type n, const my_iterator<Iterator> & it) {
+				return (my_iterator(it.base() + n));
 			};
 			
-			friend difference_type operator-(const iterator<Iterator> & lhs, const iterator<Iterator> & rhs) {
-
+			friend difference_type operator-(const my_iterator<Iterator> & lhs, const my_iterator<Iterator> & rhs) {
+				return (rhs.base() - lhs.base());
 			};	
-	*/};
+		};
 
 
 	template <class Iterator>
@@ -218,11 +220,11 @@ namespace ft
 				iterator_type tmp = current;
 				return (*--tmp);
 			};
-/*
-			reference operator->() const {
 
+			pointer operator->() const {
+				return (current);
 			};
-*/
+
 			reference operator[](difference_type n) const {  // NEW, A TESTER
 				return (this->base()[- n - 1]);
 			};
@@ -248,24 +250,26 @@ namespace ft
 				++current;
 				return (tmp);
 			}
-/*
-			reverse_iterator operator+(difference_type n) const {
 
+			reverse_iterator operator+(difference_type n) const {
+				return (reverse_iterator(current - n));
 			}
 
 			reverse_iterator operator-(difference_type n) const {
-
+				return (reverse_iterator(current + n));
 			}
 
 			reverse_iterator & operator+=(difference_type n) {
-
+				current -= n;
+				return (*this);
 			}
 
 			reverse_iterator & operator-=(difference_type n) {
-
+				current += n;
+				return (*this);
 			}
 
-	*/		
+	
 			/**************** NON MEMBER  FUNCTIONS ****************/
 
 			friend bool operator==(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
