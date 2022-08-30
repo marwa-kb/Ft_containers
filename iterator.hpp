@@ -8,8 +8,18 @@
 namespace ft
 {
 
-	template <class Iterator, class A = void>
+	template <class Iterator, typename = void>
 	struct iterator_traits
+	{
+		// typedef typename Iterator::difference_type		difference_type;
+		// typedef typename Iterator::value_type			value_type;
+		// typedef typename Iterator::pointer				pointer;
+		// typedef typename Iterator::reference			reference;
+		// typedef typename Iterator::iterator_category	iterator_category;
+	};
+
+	template <class Iterator>
+	struct iterator_traits<Iterator, typename ft::enable_if<Iterator::difference_type>::type>
 	{
 		typedef typename Iterator::difference_type		difference_type;
 		typedef typename Iterator::value_type			value_type;
@@ -18,9 +28,8 @@ namespace ft
 		typedef typename Iterator::iterator_category	iterator_category;
 	};
 
-
 	template <class T>
-	struct iterator_traits<T*, typename ft::enable_if<std::is_integral<T>::value>::type>
+	struct iterator_traits<T*>
 	{
 		typedef std::ptrdiff_t					difference_type;
 		typedef T								value_type;
@@ -31,7 +40,7 @@ namespace ft
 
 
 	template <class T>
-	struct iterator_traits<const T*, typename ft::enable_if<std::is_integral<const T>::value>::type>
+	struct iterator_traits<const T*>
 	{
 		typedef std::ptrdiff_t					difference_type;
 		typedef T								value_type;
