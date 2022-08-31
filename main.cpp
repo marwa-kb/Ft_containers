@@ -6,8 +6,11 @@
 #include "vector.hpp"
 #include "iterator.hpp"
 #include "colors.h"
-
-
+/*
+#include <compare>
+#include <iostream>
+#include <iterator>
+*/
 int main(int argc, char *argv[])
 {
 	if (argc == 1 || (argv[1] && std::string(argv[1]) == "stack"))
@@ -121,12 +124,13 @@ int main(int argc, char *argv[])
 		const_iter = iter;
 		// iter = const_iter;
 
-		NAMESPACE::vector<std::string>::reverse_iterator iter2(iter);
-		std::vector<std::string>::reverse_iterator iter3(iter);
-		// ft::vector<std::string>::reverse_iterator iter4(iter);
-		NAMESPACE::vector<std::string>::const_reverse_iterator const_iter2;
-		// const_iter2 = iter2;
-		// iter = const_iter;
+		// NAMESPACE::vector<std::string>::reverse_iterator iter2(iter);
+		// std::vector<std::string>::reverse_iterator iter3(iter);
+		// // ft::vector<std::string>::reverse_iterator iter4(iter);
+		// NAMESPACE::vector<std::string>::const_reverse_iterator const_iter2;
+		// // const_iter2 = iter2;
+		// // iter = const_iter;
+
 
 	}
 /*
@@ -140,6 +144,28 @@ int main(int argc, char *argv[])
   		std::cout << "std::vector<int> : " << NAMESPACE::is_integral<std::vector<int> >::value << std::endl;
   		std::cout << "unsigned long: " << NAMESPACE::is_integral<unsigned long>::value << std::endl;
 	}
+*/
+/*
+	int a[] {0, 1, 2, 3};
+ 
+	std::reverse_iterator<int*> x = std::rend(a) - std::size(a);
+	std::reverse_iterator<int*> y = std::rend(a) - std::size(a);
+	std::reverse_iterator<int*> z = std::rbegin(a) + 1;
+ 
+	std::cout
+		<< std::boolalpha
+		<< "*x == " << *x << '\n' // 3
+		<< "*y == " << *y << '\n' // 3
+		<< "*z == " << *z << '\n' // 2
+		<< "x == y ? " << (x == y) << '\n' // true
+		<< "x != y ? " << (x != y) << '\n' // false
+		<< "x <  y ? " << (x <  y) << '\n' // false
+		<< "x <= y ? " << (x <= y) << '\n' // true
+		<< "x == z ? " << (x == z) << '\n' // false
+		<< "x != z ? " << (x != z) << '\n' // true
+		<< "x <  z ? " << (x <  z) << '\n' // true!
+		<< "x <= z ? " << (x <= z) << '\n' // true
+		;
 */
 	return (0);
 }
