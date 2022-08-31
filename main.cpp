@@ -6,6 +6,7 @@
 #include "vector.hpp"
 #include "iterator.hpp"
 #include "colors.h"
+#include <algorithm>
 /*
 #include <compare>
 #include <iostream>
@@ -96,40 +97,56 @@ int main(int argc, char *argv[])
 
 		std::cout << BC << "------------" << NC << std::endl;
 
-		NAMESPACE::vector<std::string> test;
-		test.push_back("hey");
-		test.push_back("how are you");
-		test.push_back("man");
+		NAMESPACE::vector<int> test;
+		test.push_back(1);
+		test.push_back(22);
+		test.push_back(333);
 		
 
-		NAMESPACE::vector<std::string>::iterator beg = test.begin();
-		NAMESPACE::vector<std::string>::iterator end = test.end();
+		NAMESPACE::vector<int>::iterator beg = test.begin();
+		NAMESPACE::vector<int>::iterator beg1 = test.begin();
+		NAMESPACE::vector<int>::iterator end = test.end();
 
 		std::cout << BG << "beginning = " << *beg << NC << std::endl;
 		for (; beg != end; beg++)
 			std::cout << BY << *beg << " " << NC;
 		std::cout << std::endl;
 
+		std::cout << UO << "TEST ALGORTIHM" << NC << std::endl;
+		if (std::find(beg1, end, 333) == end)
+			std::cout << BR << "value not found" << NC << std::endl;
+		else
+			std::cout << BP << "value found" << NC << std::endl;
+		std::cout << UC << *(std::find(beg1, end, 333)) << NC << std::endl;
 
-		NAMESPACE::vector<std::string>::const_reverse_iterator rbeg = test.rbegin();
-		NAMESPACE::vector<std::string>::const_reverse_iterator rend = test.rend();
+
+		NAMESPACE::vector<int>::reverse_iterator rbeg = test.rbegin();
+		NAMESPACE::vector<int>::reverse_iterator rbeg1 = test.rbegin();
+		NAMESPACE::vector<int>::reverse_iterator rend = test.rend();
 		std::cout << BG << "rbeginning = " << *rbeg << NC << std::endl;
-		std::cout << BG << "rend = " << *rend << NC << std::endl;
+		// std::cout << BG << "rend = " << *rend << NC << std::endl;
 		for (; rbeg != rend; rbeg++)
 			std::cout << BY << *rbeg << " " << NC;
 		std::cout << std::endl << BC << "------------" << NC << std::endl;
 
-		NAMESPACE::vector<std::string>::iterator iter;
-		NAMESPACE::vector<std::string>::const_iterator const_iter;
+		std::cout << UO << "TEST ALGORTIHM" << NC << std::endl;
+		if (std::find(rbeg1, rend, 333) == rend)
+			std::cout << BR << "value not found" << NC << std::endl;
+		else
+			std::cout << BP << "value found" << NC << std::endl;
+		std::cout << UC << *(std::find(rbeg1, rend, 333)) << NC << std::endl;
+
+		NAMESPACE::vector<int>::iterator iter;
+		NAMESPACE::vector<int>::const_iterator const_iter;
 		const_iter = iter;
 		// iter = const_iter;
 
 		// NAMESPACE::vector<std::string>::reverse_iterator iter2(iter);
 		// std::vector<std::string>::reverse_iterator iter3(iter);
-		// // ft::vector<std::string>::reverse_iterator iter4(iter);
+		// ft::vector<std::string>::reverse_iterator iter4(iter);
 		// NAMESPACE::vector<std::string>::const_reverse_iterator const_iter2;
-		// // const_iter2 = iter2;
-		// // iter = const_iter;
+		// const_iter2 = iter2;
+		// iter = const_iter;
 
 
 	}

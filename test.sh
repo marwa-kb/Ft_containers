@@ -21,7 +21,7 @@ else
 	./ft > mine 2>&1
 fi
 
-diff mine real > result
+diff real mine > result
 
 if [ -s result ]
 then
