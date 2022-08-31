@@ -116,9 +116,16 @@ int main(int argc, char *argv[])
 			std::cout << BY << *rbeg << " " << NC;
 		std::cout << std::endl << BC << "------------" << NC << std::endl;
 
-		NAMESPACE::vector<std::string>::reverse_iterator iter;
-		NAMESPACE::vector<std::string>::const_reverse_iterator const_iter;
+		NAMESPACE::vector<std::string>::iterator iter;
+		NAMESPACE::vector<std::string>::const_iterator const_iter;
 		const_iter = iter;
+		// iter = const_iter;
+
+		NAMESPACE::vector<std::string>::reverse_iterator iter2(iter);
+		std::vector<std::string>::reverse_iterator iter3(iter);
+		// ft::vector<std::string>::reverse_iterator iter4(iter);
+		NAMESPACE::vector<std::string>::const_reverse_iterator const_iter2;
+		// const_iter2 = iter2;
 		// iter = const_iter;
 
 	}

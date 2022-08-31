@@ -272,38 +272,38 @@ namespace ft
 	
 			/**************** NON MEMBER  FUNCTIONS ****************/
 
-			friend bool operator==(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
-				return (lhs.current == rhs.current);
+			friend bool operator==(const reverse_iterator<Iterator> & lhs, const reverse_iterator<Iterator> & rhs) {
+				return (lhs.base() == rhs.base());
 			};
 	
-			friend bool operator!=(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
-				return (lhs.current != rhs.current);
-			};
-/*
-			friend bool operator<(const std::reverse_iterator<Iterator1> & lhs, const std::reverse_iterator<Iterator2> & rhs) {
-
+			friend bool operator!=(const reverse_iterator<Iterator> & lhs, const reverse_iterator<Iterator> & rhs) {
+				return (lhs.base() != rhs.base());
 			};
 
-			friend bool operator<=(const std::reverse_iterator<Iterator1> & lhs, const std::reverse_iterator<Iterator2> & rhs) {
-
+			friend bool operator<(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
+				return (lhs.base() < rhs.base());
 			};
 
-			friend bool operator>(const std::reverse_iterator<Iterator1> & lhs, const std::reverse_iterator<Iterator2> & rhs) {
-
+			friend bool operator<=(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
+				return (lhs.base() <= rhs.base());
 			};
 
-			friend bool operator>=(const std::reverse_iterator<Iterator1> & lhs, const std::reverse_iterator<Iterator2> & rhs) {
+			friend bool operator>(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
+				return (lhs.base() > rhs.base());
+			};
 
+			friend bool operator>=(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
+				return (lhs.base() >= rhs.base());
 			};
 
 			friend reverse_iterator<Iterator> operator+(difference_type n, const reverse_iterator<Iterator> & it) {
-
+				return (reverse_iterator(it.base() + n));
 			};
 			
 			friend difference_type operator-(const reverse_iterator<Iterator> & lhs, const reverse_iterator<Iterator> & rhs) {
-
-			};	
-	*/};
+				return (rhs.base() - lhs.base());
+			};
+		};
 
 }
 
