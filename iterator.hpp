@@ -73,7 +73,7 @@ namespace ft
 
 			/******************** CONSTRUCTORS *********************/
 
-			my_iterator() {};
+			my_iterator() : current() {};
 
 			explicit my_iterator(iterator_type x) : current(x) {};
 
@@ -204,7 +204,7 @@ namespace ft
 
 			/******************** CONSTRUCTORS *********************/
 
-			reverse_iterator() {};
+			reverse_iterator() : current() {};
 
 			explicit reverse_iterator(iterator_type x) : current(x) {};
 
@@ -230,11 +230,11 @@ namespace ft
 			};
 
 			pointer operator->() const {
-				return (current);
+				return (&(operator*()));
 			};
 
 			reference operator[](difference_type n) const {  // NEW, A TESTER
-				return (this->base()[- n - 1]);
+				return (*(*this + n));
 			};
 
 			reverse_iterator & operator++() {

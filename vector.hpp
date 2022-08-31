@@ -38,8 +38,14 @@ namespace ft
 			size_type		_size;
 			size_type		_capacity;
 			allocator_type	_alloc;
-
-
+/*
+			T* clone() {
+				T* tab = _alloc.allocate(_capacity);
+				for (size_type i = 0; i < _size; i++)
+					_alloc.construct(&_tab[i], value_type(_tab[i]));
+				return (tab);
+			}
+*/
 		public :
 
 
@@ -55,9 +61,8 @@ namespace ft
 				: _size(n), _capacity(n) {//capacity more ?
 					(void)alloc;
 					_tab = _alloc.allocate(_capacity);
-					value_type x = val;
 					for (size_type i = 0; i < n; i++)
-						_alloc.construct(&_tab[i], x);
+						_alloc.construct(&_tab[i], value_type(val));
 			};
 
 			// template <class InputIterator>
@@ -104,10 +109,7 @@ namespace ft
 				if (n > _capacity)
 					reserve(n);
 				for (size_type i = 0; i < n; i++)
-				{
-					value_type x(val);
-					push_back(x);
-				}
+					push_back(value_type(val));
 				_size = n;
 			};
 /*
@@ -246,7 +248,7 @@ namespace ft
 				_size--;
 			};
 
-			void resize (size_type n, value_type val = value_type()) {
+			void resize(size_type n, value_type val = value_type()) {
 				if (n < _size)
 				{
 					size_type i = _size - n; 
@@ -279,11 +281,11 @@ namespace ft
 			};
 
 			const_iterator begin() const {
-				return (const_iterator(begin()));
+				return (const_iterator(_tab));
 			};
 
 			const_iterator end() const {
-				return (const_iterator(end()));
+				return (const_iterator(_tab + _size));
 			};
 
 			reverse_iterator rbegin() {
@@ -295,11 +297,11 @@ namespace ft
 			};
 
 			const_reverse_iterator rbegin() const {
-				return (const_reverse_iterator(rbegin()));
+				return (const_reverse_iterator(end()));
 			};
 
 			const_reverse_iterator rend() const {
-				return (const_reverse_iterator(rend()));
+				return (const_reverse_iterator(begin()));
 			};
 
 
@@ -320,17 +322,7 @@ namespace ft
 			}
 
 			friend bool operator!=(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
-				if (lhs.size() == rhs.size())
-				{
-					int size = lhs.size();
-					for (int i = 0; i < size; i++)
-					{
-						if (lhs[i] != rhs[i])
-							return (true);
-					}
-					return (false);
-				}
-				return (true);
+				return (!(lhs == rhs));
 			}
 
 			// friend bool operator<(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
