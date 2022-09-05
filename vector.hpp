@@ -85,7 +85,7 @@ namespace ft
 				_size = other._size;
 				_capacity = other._capacity;
 				_tab = _alloc.allocate(_capacity);
-				for (size_type i = 0; i < _size; i++)
+				for (size_type i = 0; i < _size; i++)  ///use iterator insert instead or assign
 					_alloc.construct(&_tab[i], value_type(other[i]));
 				return (*this);
 			};
@@ -201,35 +201,45 @@ namespace ft
 				_size = 0;
 			};
 
-			iterator insert (iterator position, const value_type & val) {
-				size_type new_size = _size + 1;
-				// if (new_size > _capacity)
-				// 	resize(new_size);
-				size_type i = 0;
-				iterator tmp1, tmp2;
-				T* tab = _alloc.allocate(new_size);
-				for (tmp1 = begin(); tmp1 != position; tmp1++)
+			iterator insert(iterator position, const value_type & val) {
+				if (position == end())
 				{
-					_alloc.construct(&tab[i], _tab[i]);
-					i++;
+					push_back(value_type(val));
+					return (iterator(end() - 1));
 				}
-				_alloc.construct(&tab[i++], value_type(val));
-				for (; i < new_size; i++)
-					_alloc.construct(&tab[i], _tab[i - 1]);
-				clear();
-				// _alloc.deallocate(_tab, _capacity);
-				resize(new_size);
-				_tab = tab;
-				// _size = new_size;
-				return (tmp1);
+
+				vector x;
+				iterator it1, it2;
+				for (it1 = begin(); it1 != position; it1++)
+					x.push_back(value_type(*it1));
+				x.push_back(value_type(val));
+				for (iterator it2 = it1; it2 != end(); it2++)
+					x.push_back(value_type(*it2));
+				*this = x;
+				return (iterator(it1));
+			};
+
+			void insert(iterator position, size_type n, const value_type & val) {
+				if (position == end())
+				{
+					reserve(_size + n);
+					for (size_type i = 0; i < n; i++)
+						push_back(value_type(val));
+					return ;
+				}
+
+				vector x;
+				iterator it1, it2;
+				x.reserve(_size + n);
+				for (it1 = begin(); it1 != position; it1++)
+					x.push_back(value_type(*it1));
+				for (size_type i = 0; i < n; i++)
+					x.push_back(value_type(val));
+				for (iterator it2 = it1; it2 != end(); it2++)
+					x.push_back(value_type(*it2));
+				*this = x;
 			};
 /*
-			void insert (iterator position, size_type n, const value_type & val) {
-				if (_size + n > _capacity)
-					resize(_size + n);
-
-			};
-
 			template <class InputIterator>
 			void insert (iterator position, InputIterator first, InputIterator last) {
 
@@ -274,7 +284,7 @@ namespace ft
 			void resize(size_type n, value_type val = value_type()) {
 				if (n < _size)
 				{
-					size_type i = _size - n; 
+					size_type i = _size - n;
 					for (size_type j = 0; j < i; j++)
 						pop_back();
 				}
