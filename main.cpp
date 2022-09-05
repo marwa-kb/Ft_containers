@@ -112,12 +112,13 @@ int main(int argc, char *argv[])
 			std::cout << BY << *beg << " " << NC;
 		std::cout << std::endl;
 
-		std::cout << UO << "TEST ALGORTIHM" << NC << std::endl;
+		std::cout << UO << "TEST ALGORTIHM 1" << NC << std::endl;
 		if (std::find(beg1, end, 333) == end)
-			std::cout << BR << "value not found" << NC << std::endl;
+			std::cout << BO << "value not found" << NC << std::endl;
 		else
-			std::cout << BP << "value found" << NC << std::endl;
-		std::cout << UC << *(std::find(beg1, end, 333)) << NC << std::endl;
+			std::cout << BG << "value found" << NC << std::endl;
+		std::cout << BY << (std::find(beg1, end, 333) == end ? "OUI end" : "NOT END") << NC << std::endl;
+		// std::cout << UC << *(std::find(beg1, end, 333)) << NC << std::endl;
 
 
 		NAMESPACE::vector<int>::reverse_iterator rbeg = test.rbegin();
@@ -129,12 +130,13 @@ int main(int argc, char *argv[])
 			std::cout << BY << *rbeg << " " << NC;
 		std::cout << std::endl << BC << "------------" << NC << std::endl;
 
-		std::cout << UO << "TEST ALGORTIHM" << NC << std::endl;
+		std::cout << UO << "TEST ALGORTIHM 2" << NC << std::endl;
 		if (std::find(rbeg1, rend, 333) == rend)
-			std::cout << BR << "value not found" << NC << std::endl;
+			std::cout << BO << "value not found" << NC << std::endl;
 		else
-			std::cout << BP << "value found" << NC << std::endl;
-		std::cout << UC << *(std::find(rbeg1, rend, 333)) << NC << std::endl;
+			std::cout << BG << "value found" << NC << std::endl;
+		
+		std::cout << BY << (std::find(rbeg1, rend, 333) == rend ? "OUI end" : "NOT END") << NC << std::endl;
 
 		NAMESPACE::vector<int>::iterator iter;
 		NAMESPACE::vector<int>::const_iterator const_iter;

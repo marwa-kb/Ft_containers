@@ -25,7 +25,7 @@ diff real mine > result
 
 if [ -s result ]
 then
-	echo "❌ \e[1;31mError\e[0m"
+	echo "❌ \e[1;31mError: different outputs\e[0m"
 	cat result
 else
 	echo "✅ \e[1;32mNo difference between ft and std !\e[0m\n"
