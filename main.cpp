@@ -142,6 +142,16 @@ int main(int argc, char *argv[])
 		NAMESPACE::vector<int>::const_iterator const_iter;
 		const_iter = iter;
 		// iter = const_iter;
+		for (NAMESPACE::vector<int>::iterator a = test.begin(); a != test.end(); a++)
+			std::cout << BY << *a << " " << NC;
+		std::cout << std::endl;	
+		test.insert(test.end() - 1, 5);
+		test.insert(test.end() - 1, 5);
+		for (NAMESPACE::vector<int>::iterator a = test.begin(); a != test.end(); a++)
+			std::cout << BY << *a << " " << NC;
+		std::cout << std::endl;
+		std::cout << GN << "size = " << test.size() << NC << std::endl;
+		std::cout << GN << "capacity = " << test.capacity() << NC << std::endl;
 
 		// NAMESPACE::vector<std::string>::reverse_iterator iter2(iter);
 		// std::vector<std::string>::reverse_iterator iter3(iter);
@@ -151,11 +161,34 @@ int main(int argc, char *argv[])
 		// iter = const_iter;
 
 
+
+		/*****************ASSIGN******************/
+		// NAMESPACE::vector<int> first;
+  		// NAMESPACE::vector<int> second;
+  		// NAMESPACE::vector<int> third;
+
+  		// first.assign (7,100);             // 7 ints with a value of 100
+
+  		// NAMESPACE::vector<int>::iterator it;
+  		// it=first.begin()+1;
+
+  		// second.assign (it,first.end()-1); // the 5 central values of first
+
+  		// int myints[] = {1776,7,4};
+  		// third.assign (myints,myints+3);   // assigning from array.
+
+  		// std::cout << "Size of first: " << int (first.size()) << '\n';
+  		// std::cout << "Size of second: " << int (second.size()) << '\n';
+  		// std::cout << "Size of third: " << int (third.size()) << '\n';
+		/*******************************************/
+
 	}
+
+	/*******************IS INTEGRAL**********************/
 /*
 	if (argv[1] && std::string(argv[1]) == "int")
 	{
-		 std::cout << std::boolalpha;
+		std::cout << std::boolalpha;
   		std::cout << "is_integral:" << std::endl;
   		std::cout << "char: " << NAMESPACE::is_integral<char>::value << std::endl;
   		std::cout << "int: " << NAMESPACE::is_integral<int>::value << std::endl;

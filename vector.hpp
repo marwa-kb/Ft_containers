@@ -38,14 +38,8 @@ namespace ft
 			size_type		_size;
 			size_type		_capacity;
 			allocator_type	_alloc;
-/*
-			T* clone() {
-				T* tab = _alloc.allocate(_capacity);
-				for (size_type i = 0; i < _size; i++)
-					_alloc.construct(&_tab[i], value_type(_tab[i]));
-				return (tab);
-			}
-*/
+
+
 		public :
 
 
@@ -96,15 +90,16 @@ namespace ft
 				return (*this);
 			};
 
-			reference operator[] (size_type n) {
+			reference operator[](size_type n) {
 				return (_tab[n]);
 			};
 
-			const_reference operator[] (size_type n) const {
+			const_reference operator[](size_type n) const {
 				return (_tab[n]);
 			};
 
 			void assign(size_type n, const value_type & val) {
+				// std::cout << UP << "INT assign" << NC << std::endl;
 				clear();
 				if (n > _capacity)
 					reserve(n);
@@ -114,8 +109,15 @@ namespace ft
 			};
 /*
 			template <class InputIterator>
-  			void assign (InputIterator first, InputIterator last) {
+  			void assign(InputIterator first, InputIterator last) {
 
+				std::cout << UP << "ITERATOR assign" << NC << std::endl;
+				clear();
+				if (last - first > _capacity)
+					reserve(last - first);
+				InputIterator tmp = first;
+				for (; tmp != last; tmp++)
+					push_back(*tmp);
 			};
 */
 			allocator_type get_allocator() const {
@@ -198,12 +200,33 @@ namespace ft
 				// AFTER -> maybe use erase fct with iterators from beginning to end
 				_size = 0;
 			};
-/*
-			iterator insert (iterator position, const value_type & val) {
-				
-			};
 
+			iterator insert (iterator position, const value_type & val) {
+				size_type new_size = _size + 1;
+				// if (new_size > _capacity)
+				// 	resize(new_size);
+				size_type i = 0;
+				iterator tmp1, tmp2;
+				T* tab = _alloc.allocate(new_size);
+				for (tmp1 = begin(); tmp1 != position; tmp1++)
+				{
+					_alloc.construct(&tab[i], _tab[i]);
+					i++;
+				}
+				_alloc.construct(&tab[i++], value_type(val));
+				for (; i < new_size; i++)
+					_alloc.construct(&tab[i], _tab[i - 1]);
+				clear();
+				// _alloc.deallocate(_tab, _capacity);
+				resize(new_size);
+				_tab = tab;
+				// _size = new_size;
+				return (tmp1);
+			};
+/*
 			void insert (iterator position, size_type n, const value_type & val) {
+				if (_size + n > _capacity)
+					resize(_size + n);
 
 			};
 
