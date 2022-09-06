@@ -373,38 +373,28 @@ namespace ft
 			/**************** NON MEMBER  FUNCTIONS ****************/
 		
 			friend bool operator==(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
-				if (lhs.size() == rhs.size())
-				{
-					int size = lhs.size();
-					for (int i = 0; i < size; i++)
-					{
-						if (lhs[i] != rhs[i])
-							return (false);
-					}
-					return (true);
-				}
-				return (false);
+				return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 			}
 
 			friend bool operator!=(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
 				return (!(lhs == rhs));
 			}
 
-			// friend bool operator<(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
-			// 	//
-			// }
+			friend bool operator<(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
+				return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+			}
 
-			// friend bool operator<=(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
-			// 	return (!(rhs < lhs));
-			// }
+			friend bool operator<=(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
+				return (!(rhs < lhs));
+			}
 
-			// friend bool operator>(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
-			// 	return (rhs < lhs));
-			// }
+			friend bool operator>(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
+				return (rhs < lhs);
+			}
 
-			// friend bool operator>=(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
-			// 	return (!(lhs < rhs));
-			// }
+			friend bool operator>=(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
+				return (!(lhs < rhs));
+			}
 			
 			// template <class T, class Alloc>
 			// void swap (vector<T,Alloc>& x, vector<T,Alloc>& y) {

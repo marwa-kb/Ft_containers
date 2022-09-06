@@ -57,6 +57,8 @@ void vector_tests()
 
 	std::cout << (v1 == v2 ? "same" : "different") << std::endl;
 	std::cout << (v1 != v1 ? "not same" : "not different") << std::endl;
+	std::cout << (v1 < v2 ? "less" : "more") << std::endl;
+	std::cout << (v1 > v1 ? "more" : "less") << std::endl;
 
 	std::cout << BC << "------------" << NC << std::endl;
 
