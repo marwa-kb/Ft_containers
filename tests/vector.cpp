@@ -1,46 +1,10 @@
-#include <iostream>
-#include <string>
-#include "stack.hpp"
-#include <stack>
-#include <vector>
-#include "vector.hpp"
-#include "iterator.hpp"
-#include "colors.h"
-#include <algorithm>
-/*
-#include <compare>
-#include <iostream>
-#include <iterator>
-*/
-
-void stack_tests()
-{
-	std::cout << UO << "STACK" << NC << std::endl;
-	std::vector<int> v;
-	v.push_back(4);
-	v.push_back(3);
-	v.push_back(2);
-	NAMESPACE::stack<int, std::vector<int> > s(v);
-	NAMESPACE::stack<int, std::vector<int> > s2 = s;
-	std::cout << "empty : " << s.empty() << std::endl
-		<< "top : " << s.top() << std::endl
-		<< "size : " << s.size() << std::endl
-		<< "push 5 : ";
-	s.push(55);
-	std::cout << std::endl << "pop : ";
-	s.pop();
-	std::cout << std::endl
-		<< "== : " << (s == s2 ? "true" : "false") << std::endl
-		<< "< : " << (s < s2 ? "true" : "false") << std::endl
-		<< "!= : " << (s != s2) << std::endl;
-	std::stack<int, std::vector<int> > essai(v);
-	std::stack<int, std::vector<int> > essai2(v);
-	std::cout << std::endl;
-}
+#include "tests.h"
 
 void vector_tests()
 {
-	std::cout << UO << "VECTOR" << NC << std::endl;
+	std::cout << BW << " ________" << NC << std::endl;
+	std::cout << BW << "| VECTOR |" << NC << std::endl;
+	std::cout << BW << " ‾‾‾‾‾‾‾‾" << NC << std::endl;
 			
 	NAMESPACE::vector<int> v2;
 	std::cout << GN << "size = " << v2.size() << NC << std::endl;
@@ -150,7 +114,7 @@ void vector_tests()
 	test.insert(test.begin(), 8, 88);
 	std::cout << GN << "size = " << test.size() << NC << std::endl;
 	std::cout << GN << "capacity = " << test.capacity() << NC << std::endl;
-	test.insert(test.end(), 1, 5);
+	test.insert(test.end(), 9, 5);
 	for (NAMESPACE::vector<int>::iterator a = test.begin(); a != test.end(); a++)
 		std::cout << BY << *a << " " << NC;
 	std::cout << std::endl;
@@ -185,50 +149,4 @@ void vector_tests()
   	// std::cout << "Size of second: " << int (second.size()) << '\n';
   	// std::cout << "Size of third: " << int (third.size()) << '\n';
 	/*******************************************/
-}
-
-int main(int argc, char *argv[])
-{
-	if (argc == 1 || (argv[1] && std::string(argv[1]) == "stack"))
-		stack_tests();
-
-	if (argc == 1 || (argv[1] && std::string(argv[1]) == "vector"))
-		vector_tests();
-
-	/*******************IS INTEGRAL**********************/
-/*
-	if (argv[1] && std::string(argv[1]) == "int")
-	{
-		std::cout << std::boolalpha;
-  		std::cout << "is_integral:" << std::endl;
-  		std::cout << "char: " << NAMESPACE::is_integral<char>::value << std::endl;
-  		std::cout << "int: " << NAMESPACE::is_integral<int>::value << std::endl;
-  		std::cout << "bool: " << NAMESPACE::is_integral<bool>::value << std::endl;
-  		std::cout << "std::vector<int> : " << NAMESPACE::is_integral<std::vector<int> >::value << std::endl;
-  		std::cout << "unsigned long: " << NAMESPACE::is_integral<unsigned long>::value << std::endl;
-	}
-*/
-/*
-	int a[] {0, 1, 2, 3};
- 
-	std::reverse_iterator<int*> x = std::rend(a) - std::size(a);
-	std::reverse_iterator<int*> y = std::rend(a) - std::size(a);
-	std::reverse_iterator<int*> z = std::rbegin(a) + 1;
- 
-	std::cout
-		<< std::boolalpha
-		<< "*x == " << *x << '\n' // 3
-		<< "*y == " << *y << '\n' // 3
-		<< "*z == " << *z << '\n' // 2
-		<< "x == y ? " << (x == y) << '\n' // true
-		<< "x != y ? " << (x != y) << '\n' // false
-		<< "x <  y ? " << (x <  y) << '\n' // false
-		<< "x <= y ? " << (x <= y) << '\n' // true
-		<< "x == z ? " << (x == z) << '\n' // false
-		<< "x != z ? " << (x != z) << '\n' // true
-		<< "x <  z ? " << (x <  z) << '\n' // true!
-		<< "x <= z ? " << (x <= z) << '\n' // true
-		;
-*/
-	return (0);
 }

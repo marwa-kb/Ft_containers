@@ -4,7 +4,7 @@ NAMESPACE1	=	ft
 
 NAMESPACE2	=	std
 
-SRCS		=	main.cpp
+SRCS		=	tests/main.cpp tests/stack.cpp tests/vector.cpp tests/map.cpp
 
 OBJDIR		=	objs
 
