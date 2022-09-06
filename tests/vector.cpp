@@ -111,16 +111,29 @@ void vector_tests()
 
 	std::cout << GN << "size = " << test.size() << NC << std::endl;
 	std::cout << GN << "capacity = " << test.capacity() << NC << std::endl;
-	test.insert(test.begin(), 8, 88);
+	test.insert(test.begin() + 2, 5, 88);
 	std::cout << GN << "size = " << test.size() << NC << std::endl;
 	std::cout << GN << "capacity = " << test.capacity() << NC << std::endl;
-	test.insert(test.end(), 9, 5);
+	test.insert(test.end(), 2, 5);
 	for (NAMESPACE::vector<int>::iterator a = test.begin(); a != test.end(); a++)
 		std::cout << BY << *a << " " << NC;
 	std::cout << std::endl;
 	std::cout << GN << "size = " << test.size() << NC << std::endl;
 	std::cout << GN << "capacity = " << test.capacity() << NC << std::endl;
 
+	print(test);
+	std::cout << YE << "erase 2nd element : " << NC << std::endl;
+	test.erase(test.begin() + 1);
+	print(test);
+	std::cout << YE << "erase 1st element : " << NC << std::endl;
+	test.erase(test.begin());
+	print(test);
+	std::cout << YE << "erase last element : " << NC << std::endl;
+	test.erase(test.end() - 1);
+	print(test);
+	std::cout << YE << "erase from 2nd to before last element : " << NC << std::endl;
+	test.erase(test.end() - 1, test.end() - 1);
+	print(test);
 	// NAMESPACE::vector<std::string>::reverse_iterator iter2(iter);
 	// std::vector<std::string>::reverse_iterator iter3(iter);
 	// ft::vector<std::string>::reverse_iterator iter4(iter);
@@ -149,4 +162,13 @@ void vector_tests()
   	// std::cout << "Size of second: " << int (second.size()) << '\n';
   	// std::cout << "Size of third: " << int (third.size()) << '\n';
 	/*******************************************/
+}
+
+template <typename T>
+void print(NAMESPACE::vector<T> x)
+{
+	std::cout << "VECTOR";
+	for (NAMESPACE::vector<int>::iterator a = x.begin(); a != x.end(); a++)
+		std::cout << " | " << BC << *a << NC;
+	std::cout << " | " << std::endl;
 }

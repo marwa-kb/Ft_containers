@@ -19,7 +19,13 @@
 
 
 void stack_tests();
+
+
 void vector_tests();
+template <typename T>
+void print(NAMESPACE::vector<T> x);
+
+
 void map_tests();
 
 #endif

@@ -63,8 +63,10 @@ namespace ft
 			// vector (InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type());
 
 			vector(const vector & x)
-				: _tab(NULL) {
-					*this = x;
+				: _size(x.size()), _capacity(x.size()), _alloc(x.get_allocator()) {
+					_tab = _alloc.allocate(_capacity);
+					for (size_type i = 0; i < _size; i++)
+						_alloc.construct(&_tab[i], value_type(x[i]));
 			}
 
 			~vector() {
@@ -82,10 +84,10 @@ namespace ft
 					clear();
 					_alloc.deallocate(_tab, _capacity);
 				}
-				_size = other._size;
-				_capacity = other._capacity;
+				_size = other.size();
+				_capacity = other.capacity();
 				_tab = _alloc.allocate(_capacity);
-				for (size_type i = 0; i < _size; i++)  ///use iterator insert instead or assign
+				for (size_type i = 0; i < _size; i++)  ///use iterator insert instead or assign ?
 					_alloc.construct(&_tab[i], value_type(other[i]));
 				return (*this);
 			};
@@ -222,7 +224,8 @@ namespace ft
 			void insert(iterator position, size_type n, const value_type & val) {
 				if (position == end())
 				{
-					reserve(_size + n);
+					if (n > _size)
+						reserve(_size + n);
 					for (size_type i = 0; i < n; i++)
 						push_back(value_type(val));
 					return ;
@@ -230,7 +233,8 @@ namespace ft
 
 				vector x;
 				iterator it1, it2;
-				x.reserve(_size + n);
+				if (_size + n > _capacity)
+					x.reserve(n > _size ? _size + n : _size * 2);
 				for (it1 = begin(); it1 != position; it1++)
 					x.push_back(value_type(*it1));
 				for (size_type i = 0; i < n; i++)
@@ -244,15 +248,43 @@ namespace ft
 			void insert (iterator position, InputIterator first, InputIterator last) {
 
 			};
-
+*/
 			iterator erase (iterator position) {
-
+				if (position == end() - 1)
+				{
+					pop_back();
+					return (end());
+				}
+				
+				vector x;
+				iterator it1;
+				x.reserve(_capacity);
+				for (it1 = begin(); it1 != position; it1++)
+					x.push_back(value_type(*it1));
+				for (iterator it2 = ++it1; it2 != end(); it2++)
+					x.push_back(value_type(*it2));
+				*this = x;
+				return (iterator(it1));
 			};
 
 			iterator erase (iterator first, iterator last) {
-
+				// if (position == end() - 1)
+				// {
+				// 	pop_back();
+				// 	return (end());
+				// }
+				
+				vector x;
+				iterator it1;
+				x.reserve(_capacity);
+				for (it1 = begin(); it1 != first; it1++)
+					x.push_back(value_type(*it1));
+				for (iterator it2 = last; it2 != end(); it2++)
+					x.push_back(value_type(*it2));
+				*this = x;
+				return (iterator(last));
 			};
-*/
+
 			void push_back(const value_type & val) {
 				if (_size + 1 > _capacity)
 				{
@@ -267,7 +299,7 @@ namespace ft
 					_alloc.deallocate(_tab, _capacity);
 					_tab = tab;
 					_size = size + 1;
-					_capacity = _capacity * 2;
+					_capacity *= 2;
 				}
 				else
 				{
@@ -363,15 +395,15 @@ namespace ft
 			// }
 
 			// friend bool operator<=(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
-			// 	//
+			// 	return (!(rhs < lhs));
 			// }
 
 			// friend bool operator>(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
-			// 	//
+			// 	return (rhs < lhs));
 			// }
 
 			// friend bool operator>=(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
-			// 	//
+			// 	return (!(lhs < rhs));
 			// }
 			
 			// template <class T, class Alloc>
