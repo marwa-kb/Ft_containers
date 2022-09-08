@@ -47,21 +47,22 @@ namespace ft
 			/************* CONSTRUCTOR AND  DESTRUCTOR *************/
 
 			explicit vector(const allocator_type & alloc = allocator_type())
-				: _tab(NULL), _size(0), _capacity(0) {
-					(void)alloc;
-			};
+				: _tab(NULL), _size(0), _capacity(0) , _alloc(alloc) {};
 
 			explicit vector(size_type n, const value_type & val = value_type(),
-							const allocator_type & alloc = allocator_type())
-				: _size(n), _capacity(n) {
-					(void)alloc;
+						const allocator_type & alloc = allocator_type())
+				: _size(n), _capacity(n), _alloc(alloc) {
 					_tab = _alloc.allocate(_capacity);
 					for (size_type i = 0; i < n; i++)
 						_alloc.construct(&_tab[i], value_type(val));
 			};
 
-			// template <class InputIterator>
-			// vector (InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type());
+			template <class InputIterator>
+			vector(InputIterator first, InputIterator last, const allocator_type & alloc = allocator_type(),
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type = 0)
+				: _tab(NULL), _size(0), _capacity(0), _alloc(alloc) {
+					insert(begin(), first, last);
+			}
 
 			vector(const vector & x)
 				: _size(x.size()), _capacity(x.size()), _alloc(x.get_allocator()) {
@@ -90,8 +91,6 @@ namespace ft
 				_alloc = other.get_allocator();
 				_tab = _alloc.allocate(_capacity);
 				assign(other.begin(), other.end());
-				// for (size_type i = 0; i < _size; i++)  ///use iterator insert instead or assign ?
-					// _alloc.construct(&_tab[i], value_type(other[i]));
 				return (*this);
 			};
 
@@ -187,7 +186,8 @@ namespace ft
 						_alloc.construct(&tab[i], _tab[i]);
 					int size = _size;
 					clear();
-					_alloc.deallocate(_tab, _capacity);
+					if (_tab)
+						_alloc.deallocate(_tab, _capacity);
 					_tab = tab;
 					_size = size;
 					_capacity = n;
@@ -430,17 +430,6 @@ namespace ft
 			// template <class T, class Alloc>
 			// void swap (vector<T,Alloc>& x, vector<T,Alloc>& y) {
 
-			
-			/********************* EXCEPTIONS **********************/
-/*
-			class OutOfRange : public std::exception
-			{
-				public :
-					virtual const char * what(void) const throw() {
-						return ("Out of limits");
-					};
-			};
-*/
 	};
 }
 

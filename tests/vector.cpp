@@ -144,41 +144,68 @@ void vector_tests()
 	// iter = const_iter;
 
 
+	//************INITIALIZATION***************
+	{
+		NAMESPACE::vector<std::string> words1;
+		words1.push_back("the");
+		words1.push_back("frogurt");
+		words1.push_back("is");
+		words1.push_back("also");
+		words1.push_back("cursed");
+		std::cout << "words1: ";
+		print(words1);
+	
+		// words2 == words1
+		NAMESPACE::vector<std::string> words2(words1.begin(), words1.end());
+		std::cout << "words2: ";
+		print(words2);
+	
+		// words3 == words1
+		NAMESPACE::vector<std::string> words3(words1);
+		std::cout << "words3: ";
+		print(words3);
+	
+		// words4 is {"Mo", "Mo", "Mo", "Mo", "Mo"}
+		NAMESPACE::vector<std::string> words4(5, "Mo");
+		std::cout << "words4: ";
+		print(words4);
+	}
 
-	/*****************ASSIGN******************/
-	NAMESPACE::vector<int> first;
-  	NAMESPACE::vector<int> second;
-  	NAMESPACE::vector<int> third;
+	//*****************ASSIGN******************
+	{
+		NAMESPACE::vector<int> first;
+		NAMESPACE::vector<int> second;
+		NAMESPACE::vector<int> third;
 
-	print(first);
-  	first.assign (7,100);             // 7 ints with a value of 100
-	print(first);
-	std::cout << GN << "size = " << first.size() << NC << std::endl;
-	std::cout << GN << "capacity = " << first.capacity() << NC << std::endl;
+		print(first);
+		first.assign (7,100);             // 7 ints with a value of 100
+		print(first);
+		std::cout << GN << "size = " << first.size() << NC << std::endl;
+		std::cout << GN << "capacity = " << first.capacity() << NC << std::endl;
 
-  	NAMESPACE::vector<int>::iterator it;
-  	it=first.begin()+1;
+		NAMESPACE::vector<int>::iterator it;
+		it=first.begin()+1;
 
-	print(second);
-  	second.assign (it,first.end()-1); // the 5 central values of first
-	print(second);
-	std::cout << GN << "size = " << second.size() << NC << std::endl;
-	std::cout << GN << "capacity = " << second.capacity() << NC << std::endl;
+		print(second);
+		second.assign (it,first.end()-1); // the 5 central values of first
+		print(second);
+		std::cout << GN << "size = " << second.size() << NC << std::endl;
+		std::cout << GN << "capacity = " << second.capacity() << NC << std::endl;
 
-  	int myints[] = {1776,7,4};
-	print(third);
-  	third.assign (myints,myints+3);   // assigning from array.
-	print(third);
-	std::cout << GN << "size = " << third.size() << NC << std::endl;
-	std::cout << GN << "capacity = " << third.capacity() << NC << std::endl;
+		int myints[] = {1776,7,4};
+		print(third);
+		third.assign (myints,myints+3);   // assigning from array.
+		print(third);
+		std::cout << GN << "size = " << third.size() << NC << std::endl;
+		std::cout << GN << "capacity = " << third.capacity() << NC << std::endl;
 
-  	std::cout << "Size of first: " << int (first.size()) << '\n';
-  	std::cout << "Size of second: " << int (second.size()) << '\n';
-  	std::cout << "Size of third: " << int (third.size()) << '\n';
+		std::cout << "Size of first: " << int (first.size()) << '\n';
+		std::cout << "Size of second: " << int (second.size()) << '\n';
+		std::cout << "Size of third: " << int (third.size()) << '\n';
+	}
 
 
-
-	/************** INSERT ******************/
+	//************** INSERT ******************
 	{
 		NAMESPACE::vector<int> myvector (3,100);
 		NAMESPACE::vector<int>::iterator it;
@@ -207,7 +234,7 @@ void vector_tests()
 		std::cout << '\n';
 	}
 
-	/************ERASE *************/
+	//************ERASE *************
 	{
 		NAMESPACE::vector<int> c;
 		c.push_back(0);
@@ -242,11 +269,13 @@ void vector_tests()
 
 }
 
+
+
 template <typename T>
 void print(NAMESPACE::vector<T> x)
 {
 	std::cout << "VECTOR";
-	for (NAMESPACE::vector<int>::iterator a = x.begin(); a != x.end(); a++)
+	for (typename NAMESPACE::vector<T>::iterator a = x.begin(); a != x.end(); a++)
 		std::cout << " | " << BC << *a << NC;
 	std::cout << " | " << std::endl;
 }
