@@ -146,24 +146,100 @@ void vector_tests()
 
 
 	/*****************ASSIGN******************/
-	// NAMESPACE::vector<int> first;
-  	// NAMESPACE::vector<int> second;
-  	// NAMESPACE::vector<int> third;
+	NAMESPACE::vector<int> first;
+  	NAMESPACE::vector<int> second;
+  	NAMESPACE::vector<int> third;
 
-  	// first.assign (7,100);             // 7 ints with a value of 100
+	print(first);
+  	first.assign (7,100);             // 7 ints with a value of 100
+	print(first);
+	std::cout << GN << "size = " << first.size() << NC << std::endl;
+	std::cout << GN << "capacity = " << first.capacity() << NC << std::endl;
 
-  	// NAMESPACE::vector<int>::iterator it;
-  	// it=first.begin()+1;
+  	NAMESPACE::vector<int>::iterator it;
+  	it=first.begin()+1;
 
-  	// second.assign (it,first.end()-1); // the 5 central values of first
+	print(second);
+  	second.assign (it,first.end()-1); // the 5 central values of first
+	print(second);
+	std::cout << GN << "size = " << second.size() << NC << std::endl;
+	std::cout << GN << "capacity = " << second.capacity() << NC << std::endl;
 
-  	// int myints[] = {1776,7,4};
-  	// third.assign (myints,myints+3);   // assigning from array.
+  	int myints[] = {1776,7,4};
+	print(third);
+  	third.assign (myints,myints+3);   // assigning from array.
+	print(third);
+	std::cout << GN << "size = " << third.size() << NC << std::endl;
+	std::cout << GN << "capacity = " << third.capacity() << NC << std::endl;
 
-  	// std::cout << "Size of first: " << int (first.size()) << '\n';
-  	// std::cout << "Size of second: " << int (second.size()) << '\n';
-  	// std::cout << "Size of third: " << int (third.size()) << '\n';
-	/*******************************************/
+  	std::cout << "Size of first: " << int (first.size()) << '\n';
+  	std::cout << "Size of second: " << int (second.size()) << '\n';
+  	std::cout << "Size of third: " << int (third.size()) << '\n';
+
+
+
+	/************** INSERT ******************/
+	{
+		NAMESPACE::vector<int> myvector (3,100);
+		NAMESPACE::vector<int>::iterator it;
+
+		it = myvector.begin();
+		it = myvector.insert ( it , 200 );
+		print(myvector);
+
+		myvector.insert (it,2,300);
+		print(myvector);
+
+		// "it" no longer valid, get a new one:
+		it = myvector.begin();
+
+		NAMESPACE::vector<int> anothervector (2,400);
+		myvector.insert (it+2,anothervector.begin(),anothervector.end());
+		print(myvector);
+
+		int myarray [] = { 501,502,503 };
+		myvector.insert (myvector.begin(), myarray, myarray+3);
+		print(myvector);
+
+		std::cout << "myvector contains:";
+		for (it=myvector.begin(); it<myvector.end(); it++)
+			std::cout << ' ' << *it;
+		std::cout << '\n';
+	}
+
+	/************ERASE *************/
+	{
+		NAMESPACE::vector<int> c;
+		c.push_back(0);
+		c.push_back(1);
+		c.push_back(2);
+		c.push_back(3);
+		c.push_back(4);
+		c.push_back(5);
+		c.push_back(6);
+		c.push_back(7);
+		c.push_back(8);
+		c.push_back(9);
+		c.push_back(10);
+		print(c);
+		
+		c.erase(c.begin());
+		print(c);
+		
+		c.erase(c.begin()+2, c.begin()+5);
+		print(c);
+		
+		// Erase all even numbers
+		for (NAMESPACE::vector<int>::iterator it = c.begin(); it != c.end(); ) {
+			std::cout << BO << "*it % 2 <=> " << *it << " % 2 = " << *it % 2 << NC << std::endl;
+			if (*it % 2 == 0)
+				it = c.erase(it);
+			else
+				++it;
+		}
+		print(c);
+	}
+
 }
 
 template <typename T>

@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <stdexcept>
 #include <exception>
+#include <math.h>
 #include "colors.h"
 #include "iterator.hpp"
 
@@ -52,7 +53,7 @@ namespace ft
 
 			explicit vector(size_type n, const value_type & val = value_type(),
 							const allocator_type & alloc = allocator_type())
-				: _size(n), _capacity(n) {//capacity more ?
+				: _size(n), _capacity(n) {
 					(void)alloc;
 					_tab = _alloc.allocate(_capacity);
 					for (size_type i = 0; i < n; i++)
@@ -79,16 +80,18 @@ namespace ft
 			/****************** MEMBER  FUNCTIONS ******************/
 
 			vector & operator=(const vector & other) {
-				if (_tab)
+				if (_size)
 				{
 					clear();
 					_alloc.deallocate(_tab, _capacity);
 				}
 				_size = other.size();
 				_capacity = other.capacity();
+				_alloc = other.get_allocator();
 				_tab = _alloc.allocate(_capacity);
-				for (size_type i = 0; i < _size; i++)  ///use iterator insert instead or assign ?
-					_alloc.construct(&_tab[i], value_type(other[i]));
+				assign(other.begin(), other.end());
+				// for (size_type i = 0; i < _size; i++)  ///use iterator insert instead or assign ?
+					// _alloc.construct(&_tab[i], value_type(other[i]));
 				return (*this);
 			};
 
@@ -101,7 +104,6 @@ namespace ft
 			};
 
 			void assign(size_type n, const value_type & val) {
-				// std::cout << UP << "INT assign" << NC << std::endl;
 				clear();
 				if (n > _capacity)
 					reserve(n);
@@ -109,19 +111,19 @@ namespace ft
 					push_back(value_type(val));
 				_size = n;
 			};
-/*
-			template <class InputIterator>
-  			void assign(InputIterator first, InputIterator last) {
 
-				std::cout << UP << "ITERATOR assign" << NC << std::endl;
+			template <class InputIterator>
+  			void assign(InputIterator first, InputIterator last,
+					typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type = 0) {
 				clear();
-				if (last - first > _capacity)
-					reserve(last - first);
+				size_type n = abs(last - first);
+				if (n > _capacity)
+					reserve(n);
 				InputIterator tmp = first;
 				for (; tmp != last; tmp++)
 					push_back(*tmp);
 			};
-*/
+
 			allocator_type get_allocator() const {
 				Allocator x;
 				return (x);
@@ -199,7 +201,6 @@ namespace ft
 			void clear() {
 				for (size_type i = 0; i < _size; i++)
 					_alloc.destroy(&_tab[i]);
-				// AFTER -> maybe use erase fct with iterators from beginning to end
 				_size = 0;
 			};
 
@@ -211,14 +212,18 @@ namespace ft
 				}
 
 				vector x;
+				int a = 0;
 				iterator it1, it2;
 				for (it1 = begin(); it1 != position; it1++)
+				{
 					x.push_back(value_type(*it1));
+					a++;
+				}
 				x.push_back(value_type(val));
-				for (iterator it2 = it1; it2 != end(); it2++)
+				for (it2 = it1; it2 != end(); it2++)
 					x.push_back(value_type(*it2));
 				*this = x;
-				return (iterator(it1));
+				return (iterator(_tab + a));
 			};
 
 			void insert(iterator position, size_type n, const value_type & val) {
@@ -243,13 +248,34 @@ namespace ft
 					x.push_back(value_type(*it2));
 				*this = x;
 			};
-/*
-			template <class InputIterator>
-			void insert (iterator position, InputIterator first, InputIterator last) {
 
+			template <class InputIterator>
+			void insert(iterator position, InputIterator first, InputIterator last,
+					typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type = 0) {
+				size_type n = abs(last - first);
+				if (position == end())
+				{
+					if (n > _size)
+						reserve(_size + n);
+					for (InputIterator iit = first; iit != last; iit++)
+						push_back(value_type(*iit));
+					return ;
+				}
+
+				vector x;
+				iterator it1, it2;
+				if (_size + n > _capacity)
+					x.reserve(n > _size ? _size + n : _size * 2);
+				for (it1 = begin(); it1 != position; it1++)
+					x.push_back(value_type(*it1));
+				for (InputIterator iit = first; iit != last; iit++)
+					x.push_back(value_type(*iit));
+				for (iterator it2 = it1; it2 != end(); it2++)
+					x.push_back(value_type(*it2));
+				*this = x;
 			};
-*/
-			iterator erase (iterator position) {
+
+			iterator erase(iterator position) {
 				if (position == end() - 1)
 				{
 					pop_back();
@@ -257,32 +283,37 @@ namespace ft
 				}
 				
 				vector x;
+				int a = 0;
 				iterator it1;
 				x.reserve(_capacity);
 				for (it1 = begin(); it1 != position; it1++)
+				{
 					x.push_back(value_type(*it1));
+					a++;
+				}
 				for (iterator it2 = ++it1; it2 != end(); it2++)
 					x.push_back(value_type(*it2));
 				*this = x;
-				return (iterator(it1));
+				return (iterator(_tab + a));
 			};
 
-			iterator erase (iterator first, iterator last) {
-				// if (position == end() - 1)
-				// {
-				// 	pop_back();
-				// 	return (end());
-				// }
+			iterator erase(iterator first, iterator last) {
+				if (first == last)
+					return (last);
 				
 				vector x;
+				int a = 0;
 				iterator it1;
 				x.reserve(_capacity);
 				for (it1 = begin(); it1 != first; it1++)
+				{
 					x.push_back(value_type(*it1));
+					a++;
+				}
 				for (iterator it2 = last; it2 != end(); it2++)
 					x.push_back(value_type(*it2));
 				*this = x;
-				return (iterator(last));
+				return (iterator(_tab + a));
 			};
 
 			void push_back(const value_type & val) {
