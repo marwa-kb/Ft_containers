@@ -267,6 +267,34 @@ void vector_tests()
 		print(c);
 	}
 
+	/****************SWAP*****************/
+	{
+		NAMESPACE::vector<int> foo (3,100);   // three ints with a value of 100
+		NAMESPACE::vector<int> bar (5,200);   // five ints with a value of 200
+
+		std::cout << UP << "Before swap" << NC << std::endl;
+		std::cout << "FOO =\n";
+		print(foo);
+		std::cout << GN << "size = " << foo.size() << NC << std::endl;
+		std::cout << GN << "capacity = " << foo.capacity() << NC << std::endl;
+		std::cout << "BAR =\n";
+		print(bar);
+		std::cout << GN << "size = " << bar.size() << NC << std::endl;
+		std::cout << GN << "capacity = " << bar.capacity() << NC << std::endl;
+
+		foo.swap(bar);
+		
+		std::cout << UP << "After swap" << NC << std::endl;
+		std::cout << "FOO =\n";
+		print(foo);
+		std::cout << GN << "size = " << foo.size() << NC << std::endl;
+		std::cout << GN << "capacity = " << foo.capacity() << NC << std::endl;
+		std::cout << "BAR =\n";
+		print(bar);
+		std::cout << GN << "size = " << bar.size() << NC << std::endl;
+		std::cout << GN << "capacity = " << bar.capacity() << NC << std::endl;
+
+	}
 }
 
 

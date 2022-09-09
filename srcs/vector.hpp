@@ -361,9 +361,12 @@ namespace ft
 				}
 			};
 
-			// void swap (vector & x) {
-
-			// };
+			void swap(vector & x) {
+				vector tmp;
+				tmp._tab = this->_tab;
+				this->_tab = x._tab;
+				x._tab = tmp._tab;
+			};
 
 
 			/********************** ITERATORS **********************/
@@ -426,9 +429,6 @@ namespace ft
 			friend bool operator>=(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
 				return (!(lhs < rhs));
 			}
-			
-			// template <class T, class Alloc>
-			// void swap (vector<T,Alloc>& x, vector<T,Alloc>& y) {
 
 	};
 }
