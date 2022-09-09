@@ -24,7 +24,9 @@ void stack_tests()
 
 
 	/********* testing constructors *********/
-	std::cout << GN << "\nCreation of stack1 via default (container) constructor" << NC << std::endl;
+	std::cout << GN << "\nCreation of stack0 with ft::vector as default container" << NC << std::endl;
+	NAMESPACE::stack<float> stack0;
+	std::cout << GN << "Creation of stack1 via default (container) constructor" << NC << std::endl;
 	NAMESPACE::stack<int, std::vector<int> > stack1(v1);
 	std::cout << GN << "Creation of stack2 via copy constructor" << NC << std::endl;
 	NAMESPACE::stack<int, std::vector<int> > stack2(stack1);
@@ -37,7 +39,11 @@ void stack_tests()
 	*		top, empty, size, push, pop
 	*
 	******** ************************ *******/
-	std::cout << YE << "\nstack1 empty : " << NC << (stack1.empty() ? "true" : "false") << std::endl
+
+	stack0.push(45.18f);
+	std::cout << YE << "\nstack0 push \"45.18\"" << NC << std::endl
+		<< YE << "stack0 top : " << NC << stack0.top() << std::endl;
+	std::cout << YE << "stack1 empty : " << NC << (stack1.empty() ? "true" : "false") << std::endl
 		<< YE << "stack1 size : " << NC << stack1.size() << std::endl
 		<< YE << "stack1 top : " << NC << stack1.top() << std::endl
 		<< YE << "stack1 push \"11\"" << NC << std::endl;

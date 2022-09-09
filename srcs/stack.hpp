@@ -3,12 +3,12 @@
 
 #include <iostream>
 #include <string>
-#include <vector> // /!\ a enlever une fois ft::vector termine
+#include "vector.hpp"
 
 
 namespace ft
 {
-	template <typename T, class Container = std::vector<T> > // /!\ std::vector a remplacer par ft::vector une fois qu'il sera implemente
+	template <typename T, class Container = ft::vector<T> >
 	class stack
 	{
 
@@ -95,6 +95,5 @@ namespace ft
 
 	};
 }
-
 
 #endif
