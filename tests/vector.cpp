@@ -16,22 +16,18 @@ void vector_tests()
 		words1.push_back("is");
 		words1.push_back("also");
 		words1.push_back("cursed");
-		std::cout << "words1: ";
 		print(words1, "words1");
 	
 		// words2 == words1
 		NAMESPACE::vector<std::string> words2(words1.begin(), words1.end());
-		std::cout << "words2: ";
 		print(words2, "words2");
 	
 		// words3 == words1
 		NAMESPACE::vector<std::string> words3(words1);
-		std::cout << "words3: ";
 		print(words3, "words3");
 	
 		// words4 is {"Mo", "Mo", "Mo", "Mo", "Mo"}
-		NAMESPACE::vector<std::string> words4(5000, "Mo");
-		std::cout << "words4: ";
+		NAMESPACE::vector<std::string> words4(500, "Mo");
 		print(words4, "words4");
 	}
 
