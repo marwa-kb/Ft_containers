@@ -199,9 +199,12 @@ namespace ft
 			};
 
 			void clear() {
-				for (size_type i = 0; i < _size; i++)
-					_alloc.destroy(&_tab[i]);
-				_size = 0;
+				if (_size)
+				{
+					for (size_type i = 0; i < _size; i++)
+						_alloc.destroy(&_tab[i]);
+					_size = 0;
+				}
 			};
 
 			iterator insert(iterator position, const value_type & val) {
@@ -362,10 +365,17 @@ namespace ft
 			};
 
 			void swap(vector & x) {
-				vector tmp;
-				tmp._tab = this->_tab;
-				this->_tab = x._tab;
-				x._tab = tmp._tab;
+				T* tmp_tab = x._tab;
+				size_type tmp_size = x._size;
+				size_type tmp_capacity = x._capacity;
+
+				x._tab = this->_tab;
+				x._size = this->_size;
+				x._capacity = this->_capacity;
+
+				this->_tab = tmp_tab;
+				this->_size = tmp_size;
+				this->_capacity = tmp_capacity;
 			};
 
 

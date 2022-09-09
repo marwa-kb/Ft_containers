@@ -4,9 +4,9 @@
 
 void stack_tests()
 {
-	std::cout << BW << " _______" << NC << std::endl;
-	std::cout << BW << "| STACK |" << NC << std::endl;
-	std::cout << BW << " ‾‾‾‾‾‾‾" << NC << std::endl;
+	std::cout << BW << "                        _______" << NC << std::endl;
+	std::cout << BW << "―――――――――――――――――――――――| STACK |――――――――――――――――――――――" << NC << std::endl;
+	std::cout << BW << "                        ‾‾‾‾‾‾‾" << NC << std::endl;
 
 	std::cout << MA << "Container used : vector(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)" << NC << std::endl;
 	std::vector<int> v1;
@@ -21,6 +21,8 @@ void stack_tests()
 	v1.push_back(9);
 	v1.push_back(10);
 
+
+
 	/********* testing constructors *********/
 	std::cout << GN << "\nCreation of stack1 via default (container) constructor" << NC << std::endl;
 	NAMESPACE::stack<int, std::vector<int> > stack1(v1);
@@ -29,7 +31,12 @@ void stack_tests()
 	std::cout << CY << "Creation of stack3 via assignation operator" << NC << std::endl;
 	NAMESPACE::stack<int, std::vector<int> > stack3 = stack2;
 	
-	/******* testing member functions *******/
+
+	/******* testing member functions *******
+	* 
+	*		top, empty, size, push, pop
+	*
+	******** ************************ *******/
 	std::cout << YE << "\nstack1 empty : " << NC << (stack1.empty() ? "true" : "false") << std::endl
 		<< YE << "stack1 size : " << NC << stack1.size() << std::endl
 		<< YE << "stack1 top : " << NC << stack1.top() << std::endl
@@ -43,6 +50,8 @@ void stack_tests()
 	std::cout << YE << "stack1 size : " << NC << stack1.size() << std::endl
 		<< YE << "stack1 top : " << NC << stack1.top() << std::endl << std::endl;
 
+
+
 	/******* testing member functions on a const stack *******/
 	std::cout << GN << "Creation of stack4 (const) via copy constructor" << NC << std::endl;
 	std::vector<int> const v2(v1);
@@ -53,7 +62,13 @@ void stack_tests()
 		<< YE << "stack4 (const) push \"11\"" << NC << "-> doesn't work "<< std::endl;
 	//stack4.push(11); -> doesn't compile
 
-	/***** testing non member functions *****/
+
+
+	/***** testing non member functions *****
+	*
+	*	operators ==, !=, <, <=, >, >=
+	*
+	****** **************************** *****/
 	std::cout << std::endl
 		<< OR << "stack1 == stack2 : " << NC << (stack1 == stack2 ? "true" : "false") << std::endl
 		<< OR << "stack1 != stack3 : " << NC << (stack1 != stack3 ? "true" : "false") << std::endl

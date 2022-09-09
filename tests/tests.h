@@ -23,7 +23,7 @@ void stack_tests();
 
 void vector_tests();
 template <typename T>
-void print(NAMESPACE::vector<T> x);
+void print(NAMESPACE::vector<T> x, std::string s = "vector");
 
 
 void map_tests();
