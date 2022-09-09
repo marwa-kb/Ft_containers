@@ -440,6 +440,9 @@ namespace ft
 				return (!(lhs < rhs));
 			}
 
+			friend void swap(ft::vector<T, Allocator>& x, ft::vector<T, Allocator>& y) {
+				x.swap(y);
+			}
 	};
 }
 

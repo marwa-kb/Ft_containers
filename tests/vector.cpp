@@ -227,6 +227,10 @@ void vector_tests()
 		std::cout << "capacity = " << bar.capacity() << std::endl;
 		std::cout << "bar.begin() = " << *bar1 << std::endl;
 
+		std::cout << UP << "\nOther swap fct" << NC << std::endl;
+		swap(foo, bar);
+		print(foo, "foo");
+		print(bar, "bar");
 	}
 
 
