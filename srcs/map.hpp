@@ -6,7 +6,7 @@
 namespace ft
 {
 
-	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, T> > > // /!\ ::pair must be implemented
+	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, T> > > // /!\ ft::pair au lieu de stdf
 	class map {
 
 		public:
@@ -92,12 +92,9 @@ namespace ft
 			
 			value_compare value_comp() const;
 
-
-			/********************** ITERATORS **********************
+			// iterator find(const key_type& x);
 			
-			iterator find(const key_type& x);
-			
-			const_iterator find(const key_type& x) const;
+			// const_iterator find(const key_type& x) const;
 			
 			size_type count(const key_type& x) const;
 			
@@ -109,14 +106,15 @@ namespace ft
 			
 			const_iterator upper_bound(const key_type& x) const;
 			
-			pair<iterator,iterator>
+			// pair<iterator,iterator>
+			// equal_range(const key_type& x);
 			
-			equal_range(const key_type& x);
-			
-			pair<const_iterator,const_iterator>
-			
-			equal_range(const key_type& x) const;
+			// pair<const_iterator,const_iterator>
+			// equal_range(const key_type& x) const;
 
+
+			/********************** ITERATORS **********************
+			
 			
 			iterator begin();
 
