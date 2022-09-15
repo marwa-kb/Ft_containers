@@ -36,7 +36,7 @@ namespace ft
 
 				protected:
 					Compare comp;
-					value_compare (Compare c) : comp(c) {};
+					value_compare(Compare c) : comp(c) {};
 			
 				public:
 					typedef bool		result_type;
@@ -44,26 +44,30 @@ namespace ft
 					typedef value_type	second_argument_type;
 
 					bool operator()(const value_type& x, const value_type& y) const {
-						return comp(x.first, y.first);
+						return (comp(x.first, y.first));
 					};
 			};
 			
 
 		private :
 
-			avl<Key, T> _tree;
+			avl<Key, T>		_tree;
+			key_compare		_comp;
+			allocator_type	_alloc;
 
 
 		public :
 
 			/************* CONSTRUCTOR AND  DESTRUCTOR *************/
 
-			explicit map(const Compare& comp = Compare(), const Allocator& = Allocator());
+			explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator())
+				: _tree(), _comp(comp), _alloc(alloc) {};
 
 			// template <class InputIterator>
 			// map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator());
 
-			map(const map<Key, T, Compare, Allocator>& x);
+			map(const map<Key, T, Compare, Allocator>& x)
+				: _tree(x._tree), _comp(x._comp), _alloc(x._alloc) {};
 
 			~map();
 
@@ -71,7 +75,14 @@ namespace ft
 			/****************** MEMBER  FUNCTIONS ******************/
 			
 			map<Key,T,Compare,Allocator>& operator=(const map<Key,T,Compare,Allocator>& x);
+			
+			T& operator[](const key_type& x);
 
+			allocator_type get_allocator() const {
+				allocator_type x;
+				return (x);
+			};
+			
 			bool empty() const {
 				return(_tree.empty());
 			};
@@ -80,7 +91,6 @@ namespace ft
 			
 			size_type max_size() const;
 			
-			T& operator[](const key_type& x);
 			
 			// pair<iterator, bool> insert(const value_type& x);
 			

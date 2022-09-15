@@ -102,32 +102,6 @@ namespace ft
 				return (_tab[n]);
 			};
 
-			void assign(size_type n, const value_type & val) {
-				clear();
-				if (n > _capacity)
-					reserve(n);
-				for (size_type i = 0; i < n; i++)
-					push_back(value_type(val));
-				_size = n;
-			};
-
-			template <class InputIterator>
-  			void assign(InputIterator first, InputIterator last,
-					typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type = 0) {
-				clear();
-				size_type n = abs(last - first);
-				if (n > _capacity)
-					reserve(n);
-				InputIterator tmp = first;
-				for (; tmp != last; tmp++)
-					push_back(*tmp);
-			};
-
-			allocator_type get_allocator() const {
-				Allocator x;
-				return (x);
-			};
-			
 			reference at(size_type n) {
 				if (n >= _size)
 					throw (std::out_of_range("vector::out of range"));
@@ -138,6 +112,11 @@ namespace ft
 				if (n >= _size)					
 					throw (std::out_of_range("vector::out of range"));
 				return (_tab[n]);
+			};
+
+			allocator_type get_allocator() const {
+				allocator_type x;
+				return (x);
 			};
 
 			reference front() {
@@ -176,6 +155,31 @@ namespace ft
 				return (_alloc.max_size());
 			};
 
+			size_type capacity() const {
+				return (_capacity);
+			};
+			
+			void assign(size_type n, const value_type & val) {
+				clear();
+				if (n > _capacity)
+					reserve(n);
+				for (size_type i = 0; i < n; i++)
+					push_back(value_type(val));
+				_size = n;
+			};
+
+			template <class InputIterator>
+  			void assign(InputIterator first, InputIterator last,
+					typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type = 0) {
+				clear();
+				size_type n = abs(last - first);
+				if (n > _capacity)
+					reserve(n);
+				InputIterator tmp = first;
+				for (; tmp != last; tmp++)
+					push_back(*tmp);
+			};
+
 			void reserve(size_type n) {
 				if (n > max_size())
 					throw (std::length_error("vector::reserve"));
@@ -192,10 +196,6 @@ namespace ft
 					_size = size;
 					_capacity = n;
 				}
-			};
-
-			size_type capacity() const {
-				return (_capacity);
 			};
 
 			void clear() {
