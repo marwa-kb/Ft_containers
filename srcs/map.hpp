@@ -2,6 +2,8 @@
 # define MAP_HPP
 
 #include <string>
+#include "avl.hpp"
+#include "utils.hpp"
 
 namespace ft
 {
@@ -20,15 +22,15 @@ namespace ft
 			typedef typename Allocator::const_reference		const_reference;
 			// typedef implementation defined					iterator;
 			// typedef implementation defined					const_iterator;
-			// typedef implementation defined					size_type;
-			// typedef implementation defined					difference_type
+			typedef std::size_t								size_type;
+			typedef std::ptrdiff_t							difference_type;
 			typedef typename Allocator::pointer				pointer;
 			typedef typename Allocator::const_pointer		const_pointer;
-			typedef std::reverse_iterator<iterator>			reverse_iterator;
-			typedef std::reverse_iterator<const_iterator>	const_reverse_iterator;
+			// typedef std::reverse_iterator<iterator>			reverse_iterator;
+			// typedef std::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 
-			class value_compare : public binary_function<value_type, value_type, bool>
+			class value_compare : public std::binary_function<value_type, value_type, bool>
 			{
 				friend class map;
 
@@ -44,8 +46,15 @@ namespace ft
 					bool operator()(const value_type& x, const value_type& y) const {
 						return comp(x.first, y.first);
 					};
-			}
+			};
 			
+
+		private :
+
+			avl<Key, T> _tree;
+
+
+		public :
 
 			/************* CONSTRUCTOR AND  DESTRUCTOR *************/
 
@@ -63,7 +72,9 @@ namespace ft
 			
 			map<Key,T,Compare,Allocator>& operator=(const map<Key,T,Compare,Allocator>& x);
 
-			bool empty() const;
+			bool empty() const {
+				return(_tree.empty());
+			};
 			
 			size_type size() const;
 			
@@ -98,13 +109,13 @@ namespace ft
 			
 			size_type count(const key_type& x) const;
 			
-			iterator lower_bound(const key_type& x);
+			// iterator lower_bound(const key_type& x);
 			
-			const_iterator lower_bound(const key_type& x) const;
+			// const_iterator lower_bound(const key_type& x) const;
 			
-			iterator upper_bound(const key_type& x);
+			// iterator upper_bound(const key_type& x);
 			
-			const_iterator upper_bound(const key_type& x) const;
+			// const_iterator upper_bound(const key_type& x) const;
 			
 			// pair<iterator,iterator>
 			// equal_range(const key_type& x);

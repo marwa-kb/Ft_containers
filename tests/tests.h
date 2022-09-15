@@ -13,6 +13,7 @@
 /*** MINE ***/
 #include "../srcs/stack.hpp"
 #include "../srcs/vector.hpp"
+#include "../srcs/map.hpp"
 
 #include "../srcs/iterator.hpp"
 #include "../srcs/colors.h"
