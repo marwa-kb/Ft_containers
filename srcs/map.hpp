@@ -87,7 +87,9 @@ namespace ft
 				return(_tree.empty());
 			};
 			
-			size_type size() const;
+			size_type size() const {
+				return (_tree.size());
+			};
 			
 			size_type max_size() const;
 			
