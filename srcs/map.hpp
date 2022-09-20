@@ -4,30 +4,32 @@
 #include <string>
 #include "avl.hpp"
 #include "utils.hpp"
+#include "iterators.hpp"
 
 namespace ft
 {
 
 	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, T> > > // /!\ ft::pair au lieu de stdf
-	class map {
+	class map
+	{
 
 		public:
 
-			typedef Key	 									key_type;
-			typedef T	 									mapped_type;
-			typedef std::pair<const Key, T>					value_type;// /!\ pareil
-			typedef Compare	 								key_compare;
-			typedef Allocator	 							allocator_type;
-			typedef typename Allocator::reference			reference;
-			typedef typename Allocator::const_reference		const_reference;
-			// typedef implementation defined					iterator;
-			// typedef implementation defined					const_iterator;
-			typedef std::size_t								size_type;
-			typedef std::ptrdiff_t							difference_type;
-			typedef typename Allocator::pointer				pointer;
-			typedef typename Allocator::const_pointer		const_pointer;
-			// typedef std::reverse_iterator<iterator>			reverse_iterator;
-			// typedef std::reverse_iterator<const_iterator>	const_reverse_iterator;
+			typedef Key	 											key_type;
+			typedef T	 											mapped_type;
+			typedef Compare	 										key_compare;
+			typedef std::pair<const Key, T>							value_type;// /!\ pareil
+			typedef Allocator	 									allocator_type;
+			typedef std::size_t										size_type;
+			typedef std::ptrdiff_t									difference_type;
+			typedef value_type&										reference;
+			typedef const value_type&								const_reference;
+			typedef value_type*										pointer;
+			typedef const value_type*								const_pointer;
+			typedef typename ft::m_iterator<pointer>				iterator;
+			typedef typename ft::m_iterator<const_pointer>			const_iterator;
+			typedef typename ft::m_reverse_iterator<iterator>		reverse_iterator;
+			typedef typename ft::m_reverse_iterator<const_iterator>	const_reverse_iterator;
 
 
 			class value_compare : public std::binary_function<value_type, value_type, bool>
@@ -51,7 +53,7 @@ namespace ft
 
 		private :
 
-			avl<Key, T>		_tree;
+			AVLTree<Key, T>	_tree;
 			key_compare		_comp;
 			allocator_type	_alloc;
 
@@ -66,10 +68,10 @@ namespace ft
 			// template <class InputIterator>
 			// map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator());
 
-			map(const map<Key, T, Compare, Allocator>& x)
-				: _tree(x._tree), _comp(x._comp), _alloc(x._alloc) {};
+			// map(const map<Key, T, Compare, Allocator>& x)
+				// : _tree(x._tree), _comp(x._comp), _alloc(x._alloc) {};
 
-			~map();
+			~map() {};
 
 
 			/****************** MEMBER  FUNCTIONS ******************/
@@ -95,8 +97,11 @@ namespace ft
 				return (_alloc.max_size());
 			};
 			
-			
-			// pair<iterator, bool> insert(const value_type& x);
+			// pair<iterator, bool> insert(const value_type& x) {
+			// 	node<Key, T> * new_node = new node<Key, T>(x); // /!\ a remplacer par allocator
+			// 	bool ok = true;
+			// 	return (pair<iterator, bool>(_tree.insert_node(_tree._root, new_node, &ok), ok));
+			// };
 			
 			// iterator insert(iterator position, const value_type& x);
 			
@@ -105,7 +110,11 @@ namespace ft
 			
 			// void erase(iterator position);
 			
-			size_type erase(const key_type& x);
+			size_type erase(const key_type& x) {
+				if (!(_tree.delete_node(_tree._root, x)))
+					return (0);
+				return (1);
+			};
 			
 			// void erase(iterator first, iterator last);
 			
@@ -121,7 +130,11 @@ namespace ft
 			
 			// const_iterator find(const key_type& x) const;
 			
-			size_type count(const key_type& x) const;
+			size_type count(const key_type& x) const {
+				if (!(_tree.iterative_search(x)))
+					return (0);
+				return (1);
+			};
 			
 			// iterator lower_bound(const key_type& x);
 			

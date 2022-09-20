@@ -16,6 +16,10 @@ elif [ "$1" = "vector" ]
 then
 	./std vector > real 2>&1
 	./ft vector > mine 2>&1
+elif [ "$1" = "map" ]
+then
+	./std map > real 2>&1
+	./ft map > mine 2>&1
 else
 	./std > real 2>&1
 	./ft > mine 2>&1

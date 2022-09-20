@@ -15,7 +15,7 @@
 #include "../srcs/vector.hpp"
 #include "../srcs/map.hpp"
 
-#include "../srcs/iterator.hpp"
+#include "../srcs/iterators.hpp"
 #include "../srcs/colors.h"
 
 
@@ -28,5 +28,7 @@ void print(NAMESPACE::vector<T> x, std::string s = "vector");
 
 
 void map_tests();
+template <class Key, class T>
+void print(NAMESPACE::map<Key, T> x, std::string s = "map");
 
 #endif
