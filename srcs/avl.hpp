@@ -9,11 +9,11 @@ class node
 	public :
 
 
-		typedef std::size_t					size_type;
-		typedef std::ptrdiff_t				difference_type;
+		// typedef std::size_t					size_type;
+		// typedef std::ptrdiff_t				difference_type;
 		typedef typename std::allocator<T>	allocator;
 		typedef typename ft::pair<Key, T>	pair;
-		typedef pair						value_type;
+		// typedef pair						value_type;
 
 
 
@@ -24,13 +24,15 @@ class node
 
 	public :
 
-		pair				p;
-		node				*left;
-		node				*right;
+		pair	p;
+		node	*left;
+		node	*right;
+
+		node() : p(pair()), left(NULL), right(NULL) {};
 
 		node(const pair & x) : p(x), left(NULL), right(NULL) {};
 
-		node(const node<Key, T> & x) : p(x.p), left(NULL), right(NULL) {};
+		node(const node<Key, T> & x) : p(x.p), left(x.left), right(x.right) {};
 
 		~node() {};
 
@@ -44,10 +46,10 @@ class avl
 	public :
 
 		typedef std::size_t					size_type;
-		typedef std::ptrdiff_t				difference_type;
+		// typedef std::ptrdiff_t				difference_type;
 		typedef typename std::allocator<T>	allocator;
 		typedef typename ft::pair<Key, T>	pair;
-		typedef pair						value_type;
+		// typedef pair						value_type;
 
 
 
@@ -63,15 +65,15 @@ class avl
 
 		avl() : _root(NULL), _size(0) {};
 		
-		avl(const pair & p) {
-			_root = create_node(p);
-			_size = 1;
-		};
+		// avl(const pair & p) {
+			// _root = create_node(p);
+			// _size = 1;
+		// };
 
-		avl(const Key & k, const T & v) {
-			_root = create_node(pair(k, v));
-			_size = 1;
-		};
+		// avl(const Key & k, const T & v) {
+			// _root = create_node(pair(k, v));
+			// _size = 1;
+		// };
 
 		avl(const avl & x) : _root(x._root) {}; // PAS DU TOUT FINI
 

@@ -91,7 +91,9 @@ namespace ft
 				return (_tree.size());
 			};
 			
-			size_type max_size() const;
+			size_type max_size() const {
+				return (_alloc.max_size());
+			};
 			
 			
 			// pair<iterator, bool> insert(const value_type& x);
