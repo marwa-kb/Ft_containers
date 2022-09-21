@@ -321,6 +321,8 @@ namespace ft
 		public :
 
 			typedef Iterator													iterator_type;
+			typedef typename iterator_type::key_type							Key;
+			typedef typename iterator_type::mapped_type							T;
 			typedef typename ft::iterator_traits<Iterator>::iterator_category	iterator_category;
 			typedef typename ft::iterator_traits<Iterator>::value_type			value_type;
 			typedef typename ft::iterator_traits<Iterator>::difference_type		difference_type;
@@ -331,7 +333,7 @@ namespace ft
 		protected :
 
 			iterator_type	*current;
-			// AVLTree<Key, T>	*tree;
+			avl<Key, T>	*tree;
 
 
 		public :
@@ -344,6 +346,8 @@ namespace ft
 
 			template <class Iter>
   			m_iterator(const m_iterator<Iter> & other) : current(other.base()) {};
+
+			m_iterator(const iterator_type *p, const avl<Key, T> *t) : current(p->base()), tree(t) {};
 
 
 			/****************** MEMBER  FUNCTIONS ******************/
@@ -366,13 +370,39 @@ namespace ft
 				return (current);
 			};
 
-			reference operator[](difference_type n) const {
+			reference operator[](difference_type n) const {	// ?
 				return (current[n]);
 			};
 
-			m_iterator & operator++() {
-				++current;
-				return (*this);
+			m_iterator & operator++()
+			{
+ 				iterator_type p;
+
+ 				if (!current)
+ 				{
+ 					current = tree->_root;
+ 					if (!current)
+ 						return (m_iterator(NULL));
+ 					while (current->left)
+ 						current = current->left;
+ 				}
+ 				else if (current->right)
+ 				{
+ 					current = current->right;
+					while (current->left)
+ 						current = current->left;	
+ 				}
+ 				else
+ 				{
+ 					p = current->parent;
+ 					while (p && current == p->right)
+ 					{
+ 						current = p;
+ 						p = p->parent;
+ 					}
+ 					current = p;
+ 				}
+ 				return (*this);
 			}
 
 			m_iterator & operator--() {

@@ -11,10 +11,10 @@ class node
 
 		// typedef std::size_t					size_type;
 		// typedef std::ptrdiff_t				difference_type;
+		typedef Key							key_type;
+		typedef T							mapped_type;
 		typedef typename std::allocator<T>	allocator;
 		typedef typename ft::pair<Key, T>	pair;
-		// typedef pair						value_type;
-
 
 
 	private :
@@ -24,7 +24,7 @@ class node
 
 	public :
 
-		pair	p;
+		pair	p;	
 		node	*left;
 		node	*right;
 		node	*parent;
@@ -131,7 +131,7 @@ class avl
 };
 */
 template <class Key, class T>
-class AVLTree {
+class avl {
 
 	public:
 
@@ -142,9 +142,9 @@ class AVLTree {
 		size_type		_size;
 
 
-	AVLTree() : _root(NULL), _size(0) {};
+	avl() : _root(NULL), _size(0) {};
 
-	~AVLTree() {
+	~avl() {
 		if (_root)
 		 	delete_avl(_root);
 	}

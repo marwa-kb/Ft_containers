@@ -123,7 +123,7 @@ void map_tests()
 		std::cout << UG << "\nTesting iterators" << NC << std::endl;
 	}
 	/*
-	AVLTree<int, int> avl;
+	avl<int, int> avl;
 	int option, val;
 
 	do {

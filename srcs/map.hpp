@@ -15,21 +15,21 @@ namespace ft
 
 		public:
 
-			typedef Key	 											key_type;
-			typedef T	 											mapped_type;
-			typedef Compare	 										key_compare;
-			typedef std::pair<const Key, T>							value_type;// /!\ pareil
-			typedef Allocator	 									allocator_type;
-			typedef std::size_t										size_type;
-			typedef std::ptrdiff_t									difference_type;
-			typedef value_type&										reference;
-			typedef const value_type&								const_reference;
-			typedef value_type*										pointer;
-			typedef const value_type*								const_pointer;
-			typedef typename ft::m_iterator<node<Key, T> >			iterator;
-			typedef typename ft::m_iterator<const node<Key, T> >	const_iterator;
-			typedef typename ft::m_reverse_iterator<iterator>		reverse_iterator;
-			typedef typename ft::m_reverse_iterator<const_iterator>	const_reverse_iterator;
+			typedef Key	 												key_type;
+			typedef T	 												mapped_type;
+			typedef Compare	 											key_compare;
+			typedef std::pair<const Key, T>								value_type;// /!\ pareil
+			typedef Allocator	 										allocator_type;
+			typedef std::size_t											size_type;
+			typedef std::ptrdiff_t										difference_type;
+			typedef value_type&											reference;
+			typedef const value_type&									const_reference;
+			typedef value_type*											pointer;
+			typedef const value_type*									const_pointer;
+			typedef typename ft::m_iterator<node<Key, T> >				iterator;
+			typedef typename ft::m_iterator<const node<Key, T> >		const_iterator;
+			typedef typename ft::m_reverse_iterator<iterator>			reverse_iterator;
+			typedef typename ft::m_reverse_iterator<const_iterator>		const_reverse_iterator;
 
 
 			class value_compare : public std::binary_function<value_type, value_type, bool>
@@ -53,7 +53,7 @@ namespace ft
 
 		private :
 
-			AVLTree<Key, T>	_tree;
+			avl<Key, T>	_tree;
 			key_compare		_comp;
 			allocator_type	_alloc;
 
@@ -155,14 +155,20 @@ namespace ft
 			
 			
 			iterator begin() {
-				return (iterator(_tree.smallest_node(_tree._root)));
+				return (iterator(_tree.smallest_node(_tree._root), &_tree));
 			};
 
-			const_iterator begin() const;
+			const_iterator begin() const {
+				return (const_iterator(_tree.smallest_node(_tree._root), &_tree));
+			};
 
-			iterator end();
+			iterator end() {
+				return (iterator(NULL, &_tree));
+			};
 
-			const_iterator end() const;
+			const_iterator end() const{
+				return (const_iterator(NULL, &_tree));
+			};
 
 			reverse_iterator rbegin();
 
