@@ -27,17 +27,18 @@ class node
 		pair	p;
 		node	*left;
 		node	*right;
+		node	*parent;
 
-		node() : p(pair()), left(NULL), right(NULL) {};
+		node() : p(pair()), left(NULL), right(NULL), parent(NULL) {};
 
-		node(const pair & x) : p(x), left(NULL), right(NULL) {};
+		node(const pair & x) : p(x), left(NULL), right(NULL), parent(NULL) {};
 
-		node(const node<Key, T> & x) : p(x.p), left(x.left), right(x.right) {};
+		node(const node<Key, T> & x) : p(x.p), left(x.left), right(x.right), parent(x.parent) {};
 
 		~node() {};
 
 };
-
+/*
 
 template <class Key, class T>
 class avl
@@ -128,7 +129,7 @@ class avl
 
 
 };
-
+*/
 template <class Key, class T>
 class AVLTree {
 
@@ -195,13 +196,13 @@ class AVLTree {
 		return (_size);
 	};
 
-	int height(node<Key, T> * n) {
+	size_type height(node<Key, T> * n) {
 		if (!n)
 			return (-1);
 		else
 		{
-			int left_h = height(n->left);
-			int right_h = height(n->right);
+			size_type left_h = height(n->left);
+			size_type right_h = height(n->right);
 
 			if (left_h > right_h)
 				return (left_h + 1);
@@ -209,7 +210,7 @@ class AVLTree {
 		}
 	};
 
-	int balance_factor(node<Key, T> * n) {
+	size_type balance_factor(node<Key, T> * n) {
 		if (!n)
 			return (-1);
 		return (height(n->left) - height(n->right));
@@ -251,7 +252,7 @@ class AVLTree {
 			return (n);
 		}
 
-		int bf = balance_factor(n);
+		size_type bf = balance_factor(n);
 		if (bf > 1 && new_node->p.first < n->left->p.first)		//left left
 			return (right_rotate(n));
 		if (bf < -1 && new_node->p.first > n->right->p.first)	//right right
@@ -302,7 +303,7 @@ class AVLTree {
 		return (std::pair<node<Key, T> *, bool>(n, true));
 	}
 */
-	node<Key, T> * minValueNode(node<Key, T> * n) {	//loop down to find the leftmost leaf
+	node<Key, T> * smallest_node(node<Key, T> * n) {	//loop down to find the leftmost leaf
 		node<Key, T> * current = n;
 		while (current->left)
 			current = current->left;
@@ -336,7 +337,7 @@ class AVLTree {
 			{
 				// node with two children: Get the inorder successor (smallest 
 				// in the right subtree) 
-				node<Key, T> * temp = minValueNode(n->right);
+				node<Key, T> * temp = smallest_node(n->right);
 				// Copy the inorder successor's content to this node 
 				n->p.first = temp->p.first;
 				// Delete the inorder successor 
@@ -345,7 +346,7 @@ class AVLTree {
 			}
 		}
 
-		int bf = balance_factor(n);
+		size_type bf = balance_factor(n);
 		// Left Left Imbalance/Case or Right rotation 
 		if (bf == 2 && balance_factor(n->left) >= 0)
 			return (right_rotate(n));

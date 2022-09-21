@@ -3,6 +3,7 @@
 
 #include <string>
 #include "utils.hpp"
+#include "avl.hpp"
 
 namespace ft
 {
@@ -329,7 +330,8 @@ namespace ft
 
 		protected :
 
-			iterator_type current;
+			iterator_type	*current;
+			// AVLTree<Key, T>	*tree;
 
 
 		public :

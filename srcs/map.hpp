@@ -26,8 +26,8 @@ namespace ft
 			typedef const value_type&								const_reference;
 			typedef value_type*										pointer;
 			typedef const value_type*								const_pointer;
-			typedef typename ft::m_iterator<pointer>				iterator;
-			typedef typename ft::m_iterator<const_pointer>			const_iterator;
+			typedef typename ft::m_iterator<node<Key, T> >			iterator;
+			typedef typename ft::m_iterator<const node<Key, T> >	const_iterator;
 			typedef typename ft::m_reverse_iterator<iterator>		reverse_iterator;
 			typedef typename ft::m_reverse_iterator<const_iterator>	const_reverse_iterator;
 
@@ -151,10 +151,12 @@ namespace ft
 			// equal_range(const key_type& x) const;
 
 
-			/********************** ITERATORS **********************
+			/********************** ITERATORS **********************/
 			
 			
-			iterator begin();
+			iterator begin() {
+				return (iterator(_tree.smallest_node(_tree._root)));
+			};
 
 			const_iterator begin() const;
 
@@ -169,7 +171,7 @@ namespace ft
 			reverse_iterator rend();
 
 			const_reverse_iterator rend() const;
-			*/
+			
 		};
 	
 
