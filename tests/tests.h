@@ -16,6 +16,7 @@
 #include "../srcs/map.hpp"
 
 #include "../srcs/iterators.hpp"
+#include "../srcs/utils.hpp"
 #include "../srcs/colors.h"
 
 

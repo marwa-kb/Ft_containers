@@ -314,15 +314,15 @@ namespace ft
 		};
 
 
-	template <class Iterator>
+	template <class Iterator, class Key, class T>
 	class m_iterator
 	{
 
 		public :
 
 			typedef Iterator													iterator_type;
-			typedef typename iterator_type::key_type							Key;
-			typedef typename iterator_type::mapped_type							T;
+			typedef node<Key, T>												node;
+			typedef avl<Key, T>													avl;
 			typedef typename ft::iterator_traits<Iterator>::iterator_category	iterator_category;
 			typedef typename ft::iterator_traits<Iterator>::value_type			value_type;
 			typedef typename ft::iterator_traits<Iterator>::difference_type		difference_type;
@@ -332,31 +332,35 @@ namespace ft
 
 		protected :
 
-			iterator_type	*current;
-			avl<Key, T>	*tree;
+			node	*current;
+			avl		*tree;
 
 
 		public :
 
 			/******************** CONSTRUCTORS *********************/
 
-			m_iterator() : current(Iterator()) {};
+			m_iterator() {
+				*current = node(); 
+			};
 
-			explicit m_iterator(iterator_type x) : current(x) {};
+			explicit m_iterator(iterator_type x) {
+				*current = node(x);
+			};
 
-			template <class Iter>
-  			m_iterator(const m_iterator<Iter> & other) : current(other.base()) {};
+			// template <class Iter>
+  			// m_iterator(const m_iterator<Iter> & other) : current(other.base()) {};
 
-			m_iterator(const iterator_type *p, const avl<Key, T> *t) : current(p->base()), tree(t) {};
+		//	m_iterator(const iterator_type p, const avl<Key, T> *t) : current(p.base()), tree(t) {};
 
 
 			/****************** MEMBER  FUNCTIONS ******************/
 
-			template <class Iter>
-			m_iterator & operator=(const m_iterator<Iter> & other) {
-				current = other.base();
-				return (*this);
-			};
+			// template <class Iter>
+			// m_iterator & operator=(const m_iterator<Iter> & other) {
+				// current = other.base();
+				// return (*this);
+			// };
 
 			iterator_type base() const {
 				return (current);
@@ -374,7 +378,7 @@ namespace ft
 				return (current[n]);
 			};
 
-			m_iterator & operator++()
+		/*	m_iterator & operator++()
 			{
  				iterator_type p;
 
@@ -404,7 +408,7 @@ namespace ft
  				}
  				return (*this);
 			}
-
+*/
 			m_iterator & operator--() {
 				--current;
 				return (*this);
@@ -441,7 +445,7 @@ namespace ft
 			}
 
 
-			/**************** NON MEMBER  FUNCTIONS ****************/
+			/**************** NON MEMBER  FUNCTIONS ****************
 
 			friend bool operator==(const m_iterator<Iterator> & lhs, const m_iterator<Iterator> & rhs) {
 				return (lhs.base() == rhs.base());
@@ -473,7 +477,7 @@ namespace ft
 			
 			friend difference_type operator-(const m_iterator<Iterator> & lhs, const m_iterator<Iterator> & rhs) {
 				return (lhs.base() - rhs.base());
-			};	
+			};*/
 		};
 
 

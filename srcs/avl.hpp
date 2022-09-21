@@ -9,17 +9,20 @@ class node
 	public :
 
 
-		// typedef std::size_t					size_type;
-		// typedef std::ptrdiff_t				difference_type;
 		typedef Key							key_type;
 		typedef T							mapped_type;
-		typedef typename std::allocator<T>	allocator;
+		typedef ft::pair<const Key, T>		value_type;// /!\ pareil
+		typedef std::size_t					size_type;
+		typedef std::ptrdiff_t				difference_type;
+		typedef value_type&					reference;
+		typedef value_type*					pointer;
+		typedef typename std::allocator<T>	allocator_type;
 		typedef typename ft::pair<Key, T>	pair;
 
 
 	private :
 
-		allocator	_alloc;
+		allocator_type	_alloc;
 
 
 	public :
@@ -144,46 +147,34 @@ class avl {
 
 	avl() : _root(NULL), _size(0) {};
 
+	avl(const avl & a) : _size(a._size) {
+		node<Key, T>* n1 = a._root;
+		node<Key, T>* n2 = _root;
+		while (n1)
+		{
+			node<Key, T>* n3(n1->p);
+			insert_node(n2, n3);
+
+		}
+		
+	};
+
 	~avl() {
-		if (_root)
-		 	delete_avl(_root);
-	}
+		std::cout << BP << "OUI ROOT EXISTE" << NC << std::endl;
+		delete_avl(_root);
+		delete _root;
+	};
 	
-	void delete_avl(node<Key, T> * a) {
-		node<Key, T> * leftsub = a->left;
-		node<Key, T> * rightsub = a->right;
-		if (!leftsub)
-			return ;
-		if (!rightsub)
-			return ;
-		while (leftsub)
+	void delete_avl(node<Key, T> * n) {
+		if (n)
 		{
-			delete_avl(leftsub);
-			std::cout << BR << "DELETED : " << leftsub->p.first << NC << std::endl;
-			if (leftsub)
-			{
-				delete leftsub;
-				leftsub = NULL;
-			}
+			delete_avl(n->left);
+			delete_avl(n->right);
+			std::cout << BR << n->p.first << "DELETED" << NC << std::endl;
+			delete n;
 		}
-		while (rightsub)
-		{
-			delete_avl(rightsub);
-			std::cout << BR << "DELETED : " << rightsub->p.first << NC << std::endl;
-			if (rightsub)
-			{
-				delete rightsub;
-				rightsub = NULL;
-			}
-		}
-		std::cout << BR << "DELETED : " << a->p.first << NC << std::endl;
-		if (a)
-		{
-			delete a;
-			a = NULL;
-		}
-		return ;
-	}
+		n = NULL;
+	};
 
 	
 	bool empty() const {
@@ -196,13 +187,13 @@ class avl {
 		return (_size);
 	};
 
-	size_type height(node<Key, T> * n) {
+	int height(node<Key, T> * n) {
 		if (!n)
 			return (-1);
 		else
 		{
-			size_type left_h = height(n->left);
-			size_type right_h = height(n->right);
+			int left_h = height(n->left);
+			int right_h = height(n->right);
 
 			if (left_h > right_h)
 				return (left_h + 1);
@@ -210,7 +201,7 @@ class avl {
 		}
 	};
 
-	size_type balance_factor(node<Key, T> * n) {
+	int balance_factor(node<Key, T> * n) {
 		if (!n)
 			return (-1);
 		return (height(n->left) - height(n->right));
@@ -234,12 +225,13 @@ class avl {
 		return (n_r);
 	}
 
-	node<Key, T> * insert_node(node<Key, T> * n, node<Key, T> * new_node, bool *ok = 0) {
+	node<Key, T> * insert_node(node<Key, T> * n, node<Key, T> * new_node, bool *ok = NULL) {
 		if (!n)
 		{
 			n = new_node;
 			_size++;
-			*ok = true;
+			if (ok)
+				*ok = true;
 			return (n);
 		}
 		if (new_node->p.first < n->p.first)
@@ -248,11 +240,12 @@ class avl {
 			n->right = insert_node(n->right, new_node);
 		else
 		{
-			*ok = false;
+			if (ok)
+				*ok = false;
 			return (n);
 		}
 
-		size_type bf = balance_factor(n);
+		int bf = balance_factor(n);
 		if (bf > 1 && new_node->p.first < n->left->p.first)		//left left
 			return (right_rotate(n));
 		if (bf < -1 && new_node->p.first > n->right->p.first)	//right right
@@ -267,7 +260,8 @@ class avl {
 			n->right = right_rotate(n->right);
 			return (left_rotate(n));
 		}
-		*ok = true;
+		if (ok)
+			*ok = true;
 		return (n);
 	};
 
@@ -346,7 +340,7 @@ class avl {
 			}
 		}
 
-		size_type bf = balance_factor(n);
+		int bf = balance_factor(n);
 		// Left Left Imbalance/Case or Right rotation 
 		if (bf == 2 && balance_factor(n->left) >= 0)
 			return (right_rotate(n));

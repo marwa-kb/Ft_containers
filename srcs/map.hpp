@@ -9,7 +9,7 @@
 namespace ft
 {
 
-	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, T> > > // /!\ ft::pair au lieu de stdf
+	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > > // /!\ ft::pair au lieu de stdf
 	class map
 	{
 
@@ -18,7 +18,7 @@ namespace ft
 			typedef Key	 												key_type;
 			typedef T	 												mapped_type;
 			typedef Compare	 											key_compare;
-			typedef std::pair<const Key, T>								value_type;// /!\ pareil
+			typedef ft::pair<const Key, T>								value_type;// /!\ pareil
 			typedef Allocator	 										allocator_type;
 			typedef std::size_t											size_type;
 			typedef std::ptrdiff_t										difference_type;
@@ -26,8 +26,8 @@ namespace ft
 			typedef const value_type&									const_reference;
 			typedef value_type*											pointer;
 			typedef const value_type*									const_pointer;
-			typedef typename ft::m_iterator<node<Key, T> >				iterator;
-			typedef typename ft::m_iterator<const node<Key, T> >		const_iterator;
+			typedef typename ft::m_iterator<pointer, Key, T>			iterator;
+			typedef typename ft::m_iterator<const_pointer, Key, T>		const_iterator;
 			typedef typename ft::m_reverse_iterator<iterator>			reverse_iterator;
 			typedef typename ft::m_reverse_iterator<const_iterator>		const_reverse_iterator;
 
@@ -53,7 +53,7 @@ namespace ft
 
 		private :
 
-			avl<Key, T>	_tree;
+			avl<Key, T>		_tree;
 			key_compare		_comp;
 			allocator_type	_alloc;
 
@@ -71,7 +71,9 @@ namespace ft
 			// map(const map<Key, T, Compare, Allocator>& x)
 				// : _tree(x._tree), _comp(x._comp), _alloc(x._alloc) {};
 
-			~map() {};
+			~map() {
+				_tree.delete_avl(_tree._root);
+			};
 
 
 			/****************** MEMBER  FUNCTIONS ******************/
@@ -97,10 +99,11 @@ namespace ft
 				return (_alloc.max_size());
 			};
 			
-			// pair<iterator, bool> insert(const value_type& x) {
-			// 	node<Key, T> * new_node = new node<Key, T>(x); // /!\ a remplacer par allocator
+			// pair<iterator, bool> insert(const value_type & x) {
+			// 	node<Key, T> new_node(x); // /!\ a remplacer par allocator
 			// 	bool ok = true;
-			// 	return (pair<iterator, bool>(_tree.insert_node(_tree._root, new_node, &ok), ok));
+			// 	pair<iterator, bool> p(iterator(_tree.insert_node(_tree._root, &new_node, &ok)), ok);
+			// 	return (p);
 			// };
 			
 			// iterator insert(iterator position, const value_type& x);
@@ -154,21 +157,21 @@ namespace ft
 			/********************** ITERATORS **********************/
 			
 			
-			iterator begin() {
-				return (iterator(_tree.smallest_node(_tree._root), &_tree));
-			};
+			// iterator begin() {
+			// 	return (iterator(_tree.smallest_node(_tree._root), &_tree));
+			// };
 
-			const_iterator begin() const {
-				return (const_iterator(_tree.smallest_node(_tree._root), &_tree));
-			};
+			// const_iterator begin() const {
+			// 	return (const_iterator(_tree.smallest_node(_tree._root), &_tree));
+			// };
 
-			iterator end() {
-				return (iterator(NULL, &_tree));
-			};
+			// iterator end() {
+			// 	return (iterator(NULL, &_tree));
+			// };
 
-			const_iterator end() const{
-				return (const_iterator(NULL, &_tree));
-			};
+			// const_iterator end() const{
+			// 	return (const_iterator(NULL, &_tree));
+			// };
 
 			reverse_iterator rbegin();
 
