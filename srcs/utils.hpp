@@ -217,6 +217,17 @@ namespace ft
 		return (ft::pair<T1, T2>(t, u));
 	};
 
+
+	/*************** BINARY_FUNCTION ****************/
+
+	template <class Arg1, class Arg2, class Result>
+	struct binary_function
+	{
+		typedef Arg1 first_argument_type;
+		typedef Arg2 second_argument_type;
+		typedef Result result_type;
+	};
+
 }
 
 #endif

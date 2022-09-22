@@ -27,119 +27,30 @@ class node
 
 	public :
 
-		pair	p;	
-		node	*left;
-		node	*right;
-		node	*parent;
+		pair		p;
+		key_type	first;
+		mapped_type	second;	
+		node		*left;
+		node		*right;
+		node		*parent;
 
-		node() : p(pair()), left(NULL), right(NULL), parent(NULL) {};
+		node() : p(pair()), first(), second(), left(NULL), right(NULL), parent(NULL) {};
 
-		node(const pair & x) : p(x), left(NULL), right(NULL), parent(NULL) {};
+		node(const pair & x) : p(x), first(x.first), second(x.second), left(NULL), right(NULL), parent(NULL) {};
 
-		node(const node<Key, T> & x) : p(x.p), left(x.left), right(x.right), parent(x.parent) {};
+		node(const node<Key, T> & x) : p(x.p), first(x.first), second(x.second), left(x.left), right(x.right), parent(x.parent) {};
 
 		~node() {};
 
 };
-/*
 
 template <class Key, class T>
 class avl
 {
 
-	public :
-
-		typedef std::size_t					size_type;
-		// typedef std::ptrdiff_t				difference_type;
-		typedef typename std::allocator<T>	allocator;
-		typedef typename ft::pair<Key, T>	pair;
-		// typedef pair						value_type;
-
-
-
-	private :
-
-		node<Key, T>	*_root;
-		allocator		_alloc;
-		size_type		_size;
-
-
-	public :
-
-
-		avl() : _root(NULL), _size(0) {};
-		
-		// avl(const pair & p) {
-			// _root = create_node(p);
-			// _size = 1;
-		// };
-
-		// avl(const Key & k, const T & v) {
-			// _root = create_node(pair(k, v));
-			// _size = 1;
-		// };
-
-		avl(const avl & x) : _root(x._root) {}; // PAS DU TOUT FINI
-
-		~avl() {
-			if (_root)
-			{
-				// _alloc.destroy(*_root);
-				// _alloc.deallocate(_root, sizeof(_root));
-				delete _root; // /!\ A CHANGER ABSOLUMENT
-			}
-		};
-
-		bool empty() const {
-			if (!_root)
-				return (true);
-			return (false);
-		};
-
-		size_type size() const {
-			return (_size);
-		};
-
-
-		void insert_node(const pair & x) {
-			node<Key, T> *a = create_node(x);
-			if (!_root)
-				_root = a;
-			else
-			{
-				if (x.first > _root->p.first)
-					_root->right = a;
-				else
-					_root->left = a;
-			}
-			_size++;
-		};
-
-		node<Key, T> * create_node(const pair & x) {
-			node<Key, T> *a = new node<Key, T>(x); // /!\ A CHANGER ABSOLUMENT
-			//_alloc.construct(a, node<Key, T>(x));
-			return (a);
-		};
-
-		void delete_node(Key k) {
-			search_node(k);
-			_size--;
-		};
-
-		void search_node(Key k);
-
-		void rotation();
-
-
-};
-*/
-template <class Key, class T>
-class avl {
-
 	public:
 
 		typedef std::size_t	size_type;
-
 
 		node<Key, T> *	_root;
 		size_type		_size;
@@ -147,22 +58,31 @@ class avl {
 
 	avl() : _root(NULL), _size(0) {};
 
-	avl(const avl & a) : _size(a._size) {
+	avl(const avl & a) : _root(NULL), _size(a._size) {
 		node<Key, T>* n1 = a._root;
 		node<Key, T>* n2 = _root;
+
 		while (n1)
 		{
-			node<Key, T>* n3(n1->p);
-			insert_node(n2, n3);
-
+			while (n1->left)
+			{
+				node<Key, T> *n3 = new node<Key, T>(n1->p);
+				insert_node(n2, n3);
+				n1 = n1->left;
+			}
+			while (n1->right)
+			{
+				node<Key, T> *n4 = new node<Key, T>(n1->p);
+				insert_node(n2, n4);
+				n1 = n1->right;
+			}
 		}
-		
 	};
 
 	~avl() {
-		std::cout << BP << "OUI ROOT EXISTE" << NC << std::endl;
-		delete_avl(_root);
-		delete _root;
+		if (_root)
+			delete_avl(_root);
+		//delete _root;//?
 	};
 	
 	void delete_avl(node<Key, T> * n) {
@@ -170,7 +90,7 @@ class avl {
 		{
 			delete_avl(n->left);
 			delete_avl(n->right);
-			std::cout << BR << n->p.first << "DELETED" << NC << std::endl;
+			std::cout << BR << n->p.first << " DELETED" << NC << std::endl;
 			delete n;
 		}
 		n = NULL;
@@ -265,41 +185,9 @@ class avl {
 		return (n);
 	};
 
-/*	std::pair<node<Key, T> *, bool> insert_node(node<Key, T> * n, node<Key, T> * new_node) { // dans pair mettre iterator au lieu de node
-		if (!n)
-		{
-			n = new_node;
-			_size++;
-			return (std::pair<node<Key, T> *, bool>(n, true));
-		}
-		if (new_node->p.first < n->p.first)
-			n->left = insert_node(n->left, new_node);
-		else if (new_node->p.first > n->p.first)
-			n->right = insert_node(n->right, new_node);
-		else
-			return (std::pair<node<Key, T> *, bool>(n, false));
-
-		int bf = balance_factor(n);
-		if (bf > 1 && new_node->p.first < n->left->p.first)		//left left
-			return (right_rotate(n));
-		if (bf < -1 && new_node->p.first > n->right->p.first)	//right right
-			return (left_rotate(n));
-		if (bf > 1 && new_node->p.first > n->left->p.first)		//left right
-		{
-			n->left = left_rotate(n->left);
-			return (right_rotate(n));
-		}
-		if (bf < -1 && new_node->p.first < n->right->p.first)	// right left 
-		{
-			n->right = right_rotate(n->right);
-			return (left_rotate(n));
-		}
-		return (std::pair<node<Key, T> *, bool>(n, true));
-	}
-*/
 	node<Key, T> * smallest_node(node<Key, T> * n) {	//loop down to find the leftmost leaf
 		node<Key, T> * current = n;
-		while (current->left)
+		while (current && current->left)
 			current = current->left;
 		return (current);
 	}
@@ -463,5 +351,96 @@ class avl {
 */
 
 };
+/*
 
+template <class Key, class T>
+class avl
+{
+
+	public :
+
+		typedef std::size_t					size_type;
+		// typedef std::ptrdiff_t				difference_type;
+		typedef typename std::allocator<T>	allocator;
+		typedef typename ft::pair<Key, T>	pair;
+		// typedef pair						value_type;
+
+
+
+	private :
+
+		node<Key, T>	*_root;
+		allocator		_alloc;
+		size_type		_size;
+
+
+	public :
+
+
+		avl() : _root(NULL), _size(0) {};
+		
+		// avl(const pair & p) {
+			// _root = create_node(p);
+			// _size = 1;
+		// };
+
+		// avl(const Key & k, const T & v) {
+			// _root = create_node(pair(k, v));
+			// _size = 1;
+		// };
+
+		avl(const avl & x) : _root(x._root) {}; // PAS DU TOUT FINI
+
+		~avl() {
+			if (_root)
+			{
+				// _alloc.destroy(*_root);
+				// _alloc.deallocate(_root, sizeof(_root));
+				delete _root; // /!\ A CHANGER ABSOLUMENT
+			}
+		};
+
+		bool empty() const {
+			if (!_root)
+				return (true);
+			return (false);
+		};
+
+		size_type size() const {
+			return (_size);
+		};
+
+
+		void insert_node(const pair & x) {
+			node<Key, T> *a = create_node(x);
+			if (!_root)
+				_root = a;
+			else
+			{
+				if (x.first > _root->p.first)
+					_root->right = a;
+				else
+					_root->left = a;
+			}
+			_size++;
+		};
+
+		node<Key, T> * create_node(const pair & x) {
+			node<Key, T> *a = new node<Key, T>(x); // /!\ A CHANGER ABSOLUMENT
+			//_alloc.construct(a, node<Key, T>(x));
+			return (a);
+		};
+
+		void delete_node(Key k) {
+			search_node(k);
+			_size--;
+		};
+
+		void search_node(Key k);
+
+		void rotation();
+
+
+};
+*/
 #endif

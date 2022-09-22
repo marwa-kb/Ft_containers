@@ -321,8 +321,6 @@ namespace ft
 		public :
 
 			typedef Iterator													iterator_type;
-			typedef node<Key, T>												node;
-			typedef avl<Key, T>													avl;
 			typedef typename ft::iterator_traits<Iterator>::iterator_category	iterator_category;
 			typedef typename ft::iterator_traits<Iterator>::value_type			value_type;
 			typedef typename ft::iterator_traits<Iterator>::difference_type		difference_type;
@@ -332,26 +330,22 @@ namespace ft
 
 		protected :
 
-			node	*current;
-			avl		*tree;
+			iterator_type	current;
+			avl<Key, T>		*tree;
 
 
 		public :
 
 			/******************** CONSTRUCTORS *********************/
 
-			m_iterator() {
-				*current = node(); 
-			};
+			m_iterator() : current(iterator_type()) {};
 
-			explicit m_iterator(iterator_type x) {
-				*current = node(x);
-			};
+			explicit m_iterator(iterator_type x) : current(iterator_type(x)) {};
 
 			// template <class Iter>
   			// m_iterator(const m_iterator<Iter> & other) : current(other.base()) {};
 
-		//	m_iterator(const iterator_type p, const avl<Key, T> *t) : current(p.base()), tree(t) {};
+			m_iterator(const iterator_type p, avl<Key, T> *t) : current(p), tree(t) {};
 
 
 			/****************** MEMBER  FUNCTIONS ******************/
@@ -378,7 +372,7 @@ namespace ft
 				return (current[n]);
 			};
 
-		/*	m_iterator & operator++()
+			m_iterator & operator++()
 			{
  				iterator_type p;
 
@@ -408,7 +402,7 @@ namespace ft
  				}
  				return (*this);
 			}
-*/
+
 			m_iterator & operator--() {
 				--current;
 				return (*this);
@@ -445,16 +439,16 @@ namespace ft
 			}
 
 
-			/**************** NON MEMBER  FUNCTIONS ****************
+			/**************** NON MEMBER  FUNCTIONS ****************/
 
-			friend bool operator==(const m_iterator<Iterator> & lhs, const m_iterator<Iterator> & rhs) {
-				return (lhs.base() == rhs.base());
+			friend bool operator==(const m_iterator<Iterator, Key, T> & lhs, const m_iterator<Iterator, Key, T> & rhs) {
+        		return ((lhs.tree == rhs.tree) && (lhs.current == rhs.current));
 			};
 	
-			friend bool operator!=(const m_iterator<Iterator> & lhs, const m_iterator<Iterator> & rhs) {
-				return (lhs.base() != rhs.base());
+			friend bool operator!=(const m_iterator<Iterator, Key, T> & lhs, const m_iterator<Iterator, Key, T> & rhs) {
+        		return ((lhs.tree != rhs.tree) && (lhs.current != rhs.current));
 			};
-
+/*
 			friend bool operator<(const ft::m_iterator<Iterator> & lhs, const ft::m_iterator<Iterator> & rhs) {
 				return (lhs.base() < rhs.base());
 			};

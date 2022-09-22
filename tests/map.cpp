@@ -26,12 +26,13 @@ void map_tests()
 	/********* testing constructors *********/
 	std::cout << UG << "Testing constructors" << NC << std::endl;
 	NAMESPACE::map<char,int> first;
-	ft::map<int, int>::iterator it;
+	// ft::map<int, int>::iterator it;
 
-	// first.insert(NAMESPACE::pair<char, int>('a', 100));
+	first.insert(NAMESPACE::pair<char, int>('a', 100));
 	// first.insert(NAMESPACE::pair<char, int>('b', 200));
 	// first.insert(NAMESPACE::pair<char, int>('c', 300));
-	// print(first, "first");
+//	print_map(first, "first");
+
 	// first['a'] = 10;
 	// first['b'] = 30;
 	// first['c'] = 50;
@@ -216,14 +217,12 @@ void map_tests()
 	return ;
 }
 
-
 template <class Key, class T>
-void print(NAMESPACE::map<Key, T> x, std::string s)
+void print_map(NAMESPACE::map<Key, T> x, std::string s)
 {
+	std::cout << BY << "in print fct" << std::endl;
 	std::cout << BW << s << ":" << NC;
 	for (typename NAMESPACE::map<Key, T>::iterator a = x.begin(); a != x.end(); a++)
-	{
-		std::cout << " [ " << a->first << " ] = " << BC << a.second << " | " << NC;
-	}
-	std::cout << " | " << std::endl;
+		std::cout << " [ " << YE << a->first << NC << " ] = " << BC << a->second << NC << " |";
+	std::cout << std::endl;
 }

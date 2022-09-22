@@ -26,13 +26,13 @@ namespace ft
 			typedef const value_type&									const_reference;
 			typedef value_type*											pointer;
 			typedef const value_type*									const_pointer;
-			typedef typename ft::m_iterator<pointer, Key, T>			iterator;
-			typedef typename ft::m_iterator<const_pointer, Key, T>		const_iterator;
+			typedef typename ft::m_iterator<node<Key, T>*, Key, T>		iterator;
+			typedef typename ft::m_iterator<const node<Key, T>*, Key, T>		const_iterator;
 			typedef typename ft::m_reverse_iterator<iterator>			reverse_iterator;
 			typedef typename ft::m_reverse_iterator<const_iterator>		const_reverse_iterator;
 
 
-			class value_compare : public std::binary_function<value_type, value_type, bool>
+			class value_compare : public ft::binary_function<value_type, value_type, bool>
 			{
 				friend class map;
 
@@ -41,9 +41,9 @@ namespace ft
 					value_compare(Compare c) : comp(c) {};
 			
 				public:
-					typedef bool		result_type;
 					typedef value_type	first_argument_type;
 					typedef value_type	second_argument_type;
+					typedef bool		result_type;
 
 					bool operator()(const value_type& x, const value_type& y) const {
 						return (comp(x.first, y.first));
@@ -72,7 +72,8 @@ namespace ft
 				// : _tree(x._tree), _comp(x._comp), _alloc(x._alloc) {};
 
 			~map() {
-				_tree.delete_avl(_tree._root);
+				if (_tree._root)
+					_tree.delete_avl(_tree._root);
 			};
 
 
@@ -99,12 +100,13 @@ namespace ft
 				return (_alloc.max_size());
 			};
 			
-			// pair<iterator, bool> insert(const value_type & x) {
-			// 	node<Key, T> new_node(x); // /!\ a remplacer par allocator
-			// 	bool ok = true;
-			// 	pair<iterator, bool> p(iterator(_tree.insert_node(_tree._root, &new_node, &ok)), ok);
-			// 	return (p);
-			// };
+			pair<iterator, bool> insert(const value_type & x) {
+				node<Key, T> *new_node = new node<Key, T>(x); // /!\ a remplacer par allocator
+				bool ok = true;
+				_tree._root = _tree.insert_node(_tree._root, new_node, &ok);
+				pair<iterator, bool> p(iterator(_tree._root), ok);
+				return (p);
+			};
 			
 			// iterator insert(iterator position, const value_type& x);
 			
@@ -157,21 +159,21 @@ namespace ft
 			/********************** ITERATORS **********************/
 			
 			
-			// iterator begin() {
-			// 	return (iterator(_tree.smallest_node(_tree._root), &_tree));
-			// };
+			iterator begin() {
+				return (iterator(_tree.smallest_node(_tree._root), &_tree));
+			};
 
-			// const_iterator begin() const {
-			// 	return (const_iterator(_tree.smallest_node(_tree._root), &_tree));
-			// };
+			const_iterator begin() const {
+				return (const_iterator(_tree.smallest_node(_tree._root), &_tree));
+			};
 
-			// iterator end() {
-			// 	return (iterator(NULL, &_tree));
-			// };
+			iterator end() {
+				return (iterator(NULL, &_tree));
+			};
 
-			// const_iterator end() const{
-			// 	return (const_iterator(NULL, &_tree));
-			// };
+			const_iterator end() const{
+				return (const_iterator(NULL, &_tree));
+			};
 
 			reverse_iterator rbegin();
 

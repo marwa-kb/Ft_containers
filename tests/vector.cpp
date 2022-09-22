@@ -16,19 +16,19 @@ void vector_tests()
 		words1.push_back("is");
 		words1.push_back("also");
 		words1.push_back("cursed");
-		print(words1, "words1");
+		print_vector(words1, "words1");
 	
 		// words2 == words1
 		NAMESPACE::vector<std::string> words2(words1.begin(), words1.end());
-		print(words2, "words2");
+		print_vector(words2, "words2");
 	
 		// words3 == words1
 		NAMESPACE::vector<std::string> words3(words1);
-		print(words3, "words3");
+		print_vector(words3, "words3");
 	
 		// words4 is {"Mo", "Mo", "Mo", "Mo", "Mo"}
 		NAMESPACE::vector<std::string> words4(500, "Mo");
-		print(words4, "words4");
+		print_vector(words4, "words4");
 	}
 
 
@@ -46,7 +46,7 @@ void vector_tests()
 
 	NAMESPACE::vector<int> v1(3, 41);
 
-	print(v1, "v1");
+	print_vector(v1, "v1");
 	std::cout << "v1 empty ? -> " << (v1.empty() ? "yes" : "no") << std::endl;
 	v1.push_back(4);
 	std::cout << YE << "push_back(4);\n" << NC << "size = " << v1.size() << std::endl;
@@ -54,12 +54,12 @@ void vector_tests()
 	std::cout << YE << "push_back(3);\n" << NC << "size = " << v1.size() << std::endl;
 	v1.push_back(2);
 	std::cout << YE << "push_back(2);\n" << NC << "size = " << v1.size() << std::endl;
-	print(v1, "v1");
+	print_vector(v1, "v1");
 	v1.pop_back();
 	v1.pop_back();
 	std::cout << YE << "pop_back() x 2;\n" << NC << "size = " << v1.size() << std::endl;
 	std::cout << "capacity = " << v1.capacity() << std::endl;
-	print(v1, "v1");
+	print_vector(v1, "v1");
 	std::cout << std::endl;
 
 	NAMESPACE::vector<int> v2;
@@ -73,21 +73,21 @@ void vector_tests()
 	v2.push_back(74);
 	v2.push_back(74);
 	v2.push_back(89);
-	print(v2, "v2");
+	print_vector(v2, "v2");
 	std::cout << "size = " << v2.size() << std::endl;
 	std::cout << "capacity = " << v2.capacity() << std::endl;
 	v2.assign(5, 10);
 	std::cout << YE << "assign(5, 10)" << NC << std::endl;
-	print(v2, "v2");
+	print_vector(v2, "v2");
 	std::cout << YE << "clear() then push_back(89);" << NC << std::endl;
 	v2.clear();
 	v2.push_back(89);
-	print(v2, "v2");
+	print_vector(v2, "v2");
 	std::cout << "size = " << v2.size() << std::endl;
 	std::cout << "capacity = " << v2.capacity() << std::endl;
 	v2.resize(40, 12);
 	std::cout << YE << "resize(40, 12);" << NC << std::endl;
-	print(v2, "v2");
+	print_vector(v2, "v2");
 	std::cout << "size = " << v2.size() << std::endl;
 	std::cout << "capacity = " << v2.capacity() << std::endl;
 
@@ -99,29 +99,29 @@ void vector_tests()
 		NAMESPACE::vector<int> second;
 		NAMESPACE::vector<int> third;
 
-		print(first, "first");
+		print_vector(first, "first");
 		std::cout << YE << "assign(7, 100);" << NC << std::endl;
 		first.assign (7,100);             // 7 ints with a value of 100
-		print(first, "first");
+		print_vector(first, "first");
 		std::cout << "size = " << first.size() << std::endl;
 		std::cout << "capacity = " << first.capacity() << std::endl << std::endl;
 
 		NAMESPACE::vector<int>::iterator it;
 		it=first.begin()+1;
 
-		print(second, "second");
+		print_vector(second, "second");
 		std::cout << YE << "assign(it, first.end()-1);" << NC << std::endl;
 		second.assign (it, first.end()-1); // the 5 central values of first
-		print(second, "second");
+		print_vector(second, "second");
 		std::cout << "size = " << second.size() << std::endl;
 		std::cout << "capacity = " << second.capacity() << std::endl << std::endl;
 
 		int myints[] = {1776,7,4};
 		std::cout << "myints[] = {1776, 7, 4};" << std::endl;
-		print(third, "third");
+		print_vector(third, "third");
 		std::cout << YE << "assign(myints, myints + 3);" << NC << std::endl;
 		third.assign (myints, myints + 3);   // assigning from array.
-		print(third, "third");
+		print_vector(third, "third");
 		std::cout << "size = " << third.size() << std::endl;
 		std::cout << "capacity = " << third.capacity() << std::endl << std::endl;
 	}
@@ -133,31 +133,31 @@ void vector_tests()
 		NAMESPACE::vector<int> myvector (3,100);
 		NAMESPACE::vector<int>::iterator it;
 
-		print(myvector, "myvector");
+		print_vector(myvector, "myvector");
 		it = myvector.begin();
 		std::cout << YE << "insert(it, 200);" << NC << std::endl;
 		it = myvector.insert(it, 200);
-		print(myvector, "myvector");
+		print_vector(myvector, "myvector");
 
 		std::cout << YE << "insert(it, 2, 300);" << NC << std::endl;
 		myvector.insert(it,2,300);
-		print(myvector, "myvector");
+		print_vector(myvector, "myvector");
 
 		// "it" no longer valid, get a new one:
 		it = myvector.begin();
 
 		NAMESPACE::vector<int> anothervector (2,400);
 
-		print(anothervector, "anothervector");
+		print_vector(anothervector, "anothervector");
 		std::cout << YE << "insert(it+2,anothervector.begin(),anothervector.end());" << NC << std::endl;
 		myvector.insert(it+2,anothervector.begin(),anothervector.end());
-		print(myvector, "myvector");
+		print_vector(myvector, "myvector");
 
 		int myarray [] = { 501,502,503 };
 		std::cout << "myarray[] = {501, 502, 503};" << std::endl;
 		std::cout << YE << "insert(myvector.begin(), myarray, myarray+3);" << NC << std::endl;
 		myvector.insert(myvector.begin(), myarray, myarray+3);
-		print(myvector, "myvector");
+		print_vector(myvector, "myvector");
 	}
 
 	/*erase*/
@@ -175,15 +175,15 @@ void vector_tests()
 		c.push_back(8);
 		c.push_back(9);
 		c.push_back(10);
-		print(c, "c");
+		print_vector(c, "c");
 		
 		std::cout << YE << "erase(c.begin());" << NC << std::endl;
 		c.erase(c.begin());
-		print(c, "c");
+		print_vector(c, "c");
 		
 		std::cout << YE << "erase(c.begin() + 2, c.begin() + 5);" << NC << std::endl;
 		c.erase(c.begin() + 2, c.begin() + 5);
-		print(c, "c");
+		print_vector(c, "c");
 		
 		// Erase all even numbers
 		std::cout << YE << "erase even numbers" << NC << std::endl;
@@ -193,7 +193,7 @@ void vector_tests()
 			else
 				++it;
 		}
-		print(c, "c");
+		print_vector(c, "c");
 	}
 
 	/*swap*/
@@ -205,11 +205,11 @@ void vector_tests()
 		NAMESPACE::vector<int>::iterator foo1 = foo.begin();
 		NAMESPACE::vector<int>::iterator bar1 = bar.begin();
 		std::cout << UP << "Before swap" << NC << std::endl;
-		print(foo, "foo");
+		print_vector(foo, "foo");
 		std::cout << "size = " << foo.size() << std::endl;
 		std::cout << "capacity = " << foo.capacity() << std::endl;
 		std::cout << "foo.begin() = " << *foo1 << std::endl;
-		print(bar, "bar");
+		print_vector(bar, "bar");
 		std::cout << "size = " << bar.size() << std::endl;
 		std::cout << "capacity = " << bar.capacity() << std::endl;
 		std::cout << "bar.begin() = " << *bar1 << std::endl;
@@ -217,20 +217,20 @@ void vector_tests()
 		foo.swap(bar);
 		
 		std::cout << UP << "\nAfter swap" << NC << std::endl;
-		print(foo, "foo");
+		print_vector(foo, "foo");
 		std::cout << "size = " << foo.size() << std::endl;
 		std::cout << "capacity = " << foo.capacity() << std::endl;
 		std::cout << "foo.begin() = " << *foo1 << std::endl;
 
-		print(bar, "bar");
+		print_vector(bar, "bar");
 		std::cout << "size = " << bar.size() << std::endl;
 		std::cout << "capacity = " << bar.capacity() << std::endl;
 		std::cout << "bar.begin() = " << *bar1 << std::endl;
 
 		std::cout << UP << "\nOther swap fct" << NC << std::endl;
 		swap(foo, bar);
-		print(foo, "foo");
-		print(bar, "bar");
+		print_vector(foo, "foo");
+		print_vector(bar, "bar");
 	}
 
 
@@ -324,7 +324,7 @@ void vector_tests()
 
 
 template <typename T>
-void print(NAMESPACE::vector<T> x, std::string s)
+void print_vector(NAMESPACE::vector<T> x, std::string s)
 {
 	std::cout << BW << s << ":" << NC;
 	for (typename NAMESPACE::vector<T>::iterator a = x.begin(); a != x.end(); a++)
