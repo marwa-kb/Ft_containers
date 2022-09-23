@@ -338,14 +338,20 @@ namespace ft
 
 			/******************** CONSTRUCTORS *********************/
 
-			m_iterator() : current(iterator_type()) {};
+			m_iterator() : current(iterator_type()), tree(NULL) {
+				std::cout << BP << "ici dans m_iterator()" << NC << std::endl;
+			};
 
-			explicit m_iterator(iterator_type x) : current(iterator_type(x)) {};
+			explicit m_iterator(iterator_type x) : current(iterator_type(x)), tree(NULL) {
+				std::cout << BP << "ici dans exp m_iterator()" << NC << std::endl;
+			};
 
 			// template <class Iter>
   			// m_iterator(const m_iterator<Iter> & other) : current(other.base()) {};
 
-			m_iterator(const iterator_type p, avl<Key, T> *t) : current(p), tree(t) {};
+			m_iterator(const iterator_type p, avl<Key, T> *t) : current(iterator_type(p)), tree(t) {
+				std::cout << BP << "ici dans m_iterator(ip, avl)" << NC << std::endl;
+			};
 
 
 			/****************** MEMBER  FUNCTIONS ******************/
@@ -442,11 +448,11 @@ namespace ft
 			/**************** NON MEMBER  FUNCTIONS ****************/
 
 			friend bool operator==(const m_iterator<Iterator, Key, T> & lhs, const m_iterator<Iterator, Key, T> & rhs) {
-        		return ((lhs.tree == rhs.tree) && (lhs.current == rhs.current));
+				return ((lhs.tree == rhs.tree) && (lhs.current == rhs.current));
 			};
 	
 			friend bool operator!=(const m_iterator<Iterator, Key, T> & lhs, const m_iterator<Iterator, Key, T> & rhs) {
-        		return ((lhs.tree != rhs.tree) && (lhs.current != rhs.current));
+				return ((lhs.tree != rhs.tree) && (lhs.current != rhs.current));
 			};
 /*
 			friend bool operator<(const ft::m_iterator<Iterator> & lhs, const ft::m_iterator<Iterator> & rhs) {

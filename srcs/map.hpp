@@ -72,8 +72,8 @@ namespace ft
 				// : _tree(x._tree), _comp(x._comp), _alloc(x._alloc) {};
 
 			~map() {
-				if (_tree._root)
-					_tree.delete_avl(_tree._root);
+				//if (_tree._root)
+				//	_tree.delete_avl(_tree._root);
 			};
 
 
@@ -160,6 +160,7 @@ namespace ft
 			
 			
 			iterator begin() {
+				std::cout << BP << "ici dans begin()" << NC << std::endl;
 				return (iterator(_tree.smallest_node(_tree._root), &_tree));
 			};
 
@@ -168,11 +169,12 @@ namespace ft
 			};
 
 			iterator end() {
-				return (iterator(NULL, &_tree));
+				std::cout << BP << "ici dans end()" << NC << std::endl;
+				return (iterator(NULL));
 			};
 
 			const_iterator end() const{
-				return (const_iterator(NULL, &_tree));
+				return (const_iterator(NULL));
 			};
 
 			reverse_iterator rbegin();

@@ -131,6 +131,11 @@ class avl
 		node<Key, T> * n_l = n->left;
 		node<Key, T> * n_l_r = n_l->right;
 
+
+		n_l->parent = n->parent;
+		if (n_l_r)
+			n_l_r->parent = n;
+		n->parent = n_l;
 		n_l->right = n;
 		n->left = n_l_r;
 		return (n_l);
@@ -140,6 +145,10 @@ class avl
 		node<Key, T> * n_r = n->right;
 		node<Key, T> * n_r_l = n_r->left;
 
+		n_r->parent = n->parent;
+		if (n_r_l)
+			n_r_l->parent = n;
+		n->parent = n_r;
 		n_r->left = n;
 		n->right = n_r_l;
 		return (n_r);
@@ -285,6 +294,12 @@ class avl
 			return (recursive_search(r->left, val));
 		return (recursive_search(r->right, val));
 	}
+
+	friend bool operator==(const avl<Key, T> & lhs, const avl<Key, T> & rhs) {
+		return ((lhs.tree == rhs.tree) && (lhs.current == rhs.current));
+	};
+
+
 /*
 	void print2D(node<Key, T> * r, int space) {
 		if (r == NULL) // Base case	1
@@ -443,4 +458,5 @@ class avl
 
 };
 */
+
 #endif

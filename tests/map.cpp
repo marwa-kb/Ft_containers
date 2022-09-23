@@ -10,7 +10,6 @@
 // 	}
 // };
 
-
 void map_tests()
 {
 	std::cout << BW << "                       _____" << NC << std::endl;
@@ -29,10 +28,22 @@ void map_tests()
 	// ft::map<int, int>::iterator it;
 
 	first.insert(NAMESPACE::pair<char, int>('a', 100));
-	// first.insert(NAMESPACE::pair<char, int>('b', 200));
-	// first.insert(NAMESPACE::pair<char, int>('c', 300));
-//	print_map(first, "first");
+	first.insert(NAMESPACE::pair<char, int>('b', 200));
+	first.insert(NAMESPACE::pair<char, int>('c', 300));
+	std::cout << UG << "ICI OK" << NC << std::endl;
+	// print_map(first, "first");
+	// std::cout << " [ " << YE << first.begin()->first << NC << " ] = " << BC << first.begin()->second << NC << " |";
+	NAMESPACE::map<char, int>::iterator a = first.begin();
+	NAMESPACE::map<char, int>::iterator b = first.end();
+	if (a == b)
+		std::cout << BO << "PAS DIFF" << NC << std::endl;
+	else if (a != b)
+		std::cout << BO << "DIFF" << NC << std::endl;
 
+	for (; a != b; a++)
+		std::cout << " [ " << YE << a->first << NC << " ] = " << BC << a->second << NC << " |";
+	// std::cout << UG << "ICI OK" << NC << std::endl;
+	
 	// first['a'] = 10;
 	// first['b'] = 30;
 	// first['c'] = 50;
@@ -226,3 +237,14 @@ void print_map(NAMESPACE::map<Key, T> x, std::string s)
 		std::cout << " [ " << YE << a->first << NC << " ] = " << BC << a->second << NC << " |";
 	std::cout << std::endl;
 }
+
+// void print_map(NAMESPACE::map<char, int> x, std::string s)
+// {
+// 	std::cout << BY << "in print fct" << std::endl;
+// 	// std::cout << BW << s << ":" << NC;
+// 	(void)x;
+// 	(void)s;
+// 	// for (typename NAMESPACE::map<Key, T>::iterator a = x.begin(); a != x.end(); a++)
+// 	// 	std::cout << " [ " << YE << a->first << NC << " ] = " << BC << a->second << NC << " |";
+// 	// std::cout << std::endl;
+// }
