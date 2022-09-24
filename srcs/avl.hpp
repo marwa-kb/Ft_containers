@@ -2,6 +2,7 @@
 # define AVL_HPP
 
 #include "utils.hpp"
+#include "iterators.hpp"
 
 template <class Key, class T>
 class node
@@ -11,7 +12,7 @@ class node
 
 		typedef Key							key_type;
 		typedef T							mapped_type;
-		typedef ft::pair<const Key, T>		value_type;// /!\ pareil
+		typedef ft::pair<const Key, T>		value_type;
 		typedef std::size_t					size_type;
 		typedef std::ptrdiff_t				difference_type;
 		typedef value_type&					reference;
@@ -53,12 +54,13 @@ class avl
 		typedef std::size_t	size_type;
 
 		node<Key, T> *	_root;
+		node<Key, T> *	_null;
 		size_type		_size;
 
 
-	avl() : _root(NULL), _size(0) {};
+	avl() : _root(NULL), _null(NULL), _size(0) {};
 
-	avl(const avl & a) : _root(NULL), _size(a._size) {
+	avl(const avl & a) : _root(NULL), _null(NULL), _size(a._size) {
 		node<Key, T>* n1 = a._root;
 		node<Key, T>* n2 = _root;
 
@@ -82,7 +84,6 @@ class avl
 	~avl() {
 		if (_root)
 			delete_avl(_root);
-		//delete _root;//?
 	};
 	
 	void delete_avl(node<Key, T> * n) {
@@ -94,8 +95,8 @@ class avl
 			delete n;
 		}
 		n = NULL;
+		_size = 0;
 	};
-
 	
 	bool empty() const {
 		if (!_root)
@@ -130,9 +131,9 @@ class avl
 	node<Key, T> * right_rotate(node<Key, T> * n) {
 		node<Key, T> * n_l = n->left;
 		node<Key, T> * n_l_r = n_l->right;
+		node<Key, T> * n_p = n->parent;
 
-
-		n_l->parent = n->parent;
+		n_l->parent = n_p;
 		if (n_l_r)
 			n_l_r->parent = n;
 		n->parent = n_l;
@@ -144,8 +145,9 @@ class avl
 	node<Key, T> * left_rotate(node<Key, T> * n) {
 		node<Key, T> * n_r = n->right;
 		node<Key, T> * n_r_l = n_r->left;
+		node<Key, T> * n_p = n->parent;
 
-		n_r->parent = n->parent;
+		n_r->parent = n_p;
 		if (n_r_l)
 			n_r_l->parent = n;
 		n->parent = n_r;
@@ -199,6 +201,23 @@ class avl
 		while (current && current->left)
 			current = current->left;
 		return (current);
+	}
+
+	node<Key, T> * biggest_node() {	//loop down to find the leftmost leaf
+		node<Key, T> * current = _root;
+		while (current && current->right)
+			current = current->right;
+		current->right = _null;
+		return (current);
+	}
+
+	node<Key, T> * null_node() {	//loop down to find the leftmost leaf
+		node<Key, T> * current = _root;
+		while (current && current->right)
+			current = current->right;
+		current->right = _null;
+		_null->parent = current;
+		return (_null);
 	}
 
 	node<Key, T> * delete_node(node<Key, T> * n, Key v) {
@@ -258,14 +277,7 @@ class avl
 	}
 
 	void clear() {
-		node<Key, T> * temp = _root->left;
-		while (temp)
-		{
-			temp = temp->left;
-
-		}
-		
-		_size = 0;
+		delete_avl(_root);
 	};
 
 	node<Key, T> * iterative_search(const Key & val) const {
@@ -295,9 +307,10 @@ class avl
 		return (recursive_search(r->right, val));
 	}
 
-	friend bool operator==(const avl<Key, T> & lhs, const avl<Key, T> & rhs) {
-		return ((lhs.tree == rhs.tree) && (lhs.current == rhs.current));
-	};
+	// friend bool operator==(const avl<Key, T> & lhs, const avl<Key, T> & rhs) {
+	// 	ft::m_iterator<node<Key, T>*, Key, T> x;
+	// 	return ((lhs.tree == rhs.tree) && (lhs.current == rhs.current));
+	// };
 
 
 /*

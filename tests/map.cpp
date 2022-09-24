@@ -32,18 +32,16 @@ void map_tests()
 	first.insert(NAMESPACE::pair<char, int>('c', 300));
 	std::cout << UG << "ICI OK" << NC << std::endl;
 	// print_map(first, "first");
-	// std::cout << " [ " << YE << first.begin()->first << NC << " ] = " << BC << first.begin()->second << NC << " |";
 	NAMESPACE::map<char, int>::iterator a = first.begin();
 	NAMESPACE::map<char, int>::iterator b = first.end();
-	if (a == b)
-		std::cout << BO << "PAS DIFF" << NC << std::endl;
-	else if (a != b)
-		std::cout << BO << "DIFF" << NC << std::endl;
-
 	for (; a != b; a++)
 		std::cout << " [ " << YE << a->first << NC << " ] = " << BC << a->second << NC << " |";
-	// std::cout << UG << "ICI OK" << NC << std::endl;
 	
+	std::cout << std::endl;
+	NAMESPACE::map<char, int>::reverse_iterator c = first.rbegin();
+	NAMESPACE::map<char, int>::reverse_iterator d = first.rend();
+	for (; c != d; c++)
+		std::cout << " [ " << YE << c->first << NC << " ] = " << BC << c->second << NC << " |";
 	// first['a'] = 10;
 	// first['b'] = 30;
 	// first['c'] = 50;

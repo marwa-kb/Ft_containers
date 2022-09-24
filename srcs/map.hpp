@@ -15,21 +15,21 @@ namespace ft
 
 		public:
 
-			typedef Key	 												key_type;
-			typedef T	 												mapped_type;
-			typedef Compare	 											key_compare;
-			typedef ft::pair<const Key, T>								value_type;// /!\ pareil
-			typedef Allocator	 										allocator_type;
-			typedef std::size_t											size_type;
-			typedef std::ptrdiff_t										difference_type;
-			typedef value_type&											reference;
-			typedef const value_type&									const_reference;
-			typedef value_type*											pointer;
-			typedef const value_type*									const_pointer;
-			typedef typename ft::m_iterator<node<Key, T>*, Key, T>		iterator;
-			typedef typename ft::m_iterator<const node<Key, T>*, Key, T>		const_iterator;
-			typedef typename ft::m_reverse_iterator<iterator>			reverse_iterator;
-			typedef typename ft::m_reverse_iterator<const_iterator>		const_reverse_iterator;
+			typedef Key	 													key_type;
+			typedef T	 													mapped_type;
+			typedef Compare	 												key_compare;
+			typedef ft::pair<const Key, T>									value_type;// /!\ pareil
+			typedef Allocator	 											allocator_type;
+			typedef std::size_t												size_type;
+			typedef std::ptrdiff_t											difference_type;
+			typedef value_type&												reference;
+			typedef const value_type&										const_reference;
+			typedef value_type*												pointer;
+			typedef const value_type*										const_pointer;
+			typedef typename ft::m_iterator<node<Key, T>*, Key, T>			iterator;
+			typedef typename ft::m_iterator<const node<Key, T>*, Key, T>	const_iterator;
+			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
+			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 
 
 			class value_compare : public ft::binary_function<value_type, value_type, bool>
@@ -125,7 +125,9 @@ namespace ft
 			
 			void swap(map<Key,T,Compare,Allocator>&);
 			
-			void clear();
+			void clear() {
+				_tree.clear();
+			};
 			
 			key_compare key_comp() const;
 			
@@ -160,16 +162,14 @@ namespace ft
 			
 			
 			iterator begin() {
-				std::cout << BP << "ici dans begin()" << NC << std::endl;
-				return (iterator(_tree.smallest_node(_tree._root), &_tree));
+				return (iterator(_tree.smallest_node(_tree._root)));
 			};
 
 			const_iterator begin() const {
-				return (const_iterator(_tree.smallest_node(_tree._root), &_tree));
+				return (const_iterator(_tree.smallest_node(_tree._root)));
 			};
 
 			iterator end() {
-				std::cout << BP << "ici dans end()" << NC << std::endl;
 				return (iterator(NULL));
 			};
 
@@ -177,13 +177,21 @@ namespace ft
 				return (const_iterator(NULL));
 			};
 
-			reverse_iterator rbegin();
+			reverse_iterator rbegin() {
+				return (reverse_iterator(iterator(_tree.null_node())));
+			};
 
-			const_reverse_iterator rbegin() const;
+			const_reverse_iterator rbegin() const {
+				return (const_reverse_iterator(iterator(_tree.null_node())));
+			};
 
-			reverse_iterator rend();
+			reverse_iterator rend() {
+				return (reverse_iterator(begin()));
+			};
 
-			const_reverse_iterator rend() const;
+			const_reverse_iterator rend() const {
+				return (const_reverse_iterator(begin()));
+			};
 			
 		};
 	
