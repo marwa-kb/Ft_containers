@@ -4,6 +4,8 @@
 #include <string>
 #include "utils.hpp"
 #include "avl.hpp"
+#include <unistd.h>
+
 
 namespace ft
 {
@@ -387,12 +389,12 @@ namespace ft
 				
  				if (!current)
  					return (*this);
-				else if (current->null)
+				else if (current->end)
 					throw (std::exception());
  				else if (current->right)
  				{
  					current = current->right;
-					while (current->left)
+					while (current->left && !current->left->beg)
  						current = current->left;	
  				}
  				else
@@ -410,22 +412,20 @@ namespace ft
 
 			m_iterator & operator--() {
 				std::cout << BY << "ici --()" << NC << std::endl;
-
 				iterator_type p;
 
 				if (!current)
  					return (*this);
-				else if (current->null)
+				else if (current->beg)
 				{
-					std::cout << BP << "nope cas 1" << NC << std::endl;
-					current = current->parent;
-					return (*this);
+					throw (std::exception());
+					// return (*this);
 				}
         		else if (current->left)
 				{
 					std::cout << BP << "nope cas 2" << NC << std::endl;
 					current = current->left;
-					while (current->right)
+					while (current->right && !current->right->end)
 						current = current->right;
 				}
 				else

@@ -34,15 +34,23 @@ class node
 		node		*left;
 		node		*right;
 		node		*parent;
-		bool		null;
+		bool		beg;
+		bool		end;
 
-		node() : p(pair()), first(), second(), left(NULL), right(NULL), parent(NULL), null(false) {};
+		node() : p(pair()), first(), second(),
+				left(NULL), right(NULL), parent(NULL), beg(false), end(false) {};
 
-		node(bool x) : p(pair()), first(), second(), left(NULL), right(NULL), parent(NULL), null(true) {};
+		node(bool x) : p(pair()), first(), second(),
+				left(NULL), right(NULL), parent(NULL), beg(true), end(false) {};
 
-		node(const pair & x) : p(x), first(x.first), second(x.second), left(NULL), right(NULL), parent(NULL), null(false) {};
+		node(bool x, bool y) : p(pair()), first(), second(),
+				left(NULL), right(NULL), parent(NULL), beg(false), end(true) {};
 
-		node(const node<Key, T> & x) : p(x.p), first(x.first), second(x.second), left(x.left), right(x.right), parent(x.parent), null(false) {};
+		node(const pair & x) : p(x), first(x.first), second(x.second),
+				left(NULL), right(NULL), parent(NULL), beg(false), end(false) {};
+
+		node(const node<Key, T> & x) : p(x.p), first(x.first), second(x.second),
+				left(x.left), right(x.right), parent(x.parent), beg(false), end(false) {};
 
 		~node() {};
 
@@ -57,13 +65,14 @@ class avl
 		typedef std::size_t	size_type;
 
 		node<Key, T> *	_root;
-		node<Key, T> *	_null;
+		node<Key, T> *	_beg;
+		node<Key, T> *	_end;
 		size_type		_size;
 
 
-	avl() : _root(NULL), _null(create_node(true)), _size(0) {};
+	avl() : _root(NULL), _beg(create_node(true)), _end(create_node(false, true)), _size(0) {};
 
-	avl(const avl & a) : _root(NULL), _null(NULL), _size(a._size) {
+	avl(const avl & a) : _root(NULL), _size(a._size) {
 		node<Key, T>* n1 = a._root;
 		node<Key, T>* n2 = _root;
 
@@ -91,6 +100,11 @@ class avl
 
 	node<Key, T>* create_node(bool x) {
 		node<Key, T> *n = new node<Key, T>(x);
+		return (n);
+	}
+	
+	node<Key, T>* create_node(bool x, bool y) {
+		node<Key, T> *n = new node<Key, T>(x, y);
 		return (n);
 	}
 	
@@ -168,14 +182,36 @@ class avl
 		if (!n)
 		{
 			n = new_node;
+			n->left = _beg;
+			n->right = _end;
 			_size++;
 			if (ok)
 				*ok = true;
 			return (n);
 		}
-		if (new_node->p.first < n->p.first)
+		else if (n == _beg)
+		{
+			node<Key, T> * a = _beg;
+			n = new_node;
+			n->left = _beg;
+			_size++;
+			if (ok)
+				*ok = true;
+			return (n);	
+		}
+		else if (n == _end)
+		{
+			node<Key, T> * b = _end;
+			n = new_node;
+			n->right = _end;
+			_size++;
+			if (ok)
+				*ok = true;
+			return (n);	
+		}
+		if (new_node->first < n->first)
 			n->left = insert_node(n->left, new_node);
-		else if (new_node->p.first > n->p.first)
+		else if (new_node->first > n->first)
 			n->right = insert_node(n->right, new_node);
 		else
 		{
@@ -206,28 +242,26 @@ class avl
 
 	node<Key, T> * smallest_node(node<Key, T> * n) {	//loop down to find the leftmost leaf
 		node<Key, T> * current = n;
-		while (current && current->left)
+		while (current && current->left && current->left != _beg)
 			current = current->left;
 		return (current);
 	}
 
 	node<Key, T> * biggest_node(node<Key, T> * n) {	//loop down to find the leftmost leaf
 		node<Key, T> * current = n;
-		while (current && current->right)
+		while (current && current->right && current->right != _end)
 			current = current->right;
-		current->right = _null;
-		_null->parent = current;
 		return (current);
 	}
 
-	node<Key, T> * null_node(node<Key, T> * n) {	//loop down to find the leftmost leaf
-		node<Key, T> * current = n;
-		while (current && current->right)
-			current = current->right;
-		current->right = _null;
-		_null->parent = current;
-		return (_null);
-	}
+	// node<Key, T> * null_node(node<Key, T> * n) {	//loop down to find the leftmost leaf
+	// 	node<Key, T> * current = n;
+	// 	while (current && current->right)
+	// 		current = current->right;
+	// 	current->right = _null;
+	// 	_null->parent = current;
+	// 	return (_null);
+	// }
 
 	node<Key, T> * delete_node(node<Key, T> * n, Key v) {
 		// base case

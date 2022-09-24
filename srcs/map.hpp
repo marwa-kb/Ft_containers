@@ -170,11 +170,11 @@ namespace ft
 			};
 
 			iterator end() {
-				return (iterator(_tree.biggest_node(_tree._root)->right));
+				return (iterator(_tree.biggest_node(_tree._root)));
 			};
 
 			const_iterator end() const{
-				return (const_iterator(NULL));
+				return (const_iterator(_tree.biggest_node(_tree._root)));
 			};
 
 			reverse_iterator rbegin() {
@@ -182,7 +182,7 @@ namespace ft
 			};
 
 			const_reverse_iterator rbegin() const {
-				return (const_reverse_iterator(iterator(_tree.biggest_node(_tree._root)->right)));
+				return (const_reverse_iterator(end()));
 			};
 
 			reverse_iterator rend() {
