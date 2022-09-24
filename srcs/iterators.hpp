@@ -338,9 +338,7 @@ namespace ft
 
 			/******************** CONSTRUCTORS *********************/
 
-			m_iterator() {
-				current = NULL;
-			};
+			m_iterator() : current(NULL) {};
 
 			explicit m_iterator(iterator_type x) : current(iterator_type(x)) {};
 
@@ -373,7 +371,6 @@ namespace ft
 			};
 
 			reference operator*() const {
-				std::cout << BY << "ici wshhhhhhhhhhhhhhhhhhhhhhderef" << NC << std::endl;
 				return (*current);
 			};
 
@@ -390,6 +387,8 @@ namespace ft
 				
  				if (!current)
  					return (*this);
+				else if (current->null)
+					throw (std::exception());
  				else if (current->right)
  				{
  					current = current->right;
@@ -410,12 +409,18 @@ namespace ft
 			};
 
 			m_iterator & operator--() {
-				std::cout << BY << "ici wshhhhhhhhhhhhhhhhhhhhhhhein" << NC << std::endl;
+				std::cout << BY << "ici --()" << NC << std::endl;
 
 				iterator_type p;
 
 				if (!current)
  					return (*this);
+				else if (current->null)
+				{
+					std::cout << BP << "nope cas 1" << NC << std::endl;
+					current = current->parent;
+					return (*this);
+				}
         		else if (current->left)
 				{
 					std::cout << BP << "nope cas 2" << NC << std::endl;
@@ -547,13 +552,13 @@ namespace ft
 			};
 
 			reference operator*() const {
-				std::cout << BY << "ici wshhhhh" << NC << std::endl;
+				std::cout << BY << "ici rev *" << NC << std::endl;
 				iterator_type tmp = current;
 				return (*--tmp);
 			};
 
 			pointer operator->() const {
-				std::cout << BY << "ici wsh" << NC << std::endl;
+				std::cout << BY << "ici rev ->" << NC << std::endl;
 				return (&(operator*()));
 			};
 

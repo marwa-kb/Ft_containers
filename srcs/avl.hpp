@@ -34,12 +34,15 @@ class node
 		node		*left;
 		node		*right;
 		node		*parent;
+		bool		null;
 
-		node() : p(pair()), first(), second(), left(NULL), right(NULL), parent(NULL) {};
+		node() : p(pair()), first(), second(), left(NULL), right(NULL), parent(NULL), null(false) {};
 
-		node(const pair & x) : p(x), first(x.first), second(x.second), left(NULL), right(NULL), parent(NULL) {};
+		node(bool x) : p(pair()), first(), second(), left(NULL), right(NULL), parent(NULL), null(true) {};
 
-		node(const node<Key, T> & x) : p(x.p), first(x.first), second(x.second), left(x.left), right(x.right), parent(x.parent) {};
+		node(const pair & x) : p(x), first(x.first), second(x.second), left(NULL), right(NULL), parent(NULL), null(false) {};
+
+		node(const node<Key, T> & x) : p(x.p), first(x.first), second(x.second), left(x.left), right(x.right), parent(x.parent), null(false) {};
 
 		~node() {};
 
@@ -58,7 +61,7 @@ class avl
 		size_type		_size;
 
 
-	avl() : _root(NULL), _null(NULL), _size(0) {};
+	avl() : _root(NULL), _null(create_node(true)), _size(0) {};
 
 	avl(const avl & a) : _root(NULL), _null(NULL), _size(a._size) {
 		node<Key, T>* n1 = a._root;
@@ -85,6 +88,11 @@ class avl
 		if (_root)
 			delete_avl(_root);
 	};
+
+	node<Key, T>* create_node(bool x) {
+		node<Key, T> *n = new node<Key, T>(x);
+		return (n);
+	}
 	
 	void delete_avl(node<Key, T> * n) {
 		if (n)
@@ -203,16 +211,17 @@ class avl
 		return (current);
 	}
 
-	node<Key, T> * biggest_node() {	//loop down to find the leftmost leaf
-		node<Key, T> * current = _root;
+	node<Key, T> * biggest_node(node<Key, T> * n) {	//loop down to find the leftmost leaf
+		node<Key, T> * current = n;
 		while (current && current->right)
 			current = current->right;
 		current->right = _null;
+		_null->parent = current;
 		return (current);
 	}
 
-	node<Key, T> * null_node() {	//loop down to find the leftmost leaf
-		node<Key, T> * current = _root;
+	node<Key, T> * null_node(node<Key, T> * n) {	//loop down to find the leftmost leaf
+		node<Key, T> * current = n;
 		while (current && current->right)
 			current = current->right;
 		current->right = _null;
