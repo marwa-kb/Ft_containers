@@ -38,12 +38,6 @@ class node
 		node() : p(pair()), first(), second(),
 				left(NULL), right(NULL), parent(NULL) {};
 
-		node(bool x) : p(pair()), first(), second(),
-				left(NULL), right(NULL), parent(NULL) {};
-
-		node(bool x, bool y) : p(pair()), first(), second(),
-				left(NULL), right(NULL), parent(NULL) {};
-
 		node(const pair & x) : p(x), first(x.first), second(x.second),
 				left(NULL), right(NULL), parent(NULL) {};
 
@@ -315,7 +309,7 @@ class avl
 			}
 			return (NULL);
 		}
-	}
+	};
 
 	node<Key, T> * recursive_search(node<Key, T> * r, const Key & val) const {
 		if (!r || r->first == val)
@@ -323,7 +317,18 @@ class avl
 		else if (val < r->first)
 			return (recursive_search(r->left, val));
 		return (recursive_search(r->right, val));
-	}
+	};
+
+	// avl<Key, T> * avl_copy(avl<Key, T> * a)
+	// {
+	// 	avl<Key, T> * b = new avl<Key, T>();
+	// 	ft::m_iterator<node<Key, T>*, Key, T> it1(a->smallest_node());
+	// 	ft::m_iterator<node<Key, T>*, Key, T> it2(a->biggest_node());
+	// 	for (; it1 != it2; it1++)
+	// 		b->insert_node(it1.current, b->_root, NULL, NULL);
+	// 	b->insert_node(it1.current, b->_root, NULL, NULL);
+	// 	return (b);
+	// }
 
 	// friend bool operator==(const avl<Key, T> & lhs, const avl<Key, T> & rhs) {
 	// 	ft::m_iterator<node<Key, T>*, Key, T> x;
@@ -332,17 +337,5 @@ class avl
 
 
 };
-
-template <class Key, class T>
-avl<Key, T> * avl_copy(avl<Key, T> * a)
-{
-	avl<Key, T> * b = new avl<Key, T>();
-	ft::m_iterator<node<Key, T>*, Key, T> it1(a->smallest_node());
-	ft::m_iterator<node<Key, T>*, Key, T> it2(a->biggest_node());
-	for (; it1 != it2; it1++)
-		b->insert_node(it1.current, b->_root, NULL, NULL);
-	b->insert_node(it1.current, b->_root, NULL, NULL);
-	return (b);
-}
 
 #endif
