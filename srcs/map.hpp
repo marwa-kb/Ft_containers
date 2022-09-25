@@ -53,9 +53,9 @@ namespace ft
 
 		private :
 
-			avl<Key, T>		*_tree;
 			key_compare		_comp;
 			allocator_type	_alloc;
+			avl<Key, T>		*_tree;
 
 
 		public :
@@ -64,26 +64,41 @@ namespace ft
 
 			explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator())
 				: _comp(comp), _alloc(alloc) {
-					_tree = new avl<Key, T>();
+					_tree = new avl<Key, T>(); // /!\ allocator
 				};
 
 			// template <class InputIterator>
 			// map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator());
 
 			// map(const map<Key, T, Compare, Allocator>& x)
-				// : _tree(x._tree), _comp(x._comp), _alloc(x._alloc) {};
+			// 	: _comp(x._comp), _alloc(x._alloc) {
+			// 		std::cout << UP << "copy map constructor" << NC << std::endl;
+			// 		_tree = avl_copy(x._tree); // /!\ allocator
+			// 	};
+
 
 			~map() {
-				delete _tree;
+				delete _tree; // /!\ allocator
 				_tree = NULL;
 			};
 
 
 			/****************** MEMBER  FUNCTIONS ******************/
 			
-			map<Key,T,Compare,Allocator>& operator=(const map<Key,T,Compare,Allocator>& x);
+			map<Key, T, Compare, Allocator>& operator=(const map<Key, T, Compare, Allocator>& x) {
+				_comp = x._comp;
+				_alloc = x._alloc;
+				// _tree = avl_copy(x._tree);
+				return (*this);
+			};
 			
-			T& operator[](const key_type& x);
+			T& operator[](const key_type& x) {
+				iterator it = find(x);
+				if (it == end())
+					return (insert(make_pair(x, T())).first->second);
+				else
+					return (it->second);
+			};
 
 			allocator_type get_allocator() const {
 				allocator_type x;
@@ -127,7 +142,7 @@ namespace ft
 			
 			// void erase(iterator first, iterator last);
 			
-			void swap(map<Key,T,Compare,Allocator>&);
+			void swap(map<Key, T, Compare, Allocator>&);
 			
 			void clear() {
 				_tree->clear();
@@ -137,9 +152,19 @@ namespace ft
 			
 			value_compare value_comp() const;
 
-			// iterator find(const key_type& x);
+			iterator find(const key_type& x) {
+				node<Key, T> * n = _tree->iterative_search(x); // or recursive ?
+				if (!n)
+					return (end());
+				return (iterator(n));
+			};
 			
-			// const_iterator find(const key_type& x) const;
+			const_iterator find(const key_type& x) const {
+				node<Key, T> * n = _tree->iterative_search(x); // or recursive ?
+				if (!n)
+					return (end());
+				return (const_iterator(n));
+			};
 			
 			size_type count(const key_type& x) const {
 				if (!(_tree->iterative_search(x)))
@@ -174,10 +199,14 @@ namespace ft
 			};
 
 			iterator end() {
+				if (!(_tree->_root))
+					return (iterator(_tree->biggest_node(_tree->_root), &_tree));
 				return (iterator(_tree->biggest_node(_tree->_root)->right, &_tree));
 			};
 
-			const_iterator end() const{
+			const_iterator end() const {
+				if (!(_tree->_root))
+					return (iterator(_tree->biggest_node(_tree->_root), &_tree));
 				return (const_iterator(_tree->biggest_node(_tree->_root)->right, &_tree));
 			};
 
@@ -204,33 +233,33 @@ namespace ft
 
 	
 			template <class Key, class T, class Compare, class Allocator>
-			bool operator==(const map<Key,T,Compare,Allocator>& x,
-			const map<Key,T,Compare,Allocator>& y);
+			bool operator==(const map<Key, T, Compare, Allocator>& x,
+			const map<Key, T, Compare, Allocator>& y);
 			
 			template <class Key, class T, class Compare, class Allocator>
-			bool operator< (const map<Key,T,Compare,Allocator>& x,
-			const map<Key,T,Compare,Allocator>& y);
+			bool operator< (const map<Key, T, Compare, Allocator>& x,
+			const map<Key, T, Compare, Allocator>& y);
 			
 			template <class Key, class T, class Compare, class Allocator>
-			bool operator!=(const map<Key,T,Compare,Allocator>& x,
-			const map<Key,T,Compare,Allocator>& y);
+			bool operator!=(const map<Key, T, Compare, Allocator>& x,
+			const map<Key, T, Compare, Allocator>& y);
 			
 			template <class Key, class T, class Compare, class Allocator>
-			bool operator> (const map<Key,T,Compare,Allocator>& x,
-			const map<Key,T,Compare,Allocator>& y);
+			bool operator> (const map<Key, T, Compare, Allocator>& x,
+			const map<Key, T, Compare, Allocator>& y);
 			
 			template <class Key, class T, class Compare, class Allocator>
-			bool operator>=(const map<Key,T,Compare,Allocator>& x,
-			const map<Key,T,Compare,Allocator>& y);
+			bool operator>=(const map<Key, T, Compare, Allocator>& x,
+			const map<Key, T, Compare, Allocator>& y);
 			
 			template <class Key, class T, class Compare, class Allocator>
-			bool operator<=(const map<Key,T,Compare,Allocator>& x,
-			const map<Key,T,Compare,Allocator>& y);
+			bool operator<=(const map<Key, T, Compare, Allocator>& x,
+			const map<Key, T, Compare, Allocator>& y);
 			// specialized algorithms:
 			
 			template <class Key, class T, class Compare, class Allocator>
-			void swap(map<Key,T,Compare,Allocator>& x,
-			map<Key,T,Compare,Allocator>& y);
+			void swap(map<Key, T, Compare, Allocator>& x,
+			map<Key, T, Compare, Allocator>& y);
 
 }
 

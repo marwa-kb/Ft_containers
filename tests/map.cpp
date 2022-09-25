@@ -1,14 +1,4 @@
 #include "tests.h"
-// #include "../srcs/avl.hpp"
-
-
-// bool fncomp(char lhs, char rhs) { return (lhs < rhs); }
-
-// struct classcomp{
-// 	bool operator()(const char& lhs, const char& rhs) const {
-// 		return (lhs < rhs);
-// 	}
-// };
 
 void map_tests()
 {
@@ -19,20 +9,46 @@ void map_tests()
 
 	/********* testing constructors *********/
 	std::cout << UG << "Testing constructors" << NC << std::endl;
-	NAMESPACE::map<char,int> first;
-	// ft::map<int, int>::iterator it;
 
+	NAMESPACE::map<char,int> first;
+	print_map(first, "first");
+	std::cout << "first empty ? " << (first.empty() ? "yes" : "no") << std::endl;
+	std::cout << "first size = " << first.size() << std::endl;
 	first.insert(NAMESPACE::pair<char, int>('a', 100));
 	first.insert(NAMESPACE::pair<char, int>('b', 200));
 	first.insert(NAMESPACE::pair<char, int>('c', 300));
-	print_map(first, "first");
 	first.insert(NAMESPACE::pair<char, int>('d', 400));
 	first.insert(NAMESPACE::pair<char, int>('e', 500));
 	first.insert(NAMESPACE::pair<char, int>('f', 600));
-	// first['a'] = 10;
-	// first['b'] = 30;
-	// first['c'] = 50;
-	// first['d'] = 70;
+	print_map(first, "first");
+	std::cout << "first empty ? " << (first.empty() ? "yes" : "no") << std::endl;
+	std::cout << "first size = " << first.size() << std::endl;
+	first.erase('a');
+	std::cout << YE << "erase('a');" << NC << std::endl;
+	print_map(first, "first");
+	std::cout << "first empty ? " << (first.empty() ? "yes" : "no") << std::endl;
+	std::cout << "first size = " << first.size() << std::endl;
+	first.erase('x');
+	std::cout << YE << "erase('x');" << NC << std::endl;
+	print_map(first, "first");
+	std::cout << "first empty ? " << (first.empty() ? "yes" : "no") << std::endl;
+	std::cout << "first size = " << first.size() << std::endl;
+	std::cout << YE << "count('f') = " << NC << first.count('f') << std::endl;
+	std::cout << YE << "count('x') = " << NC << first.count('x') << std::endl;
+	std::cout << YE << "find('b') : " << NC << (first.find('b') == first.end() ? "not found" : "found") << std::endl;
+	std::cout << YE << "find('a') : " << NC << (first.find('a') == first.end() ? "not found" : "found") << std::endl;
+	first.clear();
+	std::cout << YE << "clear();" << NC << std::endl;
+	print_map(first, "first");
+	std::cout << "first empty ? " << (first.empty() ? "yes" : "no") << std::endl;
+	std::cout << "first size = " << first.size() << std::endl;
+	std::cout << YE << "first['w'] = 10; " << NC << "ret = " << (first['w'] = 10) << std::endl;
+	std::cout << YE << "first['x'] = 30; " << NC << "ret = " << (first['x'] = 30) << std::endl;
+	std::cout << YE << "first['y'] = 50; " << NC << "ret = " << (first['y'] = 50) << std::endl;
+	std::cout << YE << "first['z'] = 70; " << NC << "ret = " << (first['z'] = 70) << std::endl;
+	
+	
+	
 
 	// NAMESPACE::map<char,int> second(first.begin(),first.end());
 
@@ -57,6 +73,7 @@ void map_tests()
 	******* ************************** *******/
 
 	std::cout << UG << "\nTesting member functions" << NC << std::endl;
+
 
 	/*insert*/
 /*	{
@@ -134,94 +151,9 @@ void map_tests()
 		std::cout << " [ " << YE << c->first << NC << " ] = " << BC << c->second << NC << " |";
 	std::cout << std::endl;
 	
-	/*std::cout << CY << "Test AVL" << NC << std::endl;
-
-	avl<int, int> avl;
-	int option, val;
-
-	do {
-		std::cout << "What operation do you want to perform? " <<
-			" Select Option number. Enter 0 to exit." << std::endl;
-		std::cout << "1. Insert Node" << std::endl;
-		std::cout << "2. Search Node" << std::endl;
-		std::cout << "3. Delete Node" << std::endl;
-		std::cout << "4. Print/Traversal AVL Tree values" << std::endl;
-		std::cout << "5. Height of Tree" << std::endl;
-		std::cout << "6. Clear Screen" << std::endl;
-		std::cout << "0. Exit Program" << std::endl;
-
-		std::cin >> option;
-		//Node n1;
-		node<int, int> * new_node = new node<int, int>();
-
-		switch (option) {
-		case 0:
-			break;
-		case 1:
-			std::cout << "AVL INSERT" << std::endl;
-			std::cout << "Enter VALUE of TREE NODE to INSERT in AVL Tree: ";
-			std::cin >> val;
-			new_node->p.first = val;
-			avl._root = avl.insert_node(avl._root, new_node);
-			std::cout << std::endl;
-			break;
-		case 2:
-			std::cout << "SEARCH" << std::endl;
-			std::cout << "Enter VALUE of TREE NODE to SEARCH in AVL Tree: ";
-			std::cin >> val;
-			//new_node = avl.iterativeSearch(val);
-			new_node = avl.recursive_search(avl._root, val);
-			if (new_node != NULL) {
-				std::cout << "Value found" << std::endl;
-			} else {
-				std::cout << "Value NOT found" << std::endl;
-			}
-			break;
-		case 3:
-			std::cout << "DELETE" << std::endl;
-			std::cout << "Enter VALUE of TREE NODE to DELETE in AVL: ";
-			std::cin >> val;
-			new_node = avl.recursive_search(avl._root, val);
-			if (new_node != NULL) {
-				avl._root = avl.delete_node(avl._root, val);
-				std::cout << "Value Deleted" << std::endl;
-			} else {
-				std::cout << "Value NOT found" << std::endl;
-			}
-			break;
-		case 4:
-			std::cout << "PRINT 2D: " << std::endl;
-			// avl.print2D(avl.root, 5);
-			// cout << std::endl;
-			//cout <<"Print Level Order BFS: \n";
-			//obj.printLevelOrderBFS(obj.root);
-			//cout <<endl;
-			//				std::cout <<"PRE-ORDER: ";
-			//				obj.printPreorder(obj.root);
-			//				std::cout<<endl;
-			//				std::cout <<"IN-ORDER: ";
-			//				obj.printInorder(obj.root);
-			//				std::cout<<endl;
-			//				std::cout <<"POST-ORDER: ";
-			//				obj.printPostorder(obj.root);
-			break;
-		case 5:
-			std::cout << "TREE HEIGHT" << std::endl;
-			std::cout << "Height : " << avl.height(avl._root) << std::endl;
-			break;
-		case 6:
-			system("cls");
-			break;
-		default:
-			std::cout << "Enter Proper Option number " << std::endl;
-		}
-
-	} while (option != 0);
-*/
-
-
 	return ;
 }
+
 
 template <class Key, class T>
 void print_map(NAMESPACE::map<Key, T> & x, std::string s)
@@ -231,14 +163,3 @@ void print_map(NAMESPACE::map<Key, T> & x, std::string s)
 		std::cout << " [ " << YE << a->first << NC << " ] = " << BC << a->second << NC << " |";
 	std::cout << std::endl;
 }
-
-// void print_map(NAMESPACE::map<char, int> x, std::string s)
-// {
-// 	std::cout << BY << "in print fct" << std::endl;
-// 	// std::cout << BW << s << ":" << NC;
-// 	(void)x;
-// 	(void)s;
-// 	// for (typename NAMESPACE::map<Key, T>::iterator a = x.begin(); a != x.end(); a++)
-// 	// 	std::cout << " [ " << YE << a->first << NC << " ] = " << BC << a->second << NC << " |";
-// 	// std::cout << std::endl;
-// }

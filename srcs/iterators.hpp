@@ -184,138 +184,6 @@ namespace ft
 		};
 
 
-	// template <class Iterator>
-	// class v_reverse_iterator
-	// {
-	// 	public :
-
-	// 		typedef Iterator													iterator_type;
-	// 		typedef typename ft::iterator_traits<Iterator>::iterator_category	iterator_category;
-	// 		typedef typename ft::iterator_traits<Iterator>::value_type			value_type;
-	// 		typedef typename ft::iterator_traits<Iterator>::difference_type		difference_type;
-	// 		typedef typename ft::iterator_traits<Iterator>::pointer				pointer;
-	// 		typedef typename ft::iterator_traits<Iterator>::reference			reference;
-	
-
-	// 	protected :
-
-	// 		iterator_type current;
-
-
-	// 	public :
-
-	// 		/******************** CONSTRUCTORS *********************/
-
-	// 		v_reverse_iterator() : current() {};
-
-	// 		explicit v_reverse_iterator(iterator_type x) : current(x) {};
-
-	// 		template <class Iter>
-  	// 		v_reverse_iterator(const v_reverse_iterator<Iter> & other) : current(other.base()) {};
-
-
-	// 		/****************** MEMBER  FUNCTIONS ******************/
-
-	// 		template <class Iter>
-	// 		v_reverse_iterator & operator=(const v_reverse_iterator<Iter> & other) {
-	// 			current = other.base();
-	// 			return (*this);
-	// 		};
-
-	// 		iterator_type base() const {
-	// 			return (current);
-	// 		};
-
-	// 		reference operator*() const {
-	// 			iterator_type tmp = current;
-	// 			return (*--tmp);
-	// 		};
-
-	// 		pointer operator->() const {
-	// 			return (&(operator*()));
-	// 		};
-
-	// 		reference operator[](difference_type n) const {  // NEW, A TESTER
-	// 			return (*(*this + n));
-	// 		};
-
-	// 		v_reverse_iterator & operator++() {
-	// 			--current;
-	// 			return (*this);
-	// 		}
-
-	// 		v_reverse_iterator & operator--() {
-	// 			++current;
-	// 			return (*this);
-	// 		}
-
-	// 		v_reverse_iterator operator++(int) {
-	// 			v_reverse_iterator tmp = *this;
-	// 			--current;
-	// 			return (tmp);
-	// 		}
-
-	// 		v_reverse_iterator operator--(int) {
-	// 			v_reverse_iterator tmp = *this;
-	// 			++current;
-	// 			return (tmp);
-	// 		}
-
-	// 		v_reverse_iterator operator+(difference_type n) const {
-	// 			return (v_reverse_iterator(current - n));
-	// 		}
-
-	// 		v_reverse_iterator operator-(difference_type n) const {
-	// 			return (v_reverse_iterator(current + n));
-	// 		}
-
-	// 		v_reverse_iterator & operator+=(difference_type n) {
-	// 			current -= n;
-	// 			return (*this);
-	// 		}
-
-	// 		v_reverse_iterator & operator-=(difference_type n) {
-	// 			current += n;
-	// 			return (*this);
-	// 		}
-
-	
-	// 		/**************** NON MEMBER  FUNCTIONS ****************/
-
-	// 		friend bool operator==(const v_reverse_iterator<Iterator> & lhs, const v_reverse_iterator<Iterator> & rhs) {
-	// 			return (lhs.base() == rhs.base());
-	// 		};
-	
-	// 		friend bool operator!=(const v_reverse_iterator<Iterator> & lhs, const v_reverse_iterator<Iterator> & rhs) {
-	// 			return (lhs.base() != rhs.base());
-	// 		};
-
-	// 		friend bool operator<(const ft::v_reverse_iterator<Iterator> & lhs, const ft::v_reverse_iterator<Iterator> & rhs) {
-	// 			return (rhs.base() < lhs.base());
-	// 		};
-
-	// 		friend bool operator<=(const ft::v_reverse_iterator<Iterator> & lhs, const ft::v_reverse_iterator<Iterator> & rhs) {
-	// 			return (rhs.base() >= lhs.base());
-	// 		};
-
-	// 		friend bool operator>(const ft::v_reverse_iterator<Iterator> & lhs, const ft::v_reverse_iterator<Iterator> & rhs) {
-	// 			return (rhs.base() < lhs.base());
-	// 		};
-
-	// 		friend bool operator>=(const ft::v_reverse_iterator<Iterator> & lhs, const ft::v_reverse_iterator<Iterator> & rhs) {
-	// 			return (rhs.base() <= lhs.base());
-	// 		};
-
-	// 		friend v_reverse_iterator<Iterator> operator+(difference_type n, const v_reverse_iterator<Iterator> & it) {
-	// 			return (v_reverse_iterator(it.base() - n));
-	// 		};
-			
-	// 		friend difference_type operator-(const v_reverse_iterator<Iterator> & lhs, const v_reverse_iterator<Iterator> & rhs) {
-	// 			return (rhs.base() - lhs.base());
-	// 		};
-	// 	};
-
-
 	template <class Iterator, class Key, class T>
 	class m_iterator
 	{
@@ -360,18 +228,20 @@ namespace ft
 
 			/****************** MEMBER  FUNCTIONS ******************/
 
-			// template <class Iter>
-			// m_iterator & operator=(const m_iterator<Iter> & other) {
-				// current = other.base();
-				// return (*this);
-			// };
+			template <class Iter, class K, class U>
+			m_iterator & operator=(const m_iterator<Iter, K, U> & other) {
+				current = other.base();
+				if (tree)
+					delete tree; // /!\ allocator
+				tree = avl_copy(other.tree);
+				return (*this);
+			};
 
 			iterator_type base() const {
 				return (current);
 			};
 
 			reference operator*() const {
-				// std::cout << UY << "ici *" << NC << std::endl;
 				return (*current);
 			};
 
@@ -418,7 +288,6 @@ namespace ft
 
 				if (!current)
  				{
-					// std::cout << BP << "nope cas 1" << NC << std::endl;
 					current = tree->_root;
 					if (!current)
 						throw (std::exception());
@@ -427,28 +296,19 @@ namespace ft
 				}
 				else if (current->left)
 				{
-					// std::cout << BP << "nope cas 2" << NC << std::endl;
 					current = current->left;
 					while (current->right)
 						current = current->right;
 				}
 				else
 				{
-					// std::cout << BP << "nope cas 3" << NC << std::endl;
-					// std::cout << UO << (current ? "current existe" : "current n'existe pas") << NC << std::endl;
-					// std::cout << UO << "data of current = " << current->first << " et " << current->second << NC << std::endl;
-
 					p = current->parent;
-					// std::cout << UO << (p ? "p existe" : "p n'existe pas") << NC << std::endl;
-					// std::cout << UO << "data of p = " << p->first << " et " << p->second << NC << std::endl;
-
 					while (p && current == p->left)
 					{
 						current = p;
 						p = p->parent;
 					}
 					current = p;
-					// std::cout << UO << (current ? "current existe" : "current n'existe pas") << NC << std::endl;
 				}
 				return (*this);
 			};
