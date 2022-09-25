@@ -324,7 +324,7 @@ void vector_tests()
 
 
 template <typename T>
-void print_vector(NAMESPACE::vector<T> x, std::string s)
+void print_vector(NAMESPACE::vector<T> & x, std::string s)
 {
 	std::cout << BW << s << ":" << NC;
 	for (typename NAMESPACE::vector<T>::iterator a = x.begin(); a != x.end(); a++)

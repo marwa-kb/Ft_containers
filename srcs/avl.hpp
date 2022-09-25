@@ -161,7 +161,7 @@ class avl
 	node<Key, T> * insert_node(node<Key, T> * n, node<Key, T> * new_node, node<Key, T> * par = NULL, bool *ok = NULL) {
 		if (!n)
 		{
-			// std::cout << UO << "data of new node = " << new_node->first << " et " << new_node->second << NC << std::endl;
+			// std::cout << UO << "CAS 1 data of new node = " << new_node->first << " et " << new_node->second << NC << std::endl;
 			n = new_node;
 			new_node->parent = par;
 			_size++;
@@ -170,9 +170,9 @@ class avl
 			return (n);
 		}
 		if (new_node->first < n->first)
-			n->left = insert_node(n->left, new_node, n);
+			n->left = insert_node(n->left, new_node, n, ok);
 		else if (new_node->first > n->first)
-			n->right = insert_node(n->right, new_node, n);
+			n->right = insert_node(n->right, new_node, n, ok);
 		else
 		{
 			if (ok)
@@ -180,6 +180,8 @@ class avl
 			return (n);
 		}
 
+		if (ok && !*ok)
+			return (n);
 		int bf = balance_factor(n);
 		if (bf > 1 && new_node->first < n->left->first)		//left left
 			return (right_rotate(n));

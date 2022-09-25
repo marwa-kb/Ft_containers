@@ -16,11 +16,6 @@ void map_tests()
 	std::cout << BW << "――――――――――――――――――――――| MAP |――――――――――――――――――――――" << NC << std::endl;
 	std::cout << BW << "                       ‾‾‾‾‾" << NC << std::endl;
 
-	// std::cout << CY << "Test AVL" << NC << std::endl;
-
-	// ft::pair<std::string, int> p("hello", 1);
-	// avl<std::string, int> x1(p);
-	// avl<std::string, int> x2("hello", 2);
 
 	/********* testing constructors *********/
 	std::cout << UG << "Testing constructors" << NC << std::endl;
@@ -30,18 +25,10 @@ void map_tests()
 	first.insert(NAMESPACE::pair<char, int>('a', 100));
 	first.insert(NAMESPACE::pair<char, int>('b', 200));
 	first.insert(NAMESPACE::pair<char, int>('c', 300));
-	std::cout << UG << "ICI OK" << NC << std::endl;
 	print_map(first, "first");
-	NAMESPACE::map<char, int>::iterator a = first.begin();
-	NAMESPACE::map<char, int>::iterator b = first.end();
-	for (; a != b; a++)
-		std::cout << " [ " << YE << a->first << NC << " ] = " << BC << a->second << NC << " |";
-	
-	std::cout << std::endl;
-	NAMESPACE::map<char, int>::reverse_iterator c = first.rbegin();
-	NAMESPACE::map<char, int>::reverse_iterator d = first.rend();
-	for (; c != d; c++)
-		std::cout << " [ " << YE << c->first << NC << " ] = " << BC << c->second << NC << " |";
+	first.insert(NAMESPACE::pair<char, int>('d', 400));
+	first.insert(NAMESPACE::pair<char, int>('e', 500));
+	first.insert(NAMESPACE::pair<char, int>('f', 600));
 	// first['a'] = 10;
 	// first['b'] = 30;
 	// first['c'] = 50;
@@ -133,9 +120,19 @@ void map_tests()
 	*			+ const versions	
 	* 
 	******** *********************** *******/
-	{
-		std::cout << UG << "\nTesting iterators" << NC << std::endl;
-	}
+	
+	std::cout << UG << "\nTesting iterators" << NC << std::endl;
+	
+	NAMESPACE::map<char, int>::iterator a = first.begin();
+	NAMESPACE::map<char, int>::iterator b = first.end();
+	for (; a != b; a++)
+		std::cout << " [ " << YE << a->first << NC << " ] = " << BC << a->second << NC << " |";
+	std::cout << std::endl;
+	NAMESPACE::map<char, int>::reverse_iterator c = first.rbegin();
+	NAMESPACE::map<char, int>::reverse_iterator d = first.rend();
+	for (; c != d; c++)
+		std::cout << " [ " << YE << c->first << NC << " ] = " << BC << c->second << NC << " |";
+	std::cout << std::endl;
 	
 	/*std::cout << CY << "Test AVL" << NC << std::endl;
 
@@ -227,9 +224,8 @@ void map_tests()
 }
 
 template <class Key, class T>
-void print_map(NAMESPACE::map<Key, T> x, std::string s)
+void print_map(NAMESPACE::map<Key, T> & x, std::string s)
 {
-	std::cout << BY << "in print fct" << std::endl;
 	std::cout << BW << s << ":" << NC;
 	for (typename NAMESPACE::map<Key, T>::iterator a = x.begin(); a != x.end(); a++)
 		std::cout << " [ " << YE << a->first << NC << " ] = " << BC << a->second << NC << " |";

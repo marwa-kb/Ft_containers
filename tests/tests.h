@@ -26,12 +26,12 @@ void stack_tests();
 void vector_tests();
 
 template <typename T>
-void print_vector(NAMESPACE::vector<T> x, std::string s = "vector");
+void print_vector(NAMESPACE::vector<T> & x, std::string s = "vector");
 
 
 void map_tests();
 
 template <class Key, class T>
-void print_map(NAMESPACE::map<Key, T> x, std::string s = "map");
+void print_map(NAMESPACE::map<Key, T> & x, std::string s = "map");
 
 #endif

@@ -63,8 +63,8 @@ namespace ft
 			/************* CONSTRUCTOR AND  DESTRUCTOR *************/
 
 			explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator())
-				: _tree(), _comp(comp), _alloc(alloc) {
-					*_tree();
+				: _comp(comp), _alloc(alloc) {
+					_tree = new avl<Key, T>();
 				};
 
 			// template <class InputIterator>
@@ -74,8 +74,8 @@ namespace ft
 				// : _tree(x._tree), _comp(x._comp), _alloc(x._alloc) {};
 
 			~map() {
-				//if (_tree->_root)
-				//	_tree->delete_avl(_tree->_root);
+				delete _tree;
+				_tree = NULL;
 			};
 
 
@@ -104,8 +104,10 @@ namespace ft
 			
 			pair<iterator, bool> insert(const value_type & x) {
 				node<Key, T> *new_node = new node<Key, T>(x); // /!\ a remplacer par allocator
-				bool ok = true;
+				bool ok;
 				_tree->_root = _tree->insert_node(_tree->_root, new_node, NULL, &ok);
+				if (!ok)
+					delete new_node;
 				pair<iterator, bool> p(iterator(_tree->_root), ok);
 				return (p);
 			};
