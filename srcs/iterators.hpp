@@ -233,7 +233,13 @@ namespace ft
 				current = other.base();
 				if (tree)
 					delete tree; // /!\ allocator
-				tree = avl_copy(other.tree);
+				avl<Key, T> * b = new avl<Key, T>();
+				m_iterator<node<Key, T>*, Key, T> it1(other->tree->smallest_node());
+				m_iterator<node<Key, T>*, Key, T> it2(other->tree->biggest_node());
+				for (; it1 != it2; it1++)
+					b->insert_node(it1.current, b->_root, NULL, NULL);
+				b->insert_node(it1.current, b->_root, NULL, NULL);
+				tree = b;	
 				return (*this);
 			};
 

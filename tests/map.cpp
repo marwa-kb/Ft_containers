@@ -42,11 +42,26 @@ void map_tests()
 	print_map(first, "first");
 	std::cout << "first empty ? " << (first.empty() ? "yes" : "no") << std::endl;
 	std::cout << "first size = " << first.size() << std::endl;
-	std::cout << YE << "first['w'] = 10; " << NC << "ret = " << (first['w'] = 10) << std::endl;
-	std::cout << YE << "first['x'] = 30; " << NC << "ret = " << (first['x'] = 30) << std::endl;
-	std::cout << YE << "first['y'] = 50; " << NC << "ret = " << (first['y'] = 50) << std::endl;
-	std::cout << YE << "first['z'] = 70; " << NC << "ret = " << (first['z'] = 70) << std::endl;
-	
+	std::cout << YE << "first['w'] = 100;" << NC << std::endl;
+	std::cout << YE << "first['x'] = 300;" << NC << std::endl;
+	std::cout << YE << "first['y'] = 500;" << NC << std::endl;
+	std::cout << YE << "first['z'] = 700;" << NC << std::endl;
+	first['w'] = 100;
+	first['x'] = 300;
+	first['y'] = 500;
+	first['z'] = 700;
+	print_map(first, "first");
+	first['w'] = 30000;
+	first['x'] = 30000;
+	first['y'] = 30000;
+	first['z'] = 30000;
+	print_map(first, "first");
+
+	NAMESPACE::map<char,int> first_dup;
+	first_dup = first;
+	print_map(first, "first");
+	print_map(first_dup, "first_dup");
+
 	
 	
 

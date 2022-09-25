@@ -88,14 +88,29 @@ namespace ft
 			map<Key, T, Compare, Allocator>& operator=(const map<Key, T, Compare, Allocator>& x) {
 				_comp = x._comp;
 				_alloc = x._alloc;
-				// _tree = avl_copy(x._tree);
+				if (_tree)
+					delete _tree; // /!\ allocator
+				_tree = new avl<Key, T>(); // /!\ allocator
+				avl<Key, T> *a = x._tree;
+				iterator it1(x._tree->smallest_node(x._tree->_root), &a);
+				iterator it2(x._tree->biggest_node(x._tree->_root), &a);
+				for (; it1 != it2; it1++)
+				{
+					std::cout << BO << "it1->first = " << it1->first << " et it1->second = " << it1->second << NC << std::endl;
+					std::cout << BO << "it2->first = " << it2->first << " et it2->second = " << it2->second << NC << std::endl;
+					insert(it1->p);
+				}
+				insert(it1->p);
 				return (*this);
 			};
 			
 			T& operator[](const key_type& x) {
 				iterator it = find(x);
 				if (it == end())
-					return (insert(make_pair(x, T())).first->second);
+				{
+					insert(make_pair(x, mapped_type()));
+					return (find(x)->second);
+				}
 				else
 					return (it->second);
 			};
