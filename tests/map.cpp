@@ -31,7 +31,7 @@ void map_tests()
 	first.insert(NAMESPACE::pair<char, int>('b', 200));
 	first.insert(NAMESPACE::pair<char, int>('c', 300));
 	std::cout << UG << "ICI OK" << NC << std::endl;
-	// print_map(first, "first");
+	print_map(first, "first");
 	NAMESPACE::map<char, int>::iterator a = first.begin();
 	NAMESPACE::map<char, int>::iterator b = first.end();
 	for (; a != b; a++)

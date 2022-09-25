@@ -53,7 +53,7 @@ namespace ft
 
 		private :
 
-			avl<Key, T>		_tree;
+			avl<Key, T>		*_tree;
 			key_compare		_comp;
 			allocator_type	_alloc;
 
@@ -63,7 +63,9 @@ namespace ft
 			/************* CONSTRUCTOR AND  DESTRUCTOR *************/
 
 			explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator())
-				: _tree(), _comp(comp), _alloc(alloc) {};
+				: _tree(), _comp(comp), _alloc(alloc) {
+					*_tree();
+				};
 
 			// template <class InputIterator>
 			// map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator());
@@ -72,8 +74,8 @@ namespace ft
 				// : _tree(x._tree), _comp(x._comp), _alloc(x._alloc) {};
 
 			~map() {
-				//if (_tree._root)
-				//	_tree.delete_avl(_tree._root);
+				//if (_tree->_root)
+				//	_tree->delete_avl(_tree->_root);
 			};
 
 
@@ -89,11 +91,11 @@ namespace ft
 			};
 			
 			bool empty() const {
-				return(_tree.empty());
+				return(_tree->empty());
 			};
 			
 			size_type size() const {
-				return (_tree.size());
+				return (_tree->size());
 			};
 			
 			size_type max_size() const {
@@ -103,8 +105,8 @@ namespace ft
 			pair<iterator, bool> insert(const value_type & x) {
 				node<Key, T> *new_node = new node<Key, T>(x); // /!\ a remplacer par allocator
 				bool ok = true;
-				_tree._root = _tree.insert_node(_tree._root, new_node, &ok);
-				pair<iterator, bool> p(iterator(_tree._root), ok);
+				_tree->_root = _tree->insert_node(_tree->_root, new_node, NULL, &ok);
+				pair<iterator, bool> p(iterator(_tree->_root), ok);
 				return (p);
 			};
 			
@@ -116,7 +118,7 @@ namespace ft
 			// void erase(iterator position);
 			
 			size_type erase(const key_type& x) {
-				if (!(_tree.delete_node(_tree._root, x)))
+				if (!(_tree->delete_node(_tree->_root, x)))
 					return (0);
 				return (1);
 			};
@@ -126,7 +128,7 @@ namespace ft
 			void swap(map<Key,T,Compare,Allocator>&);
 			
 			void clear() {
-				_tree.clear();
+				_tree->clear();
 			};
 			
 			key_compare key_comp() const;
@@ -138,7 +140,7 @@ namespace ft
 			// const_iterator find(const key_type& x) const;
 			
 			size_type count(const key_type& x) const {
-				if (!(_tree.iterative_search(x)))
+				if (!(_tree->iterative_search(x)))
 					return (0);
 				return (1);
 			};
@@ -162,19 +164,19 @@ namespace ft
 			
 			
 			iterator begin() {
-				return (iterator(_tree.smallest_node(_tree._root)));
+				return (iterator(_tree->smallest_node(_tree->_root), &_tree));
 			};
 
 			const_iterator begin() const {
-				return (const_iterator(_tree.smallest_node(_tree._root)));
+				return (const_iterator(_tree->smallest_node(_tree->_root), &_tree));
 			};
 
 			iterator end() {
-				return (iterator(_tree.biggest_node(_tree._root)));
+				return (iterator(_tree->biggest_node(_tree->_root)->right, &_tree));
 			};
 
 			const_iterator end() const{
-				return (const_iterator(_tree.biggest_node(_tree._root)));
+				return (const_iterator(_tree->biggest_node(_tree->_root)->right, &_tree));
 			};
 
 			reverse_iterator rbegin() {

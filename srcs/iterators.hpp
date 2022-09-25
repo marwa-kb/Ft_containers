@@ -333,7 +333,7 @@ namespace ft
 		protected :
 
 			iterator_type	current;
-			//avl<Key, T>		*tree;
+			avl<Key, T>		*tree;
 
 
 		public :
@@ -355,9 +355,7 @@ namespace ft
 			// template <class Iter>
   			// m_iterator(const m_iterator<Iter> & other) : current(other.base()) {};
 
-			// m_iterator(const iterator_type p, avl<Key, T> *t) : current(iterator_type(p)), tree(t) {
-			// 	std::cout << BP << "ici dans m_iterator(ip, avl)" << NC << std::endl;
-			// };
+			m_iterator(const iterator_type p, avl<Key, T> **t) : current(iterator_type(p)), tree(*t) {};
 
 
 			/****************** MEMBER  FUNCTIONS ******************/
@@ -373,6 +371,7 @@ namespace ft
 			};
 
 			reference operator*() const {
+				// std::cout << UY << "ici *" << NC << std::endl;
 				return (*current);
 			};
 
@@ -388,13 +387,17 @@ namespace ft
  				iterator_type p;
 				
  				if (!current)
- 					return (*this);
-				else if (current->end)
-					throw (std::exception());
+				{
+					current = tree->_root;
+					if (!current)
+						throw (std::exception());
+					while (current->left)
+						current = current->left;
+				}
  				else if (current->right)
  				{
  					current = current->right;
-					while (current->left && !current->left->beg)
+					while (current->left)
  						current = current->left;	
  				}
  				else
@@ -411,40 +414,48 @@ namespace ft
 			};
 
 			m_iterator & operator--() {
-				std::cout << BY << "ici --()" << NC << std::endl;
 				iterator_type p;
 
 				if (!current)
- 					return (*this);
-				else if (current->beg)
-				{
-					throw (std::exception());
-					// return (*this);
+ 				{
+					// std::cout << BP << "nope cas 1" << NC << std::endl;
+					current = tree->_root;
+					if (!current)
+						throw (std::exception());
+					while (current->right)
+						current = current->right;
 				}
-        		else if (current->left)
+				else if (current->left)
 				{
-					std::cout << BP << "nope cas 2" << NC << std::endl;
+					// std::cout << BP << "nope cas 2" << NC << std::endl;
 					current = current->left;
-					while (current->right && !current->right->end)
+					while (current->right)
 						current = current->right;
 				}
 				else
 				{
-					std::cout << BP << "nope cas 3" << NC << std::endl;
+					// std::cout << BP << "nope cas 3" << NC << std::endl;
+					// std::cout << UO << (current ? "current existe" : "current n'existe pas") << NC << std::endl;
+					// std::cout << UO << "data of current = " << current->first << " et " << current->second << NC << std::endl;
+
 					p = current->parent;
+					// std::cout << UO << (p ? "p existe" : "p n'existe pas") << NC << std::endl;
+					// std::cout << UO << "data of p = " << p->first << " et " << p->second << NC << std::endl;
+
 					while (p && current == p->left)
 					{
 						current = p;
 						p = p->parent;
 					}
 					current = p;
+					// std::cout << UO << (current ? "current existe" : "current n'existe pas") << NC << std::endl;
 				}
 				return (*this);
 			};
 
 			m_iterator operator++(int) {
 				m_iterator tmp = *this;
-        		operator++();
+				operator++();
 				return (tmp);
 			}
 
@@ -552,13 +563,11 @@ namespace ft
 			};
 
 			reference operator*() const {
-				std::cout << BY << "ici rev *" << NC << std::endl;
 				iterator_type tmp = current;
 				return (*--tmp);
 			};
 
 			pointer operator->() const {
-				std::cout << BY << "ici rev ->" << NC << std::endl;
 				return (&(operator*()));
 			};
 

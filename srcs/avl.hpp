@@ -34,23 +34,21 @@ class node
 		node		*left;
 		node		*right;
 		node		*parent;
-		bool		beg;
-		bool		end;
 
 		node() : p(pair()), first(), second(),
-				left(NULL), right(NULL), parent(NULL), beg(false), end(false) {};
+				left(NULL), right(NULL), parent(NULL) {};
 
 		node(bool x) : p(pair()), first(), second(),
-				left(NULL), right(NULL), parent(NULL), beg(true), end(false) {};
+				left(NULL), right(NULL), parent(NULL) {};
 
 		node(bool x, bool y) : p(pair()), first(), second(),
-				left(NULL), right(NULL), parent(NULL), beg(false), end(true) {};
+				left(NULL), right(NULL), parent(NULL) {};
 
 		node(const pair & x) : p(x), first(x.first), second(x.second),
-				left(NULL), right(NULL), parent(NULL), beg(false), end(false) {};
+				left(NULL), right(NULL), parent(NULL) {};
 
 		node(const node<Key, T> & x) : p(x.p), first(x.first), second(x.second),
-				left(x.left), right(x.right), parent(x.parent), beg(false), end(false) {};
+				left(x.left), right(x.right), parent(x.parent) {};
 
 		~node() {};
 
@@ -65,55 +63,32 @@ class avl
 		typedef std::size_t	size_type;
 
 		node<Key, T> *	_root;
-		node<Key, T> *	_beg;
-		node<Key, T> *	_end;
 		size_type		_size;
 
 
-	avl() : _root(NULL), _beg(create_node(true)), _end(create_node(false, true)), _size(0) {};
-
-	avl(const avl & a) : _root(NULL), _size(a._size) {
-		node<Key, T>* n1 = a._root;
-		node<Key, T>* n2 = _root;
-
-		while (n1)
-		{
-			while (n1->left)
-			{
-				node<Key, T> *n3 = new node<Key, T>(n1->p);
-				insert_node(n2, n3);
-				n1 = n1->left;
-			}
-			while (n1->right)
-			{
-				node<Key, T> *n4 = new node<Key, T>(n1->p);
-				insert_node(n2, n4);
-				n1 = n1->right;
-			}
-		}
-	};
+	avl() : _root(NULL), _size(0) {};
 
 	~avl() {
 		if (_root)
 			delete_avl(_root);
 	};
 
-	node<Key, T>* create_node(bool x) {
-		node<Key, T> *n = new node<Key, T>(x);
-		return (n);
-	}
+	// node<Key, T>* create_node(bool x) {
+	// 	node<Key, T> *n = new node<Key, T>(x);
+	// 	return (n);
+	// }
 	
-	node<Key, T>* create_node(bool x, bool y) {
-		node<Key, T> *n = new node<Key, T>(x, y);
-		return (n);
-	}
+	// node<Key, T>* create_node(bool x, bool y) {
+	// 	node<Key, T> *n = new node<Key, T>(x, y);
+	// 	return (n);
+	// }
 	
 	void delete_avl(node<Key, T> * n) {
 		if (n)
 		{
 			delete_avl(n->left);
 			delete_avl(n->right);
-			std::cout << BR << n->p.first << " DELETED" << NC << std::endl;
+			// std::cout << BR << n->first << " DELETED" << NC << std::endl;
 			delete n;
 		}
 		n = NULL;
@@ -154,6 +129,8 @@ class avl
 		node<Key, T> * n_l = n->left;
 		node<Key, T> * n_l_r = n_l->right;
 		node<Key, T> * n_p = n->parent;
+		// std::cout << UR << "RIGHT ROTATE" << NC << std::endl;
+		// std::cout << UO << "data of node = " << n->first << " et " << n->second << NC << std::endl;
 
 		n_l->parent = n_p;
 		if (n_l_r)
@@ -169,6 +146,9 @@ class avl
 		node<Key, T> * n_r_l = n_r->left;
 		node<Key, T> * n_p = n->parent;
 
+		// std::cout << UR << "LEFT ROTATE" << NC << std::endl;
+		// std::cout << UO << "data of node = " << n->first << " et " << n->second << NC << std::endl;
+
 		n_r->parent = n_p;
 		if (n_r_l)
 			n_r_l->parent = n;
@@ -178,41 +158,21 @@ class avl
 		return (n_r);
 	}
 
-	node<Key, T> * insert_node(node<Key, T> * n, node<Key, T> * new_node, bool *ok = NULL) {
+	node<Key, T> * insert_node(node<Key, T> * n, node<Key, T> * new_node, node<Key, T> * par = NULL, bool *ok = NULL) {
 		if (!n)
 		{
+			// std::cout << UO << "data of new node = " << new_node->first << " et " << new_node->second << NC << std::endl;
 			n = new_node;
-			n->left = _beg;
-			n->right = _end;
+			new_node->parent = par;
 			_size++;
 			if (ok)
 				*ok = true;
 			return (n);
 		}
-		else if (n == _beg)
-		{
-			node<Key, T> * a = _beg;
-			n = new_node;
-			n->left = _beg;
-			_size++;
-			if (ok)
-				*ok = true;
-			return (n);	
-		}
-		else if (n == _end)
-		{
-			node<Key, T> * b = _end;
-			n = new_node;
-			n->right = _end;
-			_size++;
-			if (ok)
-				*ok = true;
-			return (n);	
-		}
 		if (new_node->first < n->first)
-			n->left = insert_node(n->left, new_node);
+			n->left = insert_node(n->left, new_node, n);
 		else if (new_node->first > n->first)
-			n->right = insert_node(n->right, new_node);
+			n->right = insert_node(n->right, new_node, n);
 		else
 		{
 			if (ok)
@@ -221,16 +181,16 @@ class avl
 		}
 
 		int bf = balance_factor(n);
-		if (bf > 1 && new_node->p.first < n->left->p.first)		//left left
+		if (bf > 1 && new_node->first < n->left->first)		//left left
 			return (right_rotate(n));
-		if (bf < -1 && new_node->p.first > n->right->p.first)	//right right
+		if (bf < -1 && new_node->first > n->right->first)	//right right
 			return (left_rotate(n));
-		if (bf > 1 && new_node->p.first > n->left->p.first)		//left right
+		if (bf > 1 && new_node->first > n->left->first)		//left right
 		{
 			n->left = left_rotate(n->left);
 			return (right_rotate(n));
 		}
-		if (bf < -1 && new_node->p.first < n->right->p.first)	// right left 
+		if (bf < -1 && new_node->first < n->right->first)	// right left 
 		{
 			n->right = right_rotate(n->right);
 			return (left_rotate(n));
@@ -242,14 +202,14 @@ class avl
 
 	node<Key, T> * smallest_node(node<Key, T> * n) {	//loop down to find the leftmost leaf
 		node<Key, T> * current = n;
-		while (current && current->left && current->left != _beg)
+		while (current && current->left)
 			current = current->left;
 		return (current);
 	}
 
 	node<Key, T> * biggest_node(node<Key, T> * n) {	//loop down to find the leftmost leaf
 		node<Key, T> * current = n;
-		while (current && current->right && current->right != _end)
+		while (current && current->right)
 			current = current->right;
 		return (current);
 	}
@@ -267,9 +227,9 @@ class avl
 		// base case
 		if (!n)
 			return (NULL);
-		else if (v < n->p.first)
+		else if (v < n->first)
 			n->left = delete_node(n->left, v);
-		else if (v > n->p.first)
+		else if (v > n->first)
 			n->right = delete_node(n->right, v);
 		else
 		{
@@ -292,9 +252,9 @@ class avl
 				// in the right subtree) 
 				node<Key, T> * temp = smallest_node(n->right);
 				// Copy the inorder successor's content to this node 
-				n->p.first = temp->p.first;
+				n->first = temp->first;
 				// Delete the inorder successor 
-				n->right = delete_node(n->right, temp->p.first);
+				n->right = delete_node(n->right, temp->first);
 				//deleteNode(->ight, tem->alue); 
 			}
 		}
@@ -331,9 +291,9 @@ class avl
 			node<Key, T> * temp = _root;
 			while (temp)
 			{
-				if (val == temp->p.first)
+				if (val == temp->first)
 					return (temp);
-				else if (val < temp->p.first)
+				else if (val < temp->first)
 					temp = temp->left;
 				else
 					temp = temp->right;
@@ -343,9 +303,9 @@ class avl
 	}
 
 	node<Key, T> * recursive_search(node<Key, T> * r, const Key & val) const {
-		if (!r || r->p.first == val)
+		if (!r || r->first == val)
 			return (r);
-		else if (val < r->p.first)
+		else if (val < r->first)
 			return (recursive_search(r->left, val));
 		return (recursive_search(r->right, val));
 	}
@@ -365,7 +325,7 @@ class avl
 		std::cout << std::endl;
 		for (int i = SPACE; i < space; i++) // 5 
 			std::cout << " "; // 5.1	
-		std::cout << r->p.first << "\n"; // 6
+		std::cout << r->first << "\n"; // 6
 		print2D(r->left, space); // Process left child	7
 	}
 	void printPreorder(node<Key, T> * r) //(current node, Left, Right) 
@@ -373,7 +333,7 @@ class avl
 		if (r == NULL)
 			return;
 		// first print data of node 
-		std::cout << r->p.first << " ";
+		std::cout << r->first << " ";
 		// then recur on left sutree 
 		printPreorder(r->left);
 		// now recur on right subtree 
@@ -387,7 +347,7 @@ class avl
 		// first recur on left child
 		printInorder(r->left);
 		// then print the data of node
-		std::cout << r->p.first << " ";
+		std::cout << r->first << " ";
 		// now recur on right child
 		printInorder(r->right);
 	}
@@ -400,14 +360,14 @@ class avl
 		// then recur on right subtree 
 		printPostorder(r->right);
 		// now deal with the node 
-		std::cout << r->p.first << " ";
+		std::cout << r->first << " ";
 	}
 
 	void printGivenLevel(node<Key, T> * r, int level) {
 		if (r == NULL)
 			return;
 		else if (level == 0)
-			std::cout << r->p.first << " ";
+			std::cout << r->first << " ";
 		else // level > 0	
 		{
 			printGivenLevel(r->left, level - 1);
@@ -488,7 +448,7 @@ class avl
 				_root = a;
 			else
 			{
-				if (x.first > _root->p.first)
+				if (x.first > _root->first)
 					_root->right = a;
 				else
 					_root->left = a;
