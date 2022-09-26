@@ -51,14 +51,8 @@ void map_tests()
 	first['y'] = 500;
 	first['z'] = 700;
 	print_map(first, "first");
-	first['w'] = 30000;
-	first['x'] = 30000;
-	first['y'] = 30000;
-	first['z'] = 30000;
-	print_map(first, "first");
 
-	NAMESPACE::map<char,int> first_dup;
-	first_dup = first;
+	NAMESPACE::map<char,int> first_dup(first);
 	print_map(first, "first");
 	print_map(first_dup, "first_dup");
 
@@ -89,45 +83,58 @@ void map_tests()
 
 	std::cout << UG << "\nTesting member functions" << NC << std::endl;
 
+	/*at*/
+	{
+		std::cout << GN << "\n*at*" << NC << std::endl;
+
+		NAMESPACE::map<std::string,int> mymap;
+		mymap.insert(NAMESPACE::make_pair("alpha", 0));
+		mymap.insert(NAMESPACE::make_pair("beta", 0));
+		mymap.insert(NAMESPACE::make_pair("gamma", 0));
+
+ 		mymap.at("alpha") = 10;
+		mymap.at("beta") = 20;
+		mymap.at("gamma") = 30;
+		print_map(mymap, "mymap");
+		//std::cout << "lambda exists? " << mymap.at("lambda") << std::endl;	//-->throws std::out_of_range
+		std::cout << "lambda exists? " << mymap["lambda"] << std::endl;  		//-->works
+	}
 
 	/*insert*/
-/*	{
-		std::map<char,int> mymap;
+	{
+		std::cout << GN << "\n*insert*" << NC << std::endl;
+
+		NAMESPACE::map<char,int> mymap;
 
 		// first insert function version (single parameter):
-		mymap.insert ( std::pair<char,int>('a',100) );
-		mymap.insert ( std::pair<char,int>('z',200) );
+		mymap.insert(NAMESPACE::pair<char,int>('a', 100));
+		mymap.insert(NAMESPACE::pair<char,int>('z', 200));
 
-		std::pair<std::map<char,int>::iterator,bool> ret;
-		ret = mymap.insert ( std::pair<char,int>('z',500) );
-		if (ret.second==false) {
-				std::cout << "element 'z' already existed";
-				std::cout << " with a value of " << ret.first->second << '\n';
-		}
+		NAMESPACE::pair<NAMESPACE::map<char,int>::iterator,bool> ret;
+		ret = mymap.insert(NAMESPACE::pair<char,int>('z', 500));
+		if (!ret.second == false)
+			std::cout << "element 'z' already existed with a value of " << ret.first->second << std::endl;
+		else
+			std::cout << "element 'z' succcesfully inserted" << std::endl;
 
 		// second insert function version (with hint position):
-		std::map<char,int>::iterator it = mymap.begin();
-		mymap.insert (it, std::pair<char,int>('b',300));		// max efficiency inserting
-		mymap.insert (it, std::pair<char,int>('c',400));		// no max efficiency inserting
+		NAMESPACE::map<char,int>::iterator it = mymap.begin();
+		mymap.insert(it, NAMESPACE::pair<char,int>('b', 300));		// max efficiency inserting
+		mymap.insert(it, NAMESPACE::pair<char,int>('c', 400));		// no max efficiency inserting
 
-		// third insert function version (range insertion):
-		std::map<char,int> anothermap;
-		anothermap.insert(mymap.begin(),mymap.find('c'));
+		// // third insert function version (range insertion):
+		// NAMESPACE::map<char,int> anothermap;
+		// anothermap.insert(mymap.begin(),mymap.find('c'));
 
 		// showing contents:
-		std::cout << "mymap contains:\n";
-		for (it=mymap.begin(); it!=mymap.end(); ++it)
-				std::cout << it->first << " => " << it->second << '\n';
-
-		std::cout << "anothermap contains:\n";
-		for (it=anothermap.begin(); it!=anothermap.end(); ++it)
-				std::cout << it->first << " => " << it->second << '\n';
-	}*/
+		print_map(mymap, "mymap");
+		// print_map(anothermap, "anothermap");
+	}
 
 	/*count*/
 	/*
 	{
-		std::map<char,int> mymap;
+		NAMESPACE::map<char,int> mymap;
 		char c;
 
 		mymap ['a']=101;

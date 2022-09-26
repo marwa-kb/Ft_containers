@@ -223,10 +223,14 @@ class avl
 		return (current);
 	};
 
-	node<Key, T> * biggest_node(node<Key, T> * n) {	//loop down to find the leftmost leaf
+	node<Key, T> * biggest_node(node<Key, T> * n) {		//loop down to find the righftmost leaf
 		node<Key, T> * current = n;
 		while (current && current->right)
 			current = current->right;
+		// if (current)
+		// 	std::cout << BR << "current->first = " << current->first << " et current->second = " << current->second << NC << std::endl;
+		// else
+		// 	std::cout << BR << "no current" << NC << std::endl;
 		return (current);
 	};
 

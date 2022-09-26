@@ -56,14 +56,21 @@ void vector_tests()
 	std::cout << YE << "push_back(2);\n" << NC << "size = " << v1.size() << std::endl;
 	print_vector(v1, "v1");
 	v1.pop_back();
+	std::cout << YE << "at(3) ? " << NC << v1.at(3) << std::endl;
+	// std::cout << YE << "at(6) ? " << NC << v1.at(6) << std::endl;	//-->throws std::_out_of_range
+	// std::cout << YE << "[6] ? " << NC << v1[6] << std::endl;			//-->doesn't throw exception but bugs
 	v1.pop_back();
 	std::cout << YE << "pop_back() x 2;\n" << NC << "size = " << v1.size() << std::endl;
 	std::cout << "capacity = " << v1.capacity() << std::endl;
 	print_vector(v1, "v1");
+	std::cout << "front = " << v1.front() << std::endl;
+	std::cout << "back = " << v1.back() << std::endl;
 	std::cout << std::endl;
 
 	NAMESPACE::vector<int> v2;
 	std::cout << "v2 empty ? -> " << (v2.empty() ? "yes" : "no") << std::endl;
+	// std::cout << "front = " << v2.front() << std::endl;	//-->doesn't work because empty
+	// std::cout << "back = " << v2.back() << std::endl;	//-->doesn't work because empty
 	std::cout << "size = " << v2.size() << std::endl;
 	std::cout << "capacity = " << v2.capacity() << std::endl;
 	v2.reserve(3);

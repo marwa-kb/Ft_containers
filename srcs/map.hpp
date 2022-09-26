@@ -70,11 +70,10 @@ namespace ft
 			// template <class InputIterator>
 			// map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator());
 
-			// map(const map<Key, T, Compare, Allocator>& x)
-			// 	: _comp(x._comp), _alloc(x._alloc) {
-			// 		std::cout << UP << "copy map constructor" << NC << std::endl;
-			// 		_tree = avl_copy(x._tree); // /!\ allocator
-			// 	};
+			map(const map<Key, T, Compare, Allocator>& x)
+				: _comp(x._comp), _alloc(x._alloc), _tree(NULL) {
+					*this = x;
+				};
 
 
 			~map() {
@@ -95,22 +94,31 @@ namespace ft
 				iterator it1(x._tree->smallest_node(x._tree->_root), &a);
 				iterator it2(x._tree->biggest_node(x._tree->_root), &a);
 				for (; it1 != it2; it1++)
-				{
-					std::cout << BO << "it1->first = " << it1->first << " et it1->second = " << it1->second << NC << std::endl;
-					std::cout << BO << "it2->first = " << it2->first << " et it2->second = " << it2->second << NC << std::endl;
-					insert(it1->p);
-				}
-				insert(it1->p);
+					insert(ft::make_pair(it1->first, it1->second));
+				insert(ft::make_pair(it1->first, it1->second));
 				return (*this);
 			};
 			
-			T& operator[](const key_type& x) {
-				iterator it = find(x);
+			mapped_type& operator[](const key_type& k) {
+				iterator it = find(k);
 				if (it == end())
-				{
-					insert(make_pair(x, mapped_type()));
-					return (find(x)->second);
-				}
+					return (insert(ft::make_pair(k, mapped_type())).first->second);
+				else
+					return (it->second);
+			};
+			
+			mapped_type& at(const key_type& k) {
+				iterator it = find(k);
+				if (it == end())
+					throw (std::out_of_range("map::at"));
+				else
+					return (it->second);
+			};
+			
+			const mapped_type& at(const key_type& k) const {
+				const_iterator it = find(k);
+				if (it == end())
+					throw (std::out_of_range("map::at"));
 				else
 					return (it->second);
 			};
@@ -133,16 +141,23 @@ namespace ft
 			};
 			
 			pair<iterator, bool> insert(const value_type & x) {
-				node<Key, T> *new_node = new node<Key, T>(x); // /!\ a remplacer par allocator
+				node<Key, T> *new_node = new node<Key, T>(value_type(x)); // /!\ a remplacer par allocator
 				bool ok;
 				_tree->_root = _tree->insert_node(_tree->_root, new_node, NULL, &ok);
 				if (!ok)
 					delete new_node;
-				pair<iterator, bool> p(iterator(_tree->_root), ok);
+				pair<iterator, bool> p(find(x.first), ok);
 				return (p);
 			};
 			
-			// iterator insert(iterator position, const value_type& x);
+			iterator insert(iterator position, const value_type& x) {
+				node<Key, T> *new_node = new node<Key, T>(value_type(x)); // /!\ a remplacer par allocator
+				bool ok;
+				_tree->_root = _tree->insert_node(position.base(), new_node, NULL, &ok);
+				if (!ok)
+					delete new_node;
+				return (find(x.first));
+			};
 			
 			// template <class InputIterator>
 			// void insert(InputIterator first, InputIterator last);
