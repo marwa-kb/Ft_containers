@@ -83,6 +83,7 @@ namespace ft
 
 			/****************** MEMBER  FUNCTIONS ******************/
 			
+			//pb rencontre : ca marchait mais avec insert ca marche pas bien : surement un pb de const iterator
 			map<Key, T, Compare, Allocator>& operator=(const map<Key, T, Compare, Allocator>& x) {
 				_comp = x._comp;
 				_alloc = x.get_allocator();
@@ -149,6 +150,8 @@ namespace ft
 				pair<iterator, bool> p(find(x.first), ok);
 				return (p);
 			};
+
+			// pb rencontre : insert ne fonctionne pas bien avec position
 			
 			// iterator insert(iterator position, const value_type& x) {
 			// 	node<Key, T> *new_node = new node<Key, T>(value_type(x)); // /!\ a remplacer par allocator
