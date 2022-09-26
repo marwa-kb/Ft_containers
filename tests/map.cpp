@@ -143,26 +143,54 @@ void map_tests()
 		print_map(anothermap, "anothermap");
 	}
 
-	/*count*/
-	/*
+	/*erase*/
 	{
+		std::cout << GN << "\n*erase*" << NC << std::endl;
+
+		NAMESPACE::map<char,int> mymap;
+		NAMESPACE::map<char,int>::iterator it;
+		// insert some values:
+		mymap['a'] = 10;
+		mymap['b'] = 20;
+		mymap['c'] = 30;
+		mymap['d'] = 40;
+		mymap['e'] = 50;
+		mymap['f'] = 60;
+		print_map(mymap, "mymap");
+
+		// it = mymap.find('b');
+		// mymap.erase(it);	// erasing by iterator
+		// std::cout << YE << "erase(find('b'));" << NC << std::endl;
+		// print_map(mymap, "mymap");
+		// mymap.erase('c');		// erasing by key
+		// std::cout << YE << "erase('c');" << NC << std::endl;
+		// print_map(mymap, "mymap");
+		// it = mymap.find('e');
+		// mymap.erase(it, mymap.end());	// erasing by range
+		// std::cout << YE << "erase(find('e'), mymap.end());" << NC << std::endl;
+		// print_map(mymap, "mymap");
+
+	}
+
+	/*count*/
+	{
+		std::cout << GN << "\n*count*" << NC << std::endl;
+
 		NAMESPACE::map<char,int> mymap;
 		char c;
-
-		mymap ['a']=101;
-		mymap ['c']=202;
-		mymap ['f']=303;
-
-		for (c='a'; c<'h'; c++)
+		mymap['a'] = 101;
+		mymap['c'] = 202;
+		mymap['f'] = 303;
+		print_map(mymap, "mymap");
+		for (c = 'a'; c < 'h'; c++)
 		{
 			std::cout << c;
-			if (mymap.count(c)>0)
-				std::cout << " is an element of mymap.\n";
+			if (mymap.count(c))
+				std::cout << MA << " is an element of mymap" << NC << std::endl;
 			else 
-				std::cout << " is not an element of mymap.\n";
-  		}
+				std::cout << RE << " is not an element of mymap" << NC << std::endl;
+		}
 	}
-*/
 
 
 	/*************** iterators **************

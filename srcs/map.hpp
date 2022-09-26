@@ -90,22 +90,18 @@ namespace ft
 				if (_tree)
 					delete _tree; // /!\ allocator
 				_tree = new avl<Key, T>(); // /!\ allocator
-				// avl<Key, T> *a = x._tree;
+				avl<Key, T> *a = x._tree;
 				iterator it1 = iterator(x._tree->smallest_node(x._tree->_root), &a);
 				iterator it2 = iterator(x._tree->biggest_node(x._tree->_root), &a);
-				insert(it1, it2);
-				// for (; it1 != it2; it1++)
-				// 	insert(ft::make_pair(it1->first, it1->second));
-				// insert(ft::make_pair(it1->first, it1->second));
+				// insert(it1, it2);
+				for (; it1 != it2; it1++)
+					insert(ft::make_pair(it1->first, it1->second));
+				insert(ft::make_pair(it1->first, it1->second));
 				return (*this);
 			};
 			
 			mapped_type& operator[](const key_type& k) {
-				iterator it = find(k);
-				if (it == end())
-					return (insert(ft::make_pair(k, mapped_type())).first->second);
-				else
-					return (it->second);
+				return (insert(ft::make_pair(k, mapped_type())).first->second);
 			};
 			
 			mapped_type& at(const key_type& k) {
@@ -170,15 +166,23 @@ namespace ft
 					insert(it->p);
 			};
 			
-			// void erase(iterator position);
+			// pb rencontre : erase ne fonctionne pas bien avec position
+
+			// void erase(iterator position) {
+			// 	erase(position->first);
+			// };
 			
 			size_type erase(const key_type& x) {
-				if (!(_tree->delete_node(_tree->_root, x)))
+				if (find(x) == end())
 					return (0);
+				_tree->_root = _tree->delete_node(_tree->_root, x);
 				return (1);
 			};
 			
-			// void erase(iterator first, iterator last);
+			void erase(iterator first, iterator last) {
+				for (iterator it = first; it != last; it++)
+					erase(it->first);
+			};
 			
 			void swap(map<Key, T, Compare, Allocator>&);
 			
@@ -186,9 +190,17 @@ namespace ft
 				_tree->clear();
 			};
 			
-			key_compare key_comp() const;
+			// a verifier both
 			
-			value_compare value_comp() const;
+			// key_compare key_comp() const {
+			// 	key_compare x;
+			// 	return (x);
+			// };
+			
+			// value_compare value_comp() const {
+			// 	value_compare x;
+			// 	return (x);
+			// };
 
 			iterator find(const key_type& x) {
 				node<Key, T> * n = _tree->iterative_search(x); // or recursive ?
@@ -268,35 +280,26 @@ namespace ft
 
 			/**************** NON MEMBER  FUNCTIONS ****************/
 
-	
 			template <class Key, class T, class Compare, class Allocator>
-			bool operator==(const map<Key, T, Compare, Allocator>& x,
-			const map<Key, T, Compare, Allocator>& y);
+			bool operator==(const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y);
 			
 			template <class Key, class T, class Compare, class Allocator>
-			bool operator< (const map<Key, T, Compare, Allocator>& x,
-			const map<Key, T, Compare, Allocator>& y);
+			bool operator< (const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y);
 			
 			template <class Key, class T, class Compare, class Allocator>
-			bool operator!=(const map<Key, T, Compare, Allocator>& x,
-			const map<Key, T, Compare, Allocator>& y);
+			bool operator!=(const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y);
 			
 			template <class Key, class T, class Compare, class Allocator>
-			bool operator> (const map<Key, T, Compare, Allocator>& x,
-			const map<Key, T, Compare, Allocator>& y);
+			bool operator> (const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y);
 			
 			template <class Key, class T, class Compare, class Allocator>
-			bool operator>=(const map<Key, T, Compare, Allocator>& x,
-			const map<Key, T, Compare, Allocator>& y);
+			bool operator>=(const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y);
 			
 			template <class Key, class T, class Compare, class Allocator>
-			bool operator<=(const map<Key, T, Compare, Allocator>& x,
-			const map<Key, T, Compare, Allocator>& y);
-			// specialized algorithms:
-			
+			bool operator<=(const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y);
+
 			template <class Key, class T, class Compare, class Allocator>
-			void swap(map<Key, T, Compare, Allocator>& x,
-			map<Key, T, Compare, Allocator>& y);
+			void swap(map<Key, T, Compare, Allocator>& x, map<Key, T, Compare, Allocator>& y);
 
 }
 

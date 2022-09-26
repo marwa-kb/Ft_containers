@@ -10,15 +10,16 @@ class node
 	public :
 
 
-		typedef Key							key_type;
-		typedef T							mapped_type;
+		typedef Key								key_type;
+		typedef T								mapped_type;
 		// typedef ft::pair<const Key, T>		value_type;
 		// typedef std::size_t					size_type;
 		// typedef std::ptrdiff_t				difference_type;
 		// typedef value_type&					reference;
 		// typedef value_type*					pointer;
 		// typedef typename std::allocator<T>	allocator_type;
-		typedef typename ft::pair<Key, T>	pair;
+		typedef typename ft::pair<Key, T>		pair;
+		typedef typename ft::pair<const Key, T>	const_pair;
 
 
 	private :

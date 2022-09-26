@@ -221,10 +221,7 @@ namespace ft
 			// };
 
 			template <class Iter, class K, class U>
-  			m_iterator(const m_iterator<Iter, K, U> & other) : current(other.base()) {
-				std::cout << BP << "ici dans TEMPLATE M_ITERATOR()" << NC << std::endl;
-
-			};
+  			m_iterator(const m_iterator<Iter, K, U> & other) : current(other.base()) {};
 
 			m_iterator(const iterator_type p, avl<Key, T> **t) : current(iterator_type(p)), tree(*t) {};
 
@@ -233,8 +230,14 @@ namespace ft
 
 			/****************** MEMBER  FUNCTIONS ******************/
 
+			// operator m_iterator<const iterator_type, Key, T>(void) const {
+			// 	return (m_iterator<const iterator_type, Key, T>(current, tree));
+			// };
+
 			template <class Iter, class K, class U>
 			m_iterator & operator=(const m_iterator<Iter, K, U> & other) {
+				std::cout << BP << "ici dans copy assignment operator)" << NC << std::endl;
+
 				current = other.base();
 				if (tree)
 					delete tree; // /!\ allocator
