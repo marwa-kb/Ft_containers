@@ -27,7 +27,7 @@ namespace ft
 			typedef value_type*												pointer;
 			typedef const value_type*										const_pointer;
 			typedef typename ft::m_iterator<node<Key, T>*, Key, T>			iterator;
-			typedef typename ft::m_iterator<const node<Key, T>*, Key, T>	const_iterator;
+			typedef typename ft::m_iterator<node<const Key, const T>*, Key, T>			const_iterator;
 			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 
@@ -75,7 +75,6 @@ namespace ft
 					*this = x;
 				};
 
-
 			~map() {
 				delete _tree; // /!\ allocator
 				_tree = NULL;
@@ -86,16 +85,17 @@ namespace ft
 			
 			map<Key, T, Compare, Allocator>& operator=(const map<Key, T, Compare, Allocator>& x) {
 				_comp = x._comp;
-				_alloc = x._alloc;
+				_alloc = x.get_allocator();
 				if (_tree)
 					delete _tree; // /!\ allocator
 				_tree = new avl<Key, T>(); // /!\ allocator
-				avl<Key, T> *a = x._tree;
-				iterator it1(x._tree->smallest_node(x._tree->_root), &a);
-				iterator it2(x._tree->biggest_node(x._tree->_root), &a);
-				for (; it1 != it2; it1++)
-					insert(ft::make_pair(it1->first, it1->second));
-				insert(ft::make_pair(it1->first, it1->second));
+				// avl<Key, T> *a = x._tree;
+				iterator it1 = iterator(x._tree->smallest_node(x._tree->_root), &a);
+				iterator it2 = iterator(x._tree->biggest_node(x._tree->_root), &a);
+				insert(it1, it2);
+				// for (; it1 != it2; it1++)
+				// 	insert(ft::make_pair(it1->first, it1->second));
+				// insert(ft::make_pair(it1->first, it1->second));
 				return (*this);
 			};
 			
@@ -150,17 +150,22 @@ namespace ft
 				return (p);
 			};
 			
-			iterator insert(iterator position, const value_type& x) {
-				node<Key, T> *new_node = new node<Key, T>(value_type(x)); // /!\ a remplacer par allocator
-				bool ok;
-				_tree->_root = _tree->insert_node(position.base(), new_node, NULL, &ok);
-				if (!ok)
-					delete new_node;
-				return (find(x.first));
-			};
+			// iterator insert(iterator position, const value_type& x) {
+			// 	node<Key, T> *new_node = new node<Key, T>(value_type(x)); // /!\ a remplacer par allocator
+			// 	(void)position;
+			// 	bool ok;
+			// 	_tree->_root = _tree->insert_node(_tree->_root, new_node, NULL, &ok);
+			// 	if (!ok)
+			// 		delete new_node;
+			// 	return (find(x.first));
+			// };
 			
-			// template <class InputIterator>
-			// void insert(InputIterator first, InputIterator last);
+			template <class InputIterator>
+			void insert(InputIterator first, InputIterator last,
+							typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type = 0) {
+				for (InputIterator it = first; it != last; it++)
+					insert(it->p);
+			};
 			
 			// void erase(iterator position);
 			
@@ -218,8 +223,7 @@ namespace ft
 
 
 			/********************** ITERATORS **********************/
-			
-			
+
 			iterator begin() {
 				return (iterator(_tree->smallest_node(_tree->_root), &_tree));
 			};

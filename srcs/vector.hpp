@@ -135,11 +135,11 @@ namespace ft
 				return (_tab[_size - 1]);
 			};
 			
-			T* data() {
+			pointer data() {
 				return (_tab);
 			};
 			
-			const T* data() const {
+			const_pointer data() const {
 				return (_tab);
 			};
 
@@ -175,8 +175,7 @@ namespace ft
 				size_type n = abs(last - first);
 				if (n > _capacity)
 					reserve(n);
-				InputIterator tmp = first;
-				for (; tmp != last; tmp++)
+				for (InputIterator tmp = first; tmp != last; tmp++)
 					push_back(*tmp);
 			};
 

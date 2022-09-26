@@ -220,10 +220,15 @@ namespace ft
 			// 	std::cout << BP << "ici dans exp m_iterator()" << NC << std::endl;
 			// };
 
-			// template <class Iter>
-  			// m_iterator(const m_iterator<Iter> & other) : current(other.base()) {};
+			template <class Iter, class K, class U>
+  			m_iterator(const m_iterator<Iter, K, U> & other) : current(other.base()) {
+				std::cout << BP << "ici dans TEMPLATE M_ITERATOR()" << NC << std::endl;
+
+			};
 
 			m_iterator(const iterator_type p, avl<Key, T> **t) : current(iterator_type(p)), tree(*t) {};
+
+			// m_iterator(const iterator_type p, const avl<Key, T> **t) : current(iterator_type(p)), tree(*t) {};
 
 
 			/****************** MEMBER  FUNCTIONS ******************/

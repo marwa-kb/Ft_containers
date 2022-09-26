@@ -41,9 +41,22 @@ class node
 		node(const pair & x) : p(x), first(x.first), second(x.second),
 				left(NULL), right(NULL), parent(NULL) {};
 
-		node(const node<Key, T> & x) : p(x.p), first(x.first), second(x.second),
-				left(x.left), right(x.right), parent(x.parent) {};
+  		node(const key_type & k, const mapped_type & m) : p(ft::make_pair(k, m)), first(k), second(m),
+				left(NULL), right(NULL), parent(NULL) {
+			std::cout << BP << "ici dans DOUBLE node()" << NC << std::endl;
+		};
 
+		template <class K, class U>
+  		node(const node<K, U> & x) : p(x), first(x.first), second(x.second),
+				left(NULL), right(NULL), parent(NULL) {
+			std::cout << BP << "ici dans TEMPLATE node()" << NC << std::endl;
+		};
+
+		template <class K, class U>
+  		node(const K & k, const U & m) : p(ft::make_pair(k, m)), first(k), second(m),
+				left(NULL), right(NULL), parent(NULL) {
+			std::cout << BP << "ici dans TEMPLATE node()" << NC << std::endl;
+		};
 		~node() {};
 
 };
@@ -62,32 +75,35 @@ class avl
 
 	avl() : _root(NULL), _size(0) {};
 
-	avl(const avl & a) : _root(NULL), _size(a._size) {
-		node<Key, T>* n1 = a._root;
-		node<Key, T>* n2 = _root;
+	// avl(const avl & a) : _root(NULL), _size(a._size) {
+	// 	std::cout << BO << "avl copy constructor" << NC << std::endl;
 
-		while (n1)
-		{
-			while (n1->left)
-			{
-				node<Key, T> *n3 = new node<Key, T>(n1->p);
-				insert_node(n2, n3);
-				n1 = n1->left;
-			}
-			while (n1->right)
-			{
-				node<Key, T> *n4 = new node<Key, T>(n1->p);
-				insert_node(n2, n4);
-				n1 = n1->right;
-			}
-		}
-	};
+	// 	node<Key, T>* n1 = a._root;
+	// 	node<Key, T>* n2 = _root;
+
+	// 	while (n1)
+	// 	{
+	// 		while (n1->left)
+	// 		{
+	// 			node<Key, T> *n3 = new node<Key, T>(n1->p);
+	// 			insert_node(n2, n3);
+	// 			n1 = n1->left;
+	// 		}
+	// 		while (n1->right)
+	// 		{
+	// 			node<Key, T> *n4 = new node<Key, T>(n1->p);
+	// 			insert_node(n2, n4);
+	// 			n1 = n1->right;
+	// 		}
+	// 	}
+	// };
 
 	~avl() {
 		if (_root)
 		{
 			delete_avl(_root);
 			_root = NULL;
+			_size = 0;
 		}
 	};
 
@@ -106,9 +122,14 @@ class avl
 			delete n;
 		}
 		n = NULL;
-		_size = 0;
 	};
 	
+	void clear() {
+		delete_avl(_root);
+		_root = NULL;
+		_size = 0;
+	};
+
 	bool empty() const {
 		if (!_root)
 			return (true);
@@ -175,7 +196,6 @@ class avl
 	node<Key, T> * insert_node(node<Key, T> * n, node<Key, T> * new_node, node<Key, T> * par = NULL, bool *ok = NULL) {
 		if (!n)
 		{
-			// std::cout << UO << "CAS 1 data of new node = " << new_node->first << " et " << new_node->second << NC << std::endl;
 			n = new_node;
 			new_node->parent = par;
 			_size++;
@@ -211,8 +231,6 @@ class avl
 			n->right = right_rotate(n->right);
 			return (left_rotate(n));
 		}
-		if (ok)
-			*ok = true;
 		return (n);
 	};
 
@@ -290,11 +308,6 @@ class avl
 		}
 		return (n);
 	}
-
-	void clear() {
-		delete_avl(_root);
-		_root = NULL;
-	};
 
 	node<Key, T> * iterative_search(const Key & val) const {
 		if (!_root)
