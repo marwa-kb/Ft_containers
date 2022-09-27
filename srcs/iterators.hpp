@@ -4,7 +4,6 @@
 #include <string>
 #include "utils.hpp"
 #include "avl.hpp"
-#include <unistd.h>
 
 
 namespace ft
@@ -201,7 +200,6 @@ namespace ft
 		protected :
 
 			iterator_type		current;
-			// ft::pair<Key, T>	pair;
 			avl<Key, T>			*tree;
 
 
@@ -224,15 +222,15 @@ namespace ft
 			template <class Iter, class K, class U>
   			m_iterator(const m_iterator<Iter, K, U> & other) : current(other.base()) {};
 
-			m_iterator(const iterator_type p, avl<Key, T> **t) : current(iterator_type(p)), tree(*t) {};
+			m_iterator(const iterator_type p, avl<Key, T> *const* t) : current(iterator_type(p)), tree(*t) {};
 
 			// m_iterator(const iterator_type p, const avl<Key, T> **t) : current(iterator_type(p)), tree(*t) {};
 
 
 			/****************** MEMBER  FUNCTIONS ******************/
 
-			// operator m_iterator<const iterator_type, Key, T>(void) const {
-			// 	return (m_iterator<const iterator_type, Key, T>(current, tree));
+			// operator m_iterator<Iterator const, Key, T>() const {
+			// 	return(m_iterator<Iterator const, Key, T>(current, tree));
 			// };
 
 			template <class Iter, class K, class U>

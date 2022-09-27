@@ -119,24 +119,23 @@ void map_tests()
 			std::cout << "element 'z' succcesfully inserted" << std::endl;
 		print_map(mymap, "mymap");
 
-	// /!\ pb
 		// second insert function version (with hint position): 
-		// NAMESPACE::map<char,int>::iterator it = mymap.begin();
-		// NAMESPACE::map<char,int>::iterator itret = mymap.insert(it, NAMESPACE::pair<char,int>('b', 300));		// max efficiency inserting
-		// if (itret == mymap.end())
-		// 	std::cout << BR << "NOPE" << NC << std::endl;
-		// else
-		// 	std::cout << UP << "itret: " << itret->first << ", " << itret->second << NC << std::endl;
-		// print_map(mymap, "mymap");
-		// NAMESPACE::map<char,int>::iterator itret1 = mymap.insert(it, NAMESPACE::pair<char,int>('c', 400));		// no max efficiency inserting
-		// if (itret1 == mymap.end())
-		// 	std::cout << BR << "NOPE" << NC << std::endl;
-		// else
-		// 	std::cout << UP << "itret1: " << itret1->first << ", " << itret1->second << NC << std::endl;
+		NAMESPACE::map<char,int>::iterator it = mymap.begin();
+		NAMESPACE::map<char,int>::iterator itret = mymap.insert(it, NAMESPACE::pair<char,int>('b', 300));		// max efficiency inserting
+		if (itret == mymap.end())
+			std::cout << BR << "NOPE" << NC << std::endl;
+		else
+			std::cout << UP << "itret: " << itret->first << ", " << itret->second << NC << std::endl;
+		print_map(mymap, "mymap");
+		NAMESPACE::map<char,int>::iterator itret1 = mymap.insert(it, NAMESPACE::pair<char,int>('c', 400));		// no max efficiency inserting
+		if (itret1 == mymap.end())
+			std::cout << BR << "NOPE" << NC << std::endl;
+		else
+			std::cout << UP << "itret1: " << itret1->first << ", " << itret1->second << NC << std::endl;
 
 		// third insert function version (range insertion):
 		NAMESPACE::map<char,int> anothermap;
-		anothermap.insert(mymap.begin(),mymap.end());
+		anothermap.insert(mymap.begin(), mymap.end());
 
 		// showing contents:
 		print_map(mymap, "mymap");
@@ -158,13 +157,13 @@ void map_tests()
 		mymap['f'] = 60;
 		print_map(mymap, "mymap");
 
-		// it = mymap.find('b');
-		// mymap.erase(it);	// erasing by iterator
-		// std::cout << YE << "erase(find('b'));" << NC << std::endl;
-		// print_map(mymap, "mymap");
-		// mymap.erase('c');		// erasing by key
-		// std::cout << YE << "erase('c');" << NC << std::endl;
-		// print_map(mymap, "mymap");
+		it = mymap.find('b');
+		mymap.erase(it);	// erasing by iterator
+		std::cout << YE << "erase(find('b'));" << NC << std::endl;
+		print_map(mymap, "mymap");
+		mymap.erase('c');		// erasing by key
+		std::cout << YE << "erase('c');" << NC << std::endl;
+		print_map(mymap, "mymap");
 		// it = mymap.find('e');
 		// mymap.erase(it, mymap.end());	// erasing by range
 		// std::cout << YE << "erase(find('e'), mymap.end());" << NC << std::endl;
@@ -203,12 +202,12 @@ void map_tests()
 		
   		std::cout << "mymap contains:\n";
 		
-  		NAMESPACE::pair<char, int> highest = *mymap.rbegin();
+  		// NAMESPACE::pair<char, int> highest = *mymap.rbegin();
 		
-  		NAMESPACE::map<char, int>::iterator it = mymap.begin();
-  		do
-    		std::cout << it->first << " => " << it->second << '\n';
-		while (mymap.value_comp()(*it++, highest));
+  		// NAMESPACE::map<char, int>::iterator it = mymap.begin();
+  		// do
+    	// 	std::cout << it->first << " => " << it->second << '\n';
+		// while (mymap.value_comp()(*it++, highest));
 	}
 
 	/*key_comp*/

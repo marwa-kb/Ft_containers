@@ -25,7 +25,7 @@ namespace ft
 			typedef Key	 														key_type;
 			typedef T	 														mapped_type;
 			typedef Compare	 													key_compare;
-			typedef ft::pair<const Key, T>										value_type;// /!\ pareil
+			typedef ft::pair<const Key, T>										value_type;
 			typedef Allocator	 												allocator_type;
 			typedef std::size_t													size_type;
 			typedef std::ptrdiff_t												difference_type;
@@ -67,24 +67,27 @@ namespace ft
 
 			avl *_create_avl() {
 				avl *tree = _avl_alloc.allocate(1);
-				_avl_alloc.construct(tree, avl());
+				_avl_alloc.construct(&tree[0], avl());
 				return (tree);
 			};
 
 			void _destroy_avl() {
-				_avl_alloc.destroy(_tree);
+				_avl_alloc.destroy(&_tree[0]);
 				_avl_alloc.deallocate(_tree, 1);
 				_tree = NULL;
 			};
 
 			node *_create_node(const value_type & x) {
 				node * n = _alloc.allocate(1);
-				_alloc.construct(n, node(x));
+				// std::cout << BY << "In insert(it, x),  it->first = " << x.first << " et it->second = " << x.second << NC << std::endl; 
+				_alloc.construct(&n[0], x);
+				// std::cout << BR << "In insert(it, x),  it->first = " << x.first << " et it->second = " << x.second << NC << std::endl; 
+
 				return (n);
 			};
 
 			void _destroy_node(node * n) {
-				_alloc.destroy(n);
+				_alloc.destroy(&n[0]);
 				_alloc.deallocate(n, 1);
 				n = NULL;
 			};
@@ -101,7 +104,7 @@ namespace ft
 			// template <class InputIterator>
 			// map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator());
 
-			map(const map<Key, T, Compare, Allocator>& x)
+			map(map<Key, T, Compare, Allocator>& x)
 				: _comp(x._comp), _alloc(x._alloc), _avl_alloc(avl_allocator()), _tree(NULL) {
 					*this = x;
 				};
@@ -115,19 +118,20 @@ namespace ft
 			
 			//pb rencontre : ca marchait mais avec insert ca marche pas bien : surement un pb de const iterator
 
-			map<Key, T, Compare, Allocator>& operator=(const map<Key, T, Compare, Allocator>& x) {
+			map<Key, T, Compare, Allocator>& operator=(map<Key, T, Compare, Allocator>& x) {
 				_comp = x.key_comp();
 				_alloc = x.get_allocator();
 				if (_tree)
 					_destroy_avl();
 				_tree = _create_avl();
 				avl *a = x._tree;
-				iterator it1 = iterator(x._tree->smallest_node(x._tree->_root), &a);
-				iterator it2 = iterator(x._tree->biggest_node(x._tree->_root), &a);
-				// insert(it1, it2);
-				for (; it1 != it2; it1++)
-					insert(ft::make_pair(it1->first, it1->second));
-				insert(ft::make_pair(it1->first, it1->second));
+				// iterator it1 = iterator(x._tree->smallest_node(x._tree->_root), &a);
+				// iterator it2 = iterator(x._tree->biggest_node(x._tree->_root), &a);
+				// // insert(it1, it2);
+				// for (; it1 != it2; it1++)
+				// 	insert(ft::make_pair(it1->first, it1->second));
+				// insert(ft::make_pair(it1->first, it1->second));
+				insert(x.begin(), x.end());
 				return (*this);
 			};
 			
@@ -173,37 +177,38 @@ namespace ft
 				bool ok;
 				_tree->_root = _tree->insert_node(_tree->_root, new_node, NULL, &ok);
 				if (!ok)
-					delete new_node;
+					_destroy_node(new_node);
 				pair<iterator, bool> p(find(x.first), ok);
 				return (p);
 			};
-
-			// pb rencontre : insert ne fonctionne pas bien avec position
 			
-			// iterator insert(iterator position, const value_type& x) {
-			// 	node *new_node = new node(value_type(x)); // /!\ a remplacer par allocator
-			// 	(void)position;
-			// 	bool ok;
-			// 	_tree->_root = _tree->insert_node(_tree->_root, new_node, NULL, &ok);
-			// 	if (!ok)
-			// 		delete new_node;
-			// 	return (find(x.first));
-			// };
+			iterator insert(iterator position, const value_type& x) {
+				(void)position;
+				node *new_node = _create_node(x);
+				bool ok;
+				_tree->_root = _tree->insert_node(_tree->_root, new_node, NULL, &ok);
+				if (!ok)
+					_destroy_node(new_node);
+				return (find(x.first));
+			};
 			
 			template <class InputIterator>
 			void insert(InputIterator first, InputIterator last,
 							typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type = 0) {
-				for (InputIterator it = first; it != last; it++)
-					insert(it->p);
+				for (InputIterator it = first; it != last; it++){
+					insert(it, ft::make_pair(it->first, it->second));
+				}
 			};
 			
 			// pb rencontre : erase ne fonctionne pas bien avec position
 
-			// void erase(iterator position) {
-			// 	erase(position->first);
-			// };
+			void erase(iterator position) {
+				std::cout << BO << "In erase(it), it->first = " << position->first << " et it->second = " << position->second << NC << std::endl; 
+				erase(position->first);
+			};
 			
 			size_type erase(const key_type& x) {
+				std::cout << BP << "In erase(x),  x = " << x << NC << std::endl; 
 				if (find(x) == end())
 					return (0);
 				_tree->_root = _tree->delete_node(_tree->_root, x);
@@ -212,7 +217,10 @@ namespace ft
 			
 			void erase(iterator first, iterator last) {
 				for (iterator it = first; it != last; it++)
+				{
+					std::cout << BR << "In erase(it, it),  it->first = " << it->first << " et it->second = " << it->second << NC << std::endl; 
 					erase(it->first);
+				}
 			};
 			
 			void swap(map<Key, T, Compare, Allocator>&);

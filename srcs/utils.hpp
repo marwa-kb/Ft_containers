@@ -1,9 +1,10 @@
 #ifndef UTILS_HPP
 # define UTILS_HPP
 
+
+
 namespace ft
 {
-	
 	/****************** ENABLE_IF ******************/
 
 	template <bool B, class T = void>
@@ -158,12 +159,15 @@ namespace ft
 
 	/********************* PAIR ********************/
 
+
 	template <class T1, class T2>
 	struct pair
 	{
+		class node;
 
 		typedef T1	first_type;
 		typedef T2	second_type;
+		// typedef node<T1, T2> node;
 
 		first_type	first;
 		second_type	second;
@@ -175,6 +179,8 @@ namespace ft
 		pair(const pair<U, V> & pr) : first(pr.first), second(pr.second) {};
 		
 		pair(const first_type & a, const second_type & b) : first(a), second(b) {};
+
+		pair(node & n) : first(n.first), second(n.second) {};
 
 		pair & operator=(const pair & pr) {
 			first = pr.first;
@@ -208,7 +214,6 @@ namespace ft
 
 	};
 
-
 	/****************** MAKE_PAIR *******************/
 
 	template< class T1, class T2 >
@@ -227,7 +232,6 @@ namespace ft
 		typedef Arg2 second_argument_type;
 		typedef Result result_type;
 	};
-
 }
 
 #endif

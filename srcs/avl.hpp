@@ -1,24 +1,26 @@
 #ifndef AVL_HPP
 # define AVL_HPP
 
-#include "utils.hpp"
 #include "iterators.hpp"
+#include "utils.hpp"
+
 
 template <class Key, class T>
 class node
 {
+
 	public :
 
 
 		typedef Key								key_type;
 		typedef T								mapped_type;
 		typedef node<const Key, T>				value_type;
-		// typedef value_type&						reference;
+		typedef value_type&						reference;
 		typedef typename ft::pair<Key, T>		pair;
 		typedef typename ft::pair<const Key, T>	pair_c;
 		typedef const pair						const_pair;
 		typedef const pair_c					const_pair_c;
-		typedef pair_c&							reference;
+		// typedef pair&							reference;
 		// typedef const pair_ck					const_pair_ck;
 
 
@@ -43,18 +45,16 @@ class node
 				left(NULL), right(NULL), parent(NULL) {};
 
   		node(const key_type & k, const mapped_type & m) : p(ft::make_pair(k, m)), first(k), second(m),
-				left(NULL), right(NULL), parent(NULL) {
-		};
+				left(NULL), right(NULL), parent(NULL) {};
 
 		template <class K, class U>
-  		node(const node<K, U> & x) : p(x), first(x.first), second(x.second),
-				left(NULL), right(NULL), parent(NULL) {
-		};
+  		node(const node<const K, U> & x) : p(x), first(x.first), second(x.second),
+				left(x.left), right(x.right), parent(x.parent) {};
 
-		template <class K, class U>
-  		node(const K & k, const U & m) : p(ft::make_pair(k, m)), first(k), second(m),
-				left(NULL), right(NULL), parent(NULL) {
-		};
+		// template <class K, class U>
+  		// node(const K & k, const U & m) : p(ft::make_pair(k, m)), first(k), second(m),
+		// 		left(NULL), right(NULL), parent(NULL) {
+		// };
 		~node() {};
 
 
@@ -66,32 +66,35 @@ class node
 
 		// operator pair();
 		// operator pair_t();
-		// operator const_pair();
-		operator const_pair_c();
+		operator const_pair();
+		// operator const_pair_c();
 		// operator pair_c();
 
 };
-// 
-// template <class Key, class T>
-// node<Key, T>::operator pair() {
-	// std::cout << BP << "in ope pair() node" << NC << std::endl;
-	// pair obj(first, second);
-	// return (obj);
-// }
+
 
 // template <class Key, class T>
-// node<Key, T>::operator const_pair() {
-// 	std::cout << BP << "in ope pair() node" << NC << std::endl;
-// 	const_pair obj(first, second);
+// node<Key, T>::operator pair() {
+// 	std::cout << BP << "in ope const_() node" << NC << std::endl;
+// 	pair obj(first, second);
+// 	// obj.first = first;
+// 	// obj.second = second;
 // 	return (obj);
 // }
 
 template <class Key, class T>
-node<Key, T>::operator const_pair_c() {
+node<Key, T>::operator const_pair() {
 	std::cout << BP << "in ope pair() node" << NC << std::endl;
-	const_pair_c obj(first, second);
+	const_pair obj(first, second);
 	return (obj);
 }
+
+// template <class Key, class T>
+// node<Key, T>::operator const_pair_c() {
+// 	std::cout << BP << "in ope pair() node" << NC << std::endl;
+// 	const_pair_c obj(first, second);
+// 	return (obj);
+// }
 
 
 
@@ -101,14 +104,16 @@ class avl
 
 	public:
 
-		typedef std::size_t			size_type;
-		typedef	node<const Key, T>	node;
+		typedef std::size_t				size_type;
+		typedef	node<const Key, T>		node;
+		typedef	std::allocator<node>	allocator;
 
 		node		*_root;
 		size_type	_size;
+		allocator	_alloc;
 
 
-	avl() : _root(NULL), _size(0) {};
+	avl() : _root(NULL), _size(0), _alloc() {};
 
 	// avl(const avl & a) : _root(NULL), _size(a._size) {
 	// 	std::cout << BO << "avl copy constructor" << NC << std::endl;
@@ -147,14 +152,26 @@ class avl
 	// 	return (n);
 	// }
 	
-	
+	// node *create_node(const value_type & x) {
+	// 	node * n = _alloc.allocate(1);
+	// 	_alloc.construct(&n[0], x);
+	// 	return (n);
+	// };
+
+	void destroy_node(node * n) {
+		std::cout << UC << n->first << " DESTOYED" << NC << std::endl;
+		_alloc.destroy(&n[0]);
+		_alloc.deallocate(n, 1);
+		n = NULL;
+	};
+
 	void delete_avl(node * n) {
 		if (n)
 		{
 			delete_avl(n->left);
 			delete_avl(n->right);
-			// std::cout << BR << n->first << " DELETED" << NC << std::endl;
-			delete n;
+			std::cout << BR << n->first << " DELETED" << NC << std::endl;
+			destroy_node(n);
 		}
 		n = NULL;
 	};
@@ -199,8 +216,8 @@ class avl
 		node * n_l = n->left;
 		node * n_l_r = n_l->right;
 		node * n_p = n->parent;
-		// std::cout << UR << "RIGHT ROTATE" << NC << std::endl;
-		// std::cout << UO << "data of node = " << n->first << " et " << n->second << NC << std::endl;
+		std::cout << UR << "RIGHT ROTATE" << NC << std::endl;
+		std::cout << UO << "data of node = " << n->first << " et " << n->second << NC << std::endl;
 
 		n_l->parent = n_p;
 		if (n_l_r)
@@ -216,8 +233,8 @@ class avl
 		node * n_r_l = n_r->left;
 		node * n_p = n->parent;
 
-		// std::cout << UR << "LEFT ROTATE" << NC << std::endl;
-		// std::cout << UO << "data of node = " << n->first << " et " << n->second << NC << std::endl;
+		std::cout << UR << "LEFT ROTATE" << NC << std::endl;
+		std::cout << UO << "data of node = " << n->first << " et " << n->second << NC << std::endl;
 
 		n_r->parent = n_p;
 		if (n_r_l)
@@ -284,6 +301,7 @@ class avl
 	};
 
 	node * delete_node(node * n, const Key v) {
+		std::cout << BC << "In delete_node, v = " << v << ",  n->first = " << n->first << " et n->second = " << n->second << NC << std::endl; 
 		// base case
 		if (!n)
 			return (NULL);
@@ -297,27 +315,32 @@ class avl
 			if (!n->left)
 			{
 				node * temp = n->right;
-				delete n;	// /!\ remplacer delete par allocator 
+				destroy_node(n);
 				_size--;
 				return (temp);
 			}
 			else if (!n->right)
 			{
 				node * temp = n->left;
-				delete n;	// /!\ remplacer delete par allocator 
+				destroy_node(n);
 				_size--;
 				return (temp);
 			}
 			else 
 			{
-				// node with two children: Get the inorder successor (smallest 
-				// in the right subtree) 
-				node * temp = smallest_node(n->right);
+				// node with two children: Get the inorder successor (smallest in the right subtree) 
+				node * temp = new node(*smallest_node(n->right));
+				node * l = n->left;
+				node * r = n->right;
+				node * p = n->parent;
 				// Copy the inorder successor's content to this node
-				Key temp1 = n->first;
-				T temp2 = n->second;
-				delete n;
-				n = new node(temp1, temp2);
+				_alloc.destroy(&n[0]);
+				_alloc.construct(&n[0], node(ft::make_pair(temp->first, temp->second)));
+				// std::cout << BR << "In delete_node,  n->first = " << n->first << " et n->second = " << n->second << NC << std::endl; 
+
+				n->left = l;
+				n->right = r;
+				n->parent = p;
 				// n->first = temp->first;
 				// Delete the inorder successor 
 				n->right = delete_node(n->right, temp->first);
