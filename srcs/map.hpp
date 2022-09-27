@@ -15,21 +15,21 @@ namespace ft
 
 		public:
 
-			typedef Key	 													key_type;
-			typedef T	 													mapped_type;
-			typedef Compare	 												key_compare;
-			typedef ft::pair<const Key, T>									value_type;// /!\ pareil
-			typedef Allocator	 											allocator_type;
-			typedef std::size_t												size_type;
-			typedef std::ptrdiff_t											difference_type;
-			typedef value_type&												reference;
-			typedef const value_type&										const_reference;
-			typedef value_type*												pointer;
-			typedef const value_type*										const_pointer;
-			typedef typename ft::m_iterator<node<Key, T>*, Key, T>			iterator;
-			typedef typename ft::m_iterator<node<const Key, const T>*, Key, T>			const_iterator;
-			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
-			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
+			typedef Key	 														key_type;
+			typedef T	 														mapped_type;
+			typedef Compare	 													key_compare;
+			typedef ft::pair<const Key, T>										value_type;// /!\ pareil
+			typedef Allocator	 												allocator_type;
+			typedef std::size_t													size_type;
+			typedef std::ptrdiff_t												difference_type;
+			typedef value_type&													reference;
+			typedef const value_type&											const_reference;
+			typedef value_type*													pointer;
+			typedef const value_type*											const_pointer;
+			typedef typename ft::m_iterator<node<Key, T>*, Key, T>				iterator;
+			typedef typename ft::m_iterator<const node<const Key, T>*, Key, T>	const_iterator;
+			typedef typename ft::reverse_iterator<iterator>						reverse_iterator;
+			typedef typename ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 
 
 			class value_compare : public ft::binary_function<value_type, value_type, bool>
@@ -65,6 +65,9 @@ namespace ft
 			explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator())
 				: _comp(comp), _alloc(alloc) {
 					_tree = new avl<Key, T>(); // /!\ allocator
+					// _tree = _alloc.allocate();
+					// for (size_type i = 0; i < n; i++)
+						// _alloc.construct(&_tab[i], value_type(val));
 				};
 
 			// template <class InputIterator>
@@ -84,6 +87,7 @@ namespace ft
 			/****************** MEMBER  FUNCTIONS ******************/
 			
 			//pb rencontre : ca marchait mais avec insert ca marche pas bien : surement un pb de const iterator
+
 			map<Key, T, Compare, Allocator>& operator=(const map<Key, T, Compare, Allocator>& x) {
 				_comp = x._comp;
 				_alloc = x.get_allocator();
@@ -189,18 +193,16 @@ namespace ft
 			void clear() {
 				_tree->clear();
 			};
+						
+			key_compare key_comp() const {
+				key_compare x;
+				return (x);
+			};
 			
-			// a verifier both
-			
-			// key_compare key_comp() const {
-			// 	key_compare x;
-			// 	return (x);
-			// };
-			
-			// value_compare value_comp() const {
-			// 	value_compare x;
-			// 	return (x);
-			// };
+			value_compare value_comp() const {
+				value_compare x(key_comp());
+				return (x);
+			};
 
 			iterator find(const key_type& x) {
 				node<Key, T> * n = _tree->iterative_search(x); // or recursive ?

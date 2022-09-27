@@ -19,7 +19,11 @@ class node
 		// typedef value_type*					pointer;
 		// typedef typename std::allocator<T>	allocator_type;
 		typedef typename ft::pair<Key, T>		pair;
-		typedef typename ft::pair<const Key, T>	const_pair;
+		typedef typename ft::pair<const Key, T>	pair_ck;
+		typedef const pair						const_pair;
+		typedef const pair_ck					const_pair_ck;
+		typedef pair&							reference;
+		typedef const_pair&						const_reference;
 
 
 	private :
@@ -60,7 +64,38 @@ class node
 		};
 		~node() {};
 
+
+		reference operator*() const {
+			std::cout << BC << "dans ope* de node" << NC << std::endl;
+			return (p);
+		};
+
+		operator pair();
+		operator pair_ck();
+		// operator const_pair();
+
 };
+
+template <class Key, class T>
+node<Key, T>::operator pair() {
+	pair obj;
+	obj.first = first;
+	obj.second = second;
+	return (obj);
+}
+
+template <class Key, class T>
+node<Key, T>::operator pair_ck() {
+	pair_ck obj(first, second);
+	return (obj);
+}
+
+// template <class Key, class T>
+// node<Key, T>::operator const_pair() {
+	// const_pair obj(first, second);
+	// return (obj);
+// }
+// 
 
 template <class Key, class T>
 class avl

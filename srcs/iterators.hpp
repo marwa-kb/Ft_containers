@@ -200,8 +200,9 @@ namespace ft
 
 		protected :
 
-			iterator_type	current;
-			avl<Key, T>		*tree;
+			iterator_type		current;
+			// ft::pair<Key, T>	pair;
+			avl<Key, T>			*tree;
 
 
 		public :
