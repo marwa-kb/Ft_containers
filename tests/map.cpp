@@ -196,16 +196,16 @@ void map_tests()
 	{
 		std::cout << GN << "\n*value_comp*" << NC << std::endl;
 		
-		NAMESPACE::map<char,int> mymap;
+		NAMESPACE::map<char, int> mymap;
   		mymap['x'] = 1001;
   		mymap['y'] = 2002;
   		mymap['z'] = 3003;
 		
   		std::cout << "mymap contains:\n";
 		
-  		NAMESPACE::pair<char,int> highest = *mymap.rbegin();          // last element
+  		NAMESPACE::pair<char, int> highest = *mymap.rbegin();
 		
-  		NAMESPACE::map<char,int>::iterator it = mymap.begin();
+  		NAMESPACE::map<char, int>::iterator it = mymap.begin();
   		do
     		std::cout << it->first << " => " << it->second << '\n';
 		while (mymap.value_comp()(*it++, highest));
@@ -215,15 +215,15 @@ void map_tests()
 	{
 		std::cout << GN << "\n*key_comp*" << NC << std::endl;
 
-		NAMESPACE::map<char,int> mymap;
-		NAMESPACE::map<char,int>::key_compare mycomp = mymap.key_comp();
+		NAMESPACE::map<char, int> mymap;
+		NAMESPACE::map<char, int>::key_compare mycomp = mymap.key_comp();
 		mymap['a'] = 100;
 		mymap['b'] = 200;
 		mymap['c'] = 300;
 		
 		std::cout << "mymap contains:\n";
 		char highest = mymap.rbegin()->first;     // key value of last element
-		NAMESPACE::map<char,int>::iterator it = mymap.begin();
+		NAMESPACE::map<char, int>::iterator it = mymap.begin();
 		do
 			std::cout << it->first << " => " << it->second << '\n';
 		while (mycomp((*it++).first, highest));

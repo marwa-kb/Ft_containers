@@ -9,9 +9,16 @@
 namespace ft
 {
 
-	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > > // /!\ ft::pair au lieu de stdf
+	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<node<const Key, T> > >
 	class map
 	{
+
+		private :
+
+			typedef	avl<Key, T>			avl;
+			typedef	node<const Key, T>	node;
+			typedef	std::allocator<avl>	avl_allocator;
+
 
 		public:
 
@@ -26,8 +33,8 @@ namespace ft
 			typedef const value_type&											const_reference;
 			typedef value_type*													pointer;
 			typedef const value_type*											const_pointer;
-			typedef typename ft::m_iterator<node<Key, T>*, Key, T>				iterator;
-			typedef typename ft::m_iterator<const node<const Key, T>*, Key, T>	const_iterator;
+			typedef typename ft::m_iterator<node*, Key, T>						iterator;
+			typedef typename ft::m_iterator<const node*, Key, T>				const_iterator;
 			typedef typename ft::reverse_iterator<iterator>						reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 
@@ -53,34 +60,54 @@ namespace ft
 
 		private :
 
-			key_compare		_comp;
-			allocator_type	_alloc;
-			avl<Key, T>		*_tree;
+			key_compare			_comp;
+			allocator_type		_alloc;
+			avl_allocator		_avl_alloc;
+			avl					*_tree;
 
+			avl *_create_avl() {
+				avl *tree = _avl_alloc.allocate(1);
+				_avl_alloc.construct(tree, avl());
+				return (tree);
+			};
+
+			void _destroy_avl() {
+				_avl_alloc.destroy(_tree);
+				_avl_alloc.deallocate(_tree, 1);
+				_tree = NULL;
+			};
+
+			node *_create_node(const value_type & x) {
+				node * n = _alloc.allocate(1);
+				_alloc.construct(n, node(x));
+				return (n);
+			};
+
+			void _destroy_node(node * n) {
+				_alloc.destroy(n);
+				_alloc.deallocate(n, 1);
+				n = NULL;
+			};
 
 		public :
 
 			/************* CONSTRUCTOR AND  DESTRUCTOR *************/
 
 			explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator())
-				: _comp(comp), _alloc(alloc) {
-					_tree = new avl<Key, T>(); // /!\ allocator
-					// _tree = _alloc.allocate();
-					// for (size_type i = 0; i < n; i++)
-						// _alloc.construct(&_tab[i], value_type(val));
+				: _comp(comp), _alloc(alloc), _avl_alloc(avl_allocator()) {
+					_tree = _create_avl();
 				};
 
 			// template <class InputIterator>
 			// map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator());
 
 			map(const map<Key, T, Compare, Allocator>& x)
-				: _comp(x._comp), _alloc(x._alloc), _tree(NULL) {
+				: _comp(x._comp), _alloc(x._alloc), _avl_alloc(avl_allocator()), _tree(NULL) {
 					*this = x;
 				};
 
 			~map() {
-				delete _tree; // /!\ allocator
-				_tree = NULL;
+				_destroy_avl();
 			};
 
 
@@ -89,12 +116,12 @@ namespace ft
 			//pb rencontre : ca marchait mais avec insert ca marche pas bien : surement un pb de const iterator
 
 			map<Key, T, Compare, Allocator>& operator=(const map<Key, T, Compare, Allocator>& x) {
-				_comp = x._comp;
+				_comp = x.key_comp();
 				_alloc = x.get_allocator();
 				if (_tree)
-					delete _tree; // /!\ allocator
-				_tree = new avl<Key, T>(); // /!\ allocator
-				avl<Key, T> *a = x._tree;
+					_destroy_avl();
+				_tree = _create_avl();
+				avl *a = x._tree;
 				iterator it1 = iterator(x._tree->smallest_node(x._tree->_root), &a);
 				iterator it2 = iterator(x._tree->biggest_node(x._tree->_root), &a);
 				// insert(it1, it2);
@@ -142,7 +169,7 @@ namespace ft
 			};
 			
 			pair<iterator, bool> insert(const value_type & x) {
-				node<Key, T> *new_node = new node<Key, T>(value_type(x)); // /!\ a remplacer par allocator
+				node *new_node = _create_node(x);
 				bool ok;
 				_tree->_root = _tree->insert_node(_tree->_root, new_node, NULL, &ok);
 				if (!ok)
@@ -154,7 +181,7 @@ namespace ft
 			// pb rencontre : insert ne fonctionne pas bien avec position
 			
 			// iterator insert(iterator position, const value_type& x) {
-			// 	node<Key, T> *new_node = new node<Key, T>(value_type(x)); // /!\ a remplacer par allocator
+			// 	node *new_node = new node(value_type(x)); // /!\ a remplacer par allocator
 			// 	(void)position;
 			// 	bool ok;
 			// 	_tree->_root = _tree->insert_node(_tree->_root, new_node, NULL, &ok);
@@ -205,14 +232,14 @@ namespace ft
 			};
 
 			iterator find(const key_type& x) {
-				node<Key, T> * n = _tree->iterative_search(x); // or recursive ?
+				node * n = _tree->iterative_search(x); // or recursive ?
 				if (!n)
 					return (end());
 				return (iterator(n));
 			};
 			
 			const_iterator find(const key_type& x) const {
-				node<Key, T> * n = _tree->iterative_search(x); // or recursive ?
+				node * n = _tree->iterative_search(x); // or recursive ?
 				if (!n)
 					return (end());
 				return (const_iterator(n));

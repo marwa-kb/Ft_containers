@@ -12,18 +12,14 @@ class node
 
 		typedef Key								key_type;
 		typedef T								mapped_type;
-		// typedef ft::pair<const Key, T>		value_type;
-		// typedef std::size_t					size_type;
-		// typedef std::ptrdiff_t				difference_type;
-		// typedef value_type&					reference;
-		// typedef value_type*					pointer;
-		// typedef typename std::allocator<T>	allocator_type;
+		typedef node<const Key, T>				value_type;
+		// typedef value_type&						reference;
 		typedef typename ft::pair<Key, T>		pair;
-		typedef typename ft::pair<const Key, T>	pair_ck;
+		typedef typename ft::pair<const Key, T>	pair_c;
 		typedef const pair						const_pair;
-		typedef const pair_ck					const_pair_ck;
-		typedef pair&							reference;
-		typedef const_pair&						const_reference;
+		typedef const pair_c					const_pair_c;
+		typedef pair_c&							reference;
+		// typedef const pair_ck					const_pair_ck;
 
 
 	private :
@@ -48,19 +44,16 @@ class node
 
   		node(const key_type & k, const mapped_type & m) : p(ft::make_pair(k, m)), first(k), second(m),
 				left(NULL), right(NULL), parent(NULL) {
-			std::cout << BP << "ici dans DOUBLE node()" << NC << std::endl;
 		};
 
 		template <class K, class U>
   		node(const node<K, U> & x) : p(x), first(x.first), second(x.second),
 				left(NULL), right(NULL), parent(NULL) {
-			std::cout << BP << "ici dans TEMPLATE node()" << NC << std::endl;
 		};
 
 		template <class K, class U>
   		node(const K & k, const U & m) : p(ft::make_pair(k, m)), first(k), second(m),
 				left(NULL), right(NULL), parent(NULL) {
-			std::cout << BP << "ici dans TEMPLATE node()" << NC << std::endl;
 		};
 		~node() {};
 
@@ -70,32 +63,37 @@ class node
 			return (p);
 		};
 
-		operator pair();
-		operator pair_ck();
+
+		// operator pair();
+		// operator pair_t();
 		// operator const_pair();
+		operator const_pair_c();
+		// operator pair_c();
 
 };
-
-template <class Key, class T>
-node<Key, T>::operator pair() {
-	pair obj;
-	obj.first = first;
-	obj.second = second;
-	return (obj);
-}
-
-template <class Key, class T>
-node<Key, T>::operator pair_ck() {
-	pair_ck obj(first, second);
-	return (obj);
-}
+// 
+// template <class Key, class T>
+// node<Key, T>::operator pair() {
+	// std::cout << BP << "in ope pair() node" << NC << std::endl;
+	// pair obj(first, second);
+	// return (obj);
+// }
 
 // template <class Key, class T>
 // node<Key, T>::operator const_pair() {
-	// const_pair obj(first, second);
-	// return (obj);
+// 	std::cout << BP << "in ope pair() node" << NC << std::endl;
+// 	const_pair obj(first, second);
+// 	return (obj);
 // }
-// 
+
+template <class Key, class T>
+node<Key, T>::operator const_pair_c() {
+	std::cout << BP << "in ope pair() node" << NC << std::endl;
+	const_pair_c obj(first, second);
+	return (obj);
+}
+
+
 
 template <class Key, class T>
 class avl
@@ -103,10 +101,11 @@ class avl
 
 	public:
 
-		typedef std::size_t	size_type;
+		typedef std::size_t			size_type;
+		typedef	node<const Key, T>	node;
 
-		node<Key, T> *	_root;
-		size_type		_size;
+		node		*_root;
+		size_type	_size;
 
 
 	avl() : _root(NULL), _size(0) {};
@@ -149,7 +148,7 @@ class avl
 	// }
 	
 	
-	void delete_avl(node<Key, T> * n) {
+	void delete_avl(node * n) {
 		if (n)
 		{
 			delete_avl(n->left);
@@ -176,7 +175,7 @@ class avl
 		return (_size);
 	};
 
-	int height(node<Key, T> * n) {
+	int height(node * n) {
 		if (!n)
 			return (-1);
 		else
@@ -190,16 +189,16 @@ class avl
 		}
 	};
 
-	int balance_factor(node<Key, T> * n) {
+	int balance_factor(node * n) {
 		if (!n)
 			return (-1);
 		return (height(n->left) - height(n->right));
 	};
 
-	node<Key, T> * right_rotate(node<Key, T> * n) {
-		node<Key, T> * n_l = n->left;
-		node<Key, T> * n_l_r = n_l->right;
-		node<Key, T> * n_p = n->parent;
+	node * right_rotate(node * n) {
+		node * n_l = n->left;
+		node * n_l_r = n_l->right;
+		node * n_p = n->parent;
 		// std::cout << UR << "RIGHT ROTATE" << NC << std::endl;
 		// std::cout << UO << "data of node = " << n->first << " et " << n->second << NC << std::endl;
 
@@ -212,10 +211,10 @@ class avl
 		return (n_l);
 	};
 
-	node<Key, T> * left_rotate(node<Key, T> * n) {
-		node<Key, T> * n_r = n->right;
-		node<Key, T> * n_r_l = n_r->left;
-		node<Key, T> * n_p = n->parent;
+	node * left_rotate(node * n) {
+		node * n_r = n->right;
+		node * n_r_l = n_r->left;
+		node * n_p = n->parent;
 
 		// std::cout << UR << "LEFT ROTATE" << NC << std::endl;
 		// std::cout << UO << "data of node = " << n->first << " et " << n->second << NC << std::endl;
@@ -229,7 +228,7 @@ class avl
 		return (n_r);
 	};
 
-	node<Key, T> * insert_node(node<Key, T> * n, node<Key, T> * new_node, node<Key, T> * par = NULL, bool *ok = NULL) {
+	node * insert_node(node * n, node * new_node, node * par = NULL, bool *ok = NULL) {
 		if (!n)
 		{
 			n = new_node;
@@ -270,25 +269,21 @@ class avl
 		return (n);
 	};
 
-	node<Key, T> * smallest_node(node<Key, T> * n) {	//loop down to find the leftmost leaf
-		node<Key, T> * current = n;
+	node * smallest_node(node * n) {	//loop down to find the leftmost leaf
+		node * current = n;
 		while (current && current->left)
 			current = current->left;
 		return (current);
 	};
 
-	node<Key, T> * biggest_node(node<Key, T> * n) {		//loop down to find the righftmost leaf
-		node<Key, T> * current = n;
+	node * biggest_node(node * n) {		//loop down to find the righftmost leaf
+		node * current = n;
 		while (current && current->right)
 			current = current->right;
-		// if (current)
-		// 	std::cout << BR << "current->first = " << current->first << " et current->second = " << current->second << NC << std::endl;
-		// else
-		// 	std::cout << BR << "no current" << NC << std::endl;
 		return (current);
 	};
 
-	node<Key, T> * delete_node(node<Key, T> * n, Key v) {
+	node * delete_node(node * n, const Key v) {
 		// base case
 		if (!n)
 			return (NULL);
@@ -301,14 +296,14 @@ class avl
 			// node with only one child or no child 
 			if (!n->left)
 			{
-				node<Key, T> * temp = n->right;
+				node * temp = n->right;
 				delete n;	// /!\ remplacer delete par allocator 
 				_size--;
 				return (temp);
 			}
 			else if (!n->right)
 			{
-				node<Key, T> * temp = n->left;
+				node * temp = n->left;
 				delete n;	// /!\ remplacer delete par allocator 
 				_size--;
 				return (temp);
@@ -317,9 +312,13 @@ class avl
 			{
 				// node with two children: Get the inorder successor (smallest 
 				// in the right subtree) 
-				node<Key, T> * temp = smallest_node(n->right);
-				// Copy the inorder successor's content to this node 
-				n->first = temp->first;
+				node * temp = smallest_node(n->right);
+				// Copy the inorder successor's content to this node
+				Key temp1 = n->first;
+				T temp2 = n->second;
+				delete n;
+				n = new node(temp1, temp2);
+				// n->first = temp->first;
 				// Delete the inorder successor 
 				n->right = delete_node(n->right, temp->first);
 			}
@@ -345,12 +344,12 @@ class avl
 		return (n);
 	}
 
-	node<Key, T> * iterative_search(const Key & val) const {
+	node * iterative_search(const Key & val) const {
 		if (!_root)
 			return (NULL);
 		else
 		{
-			node<Key, T> * temp = _root;
+			node * temp = _root;
 			while (temp)
 			{
 				if (val == temp->first)
@@ -364,7 +363,7 @@ class avl
 		}
 	};
 
-	node<Key, T> * recursive_search(node<Key, T> * r, const Key & val) const {
+	node * recursive_search(node * r, const Key & val) const {
 		if (!r || r->first == val)
 			return (r);
 		else if (val < r->first)

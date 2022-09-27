@@ -24,7 +24,7 @@ namespace ft
 	struct integral_constant
 	{
 		typedef T							value_type;
-	   	typedef ft::integral_constant<T,v>	type;
+	   	typedef ft::integral_constant<T, v>	type;
 
 		static const T value = v;
 
