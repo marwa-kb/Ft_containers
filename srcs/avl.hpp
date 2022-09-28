@@ -216,8 +216,8 @@ class avl
 		node * n_l = n->left;
 		node * n_l_r = n_l->right;
 		node * n_p = n->parent;
-		std::cout << UR << "RIGHT ROTATE" << NC << std::endl;
-		std::cout << UO << "data of node = " << n->first << " et " << n->second << NC << std::endl;
+		// std::cout << UR << "RIGHT ROTATE" << NC << std::endl;
+		// std::cout << UO << "data of node = " << n->first << " et " << n->second << NC << std::endl;
 
 		n_l->parent = n_p;
 		if (n_l_r)
@@ -233,8 +233,8 @@ class avl
 		node * n_r_l = n_r->left;
 		node * n_p = n->parent;
 
-		std::cout << UR << "LEFT ROTATE" << NC << std::endl;
-		std::cout << UO << "data of node = " << n->first << " et " << n->second << NC << std::endl;
+		// std::cout << UR << "LEFT ROTATE" << NC << std::endl;
+		// std::cout << UO << "data of node = " << n->first << " et " << n->second << NC << std::endl;
 
 		n_r->parent = n_p;
 		if (n_r_l)
@@ -301,7 +301,7 @@ class avl
 	};
 
 	node * delete_node(node * n, const Key v) {
-		std::cout << BC << "In delete_node, v = " << v << ",  n->first = " << n->first << " et n->second = " << n->second << NC << std::endl; 
+		// std::cout << BC << "In delete_node, v = " << v << ",  n->first = " << n->first << " et n->second = " << n->second << NC << std::endl; 
 		// base case
 		if (!n)
 			return (NULL);
@@ -328,8 +328,17 @@ class avl
 			}
 			else 
 			{
-				// node with two children: Get the inorder successor (smallest in the right subtree) 
+				// node with two children: Get the inorder successor (smallest in the right subtree)
+				int side = 0;
+				if (n->parent && n->parent->left == n)
+					side = 1;
+				if (n->parent && n->parent->right == n)
+					side = 2;
+
 				node * temp = new node(*smallest_node(n->right));
+				node * temp_l = temp->left;
+				node * temp_r = temp->right;
+				node * temp_p = temp->parent;
 				node * l = n->left;
 				node * r = n->right;
 				node * p = n->parent;
@@ -337,13 +346,21 @@ class avl
 				_alloc.destroy(&n[0]);
 				_alloc.construct(&n[0], node(ft::make_pair(temp->first, temp->second)));
 				// std::cout << BR << "In delete_node,  n->first = " << n->first << " et n->second = " << n->second << NC << std::endl; 
-
 				n->left = l;
 				n->right = r;
 				n->parent = p;
+				l->parent = n;
+				r->parent = n;
+				if (p && side == 1)
+					p->left = n;
+				if (p && side == 2)
+					p->right = n;
+
 				// n->first = temp->first;
 				// Delete the inorder successor 
 				n->right = delete_node(n->right, temp->first);
+				if (temp)
+					destroy_node(temp);
 			}
 		}
 

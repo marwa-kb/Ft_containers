@@ -203,12 +203,12 @@ namespace ft
 			// pb rencontre : erase ne fonctionne pas bien avec position
 
 			void erase(iterator position) {
-				std::cout << BO << "In erase(it), it->first = " << position->first << " et it->second = " << position->second << NC << std::endl; 
+				// std::cout << BO << "In erase(it), it->first = " << position->first << " et it->second = " << position->second << NC << std::endl; 
 				erase(position->first);
 			};
 			
 			size_type erase(const key_type& x) {
-				std::cout << BP << "In erase(x),  x = " << x << NC << std::endl; 
+				// std::cout << BP << "In erase(x),  x = " << x << NC << std::endl; 
 				if (find(x) == end())
 					return (0);
 				_tree->_root = _tree->delete_node(_tree->_root, x);
@@ -218,7 +218,7 @@ namespace ft
 			void erase(iterator first, iterator last) {
 				for (iterator it = first; it != last; it++)
 				{
-					std::cout << BR << "In erase(it, it),  it->first = " << it->first << " et it->second = " << it->second << NC << std::endl; 
+					// std::cout << BR << "In erase(it, it),  it->first = " << it->first << " et it->second = " << it->second << NC << std::endl; 
 					erase(it->first);
 				}
 			};
