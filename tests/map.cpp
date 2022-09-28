@@ -154,14 +154,14 @@ void map_tests()
 		mymap['f'] = 60;
 		print_map(mymap, "mymap");
 
-		// it = mymap.find('b');
-		// mymap.erase(it);	// erasing by iterator
-		// std::cout << YE << "erase(find('b'));" << NC << std::endl;
-		// print_map(mymap, "mymap");
+		it = mymap.find('b');
+		mymap.erase(it);	// erasing by iterator
+		std::cout << YE << "erase(find('b'));" << NC << std::endl;
+		print_map(mymap, "mymap");
 		// mymap.erase('c');		// erasing by key
 		// std::cout << YE << "erase('c');" << NC << std::endl;
 		// print_map(mymap, "mymap");
-		// // it = mymap.find('e');
+		// it = mymap.find('e');
 		// mymap.erase(it, mymap.end());	// erasing by range
 		// std::cout << YE << "erase(find('e'), mymap.end());" << NC << std::endl;
 		// print_map(mymap, "mymap");
@@ -303,7 +303,7 @@ void map_tests()
 	std::cout << "foo is " << (foo < bar ? "inferior" : "superior or equal") << " to bar" << std::endl;
 	std::cout << "foo is " << (foo > foo ? "superior" : "inferior or equal") << " to foo" << std::endl;
 	std::cout << "foo is " << (foo <= bar ? "inferior or equal" : "superior") << " to bar" << std::endl;
-	std::cout << "foo is " << (foo >= foo ? "superior or equal" : "inferior") << "to foo" << std::endl;
+	std::cout << "foo is " << (foo >= foo ? "superior or equal" : "inferior") << " to foo" << std::endl;
 	
 	return ;
 }

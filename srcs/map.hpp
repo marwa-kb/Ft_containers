@@ -184,7 +184,7 @@ namespace ft
 				for (iterator it = first; it != last; it++)
 				{
 					// std::cout << BR << "In erase(it, it),  it->first = " << it->first << " et it->second = " << it->second << NC << std::endl; 
-					erase(it->first);
+					erase(it);
 				}
 			};
 			

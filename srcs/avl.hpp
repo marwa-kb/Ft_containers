@@ -49,6 +49,14 @@ class node
 		// };
 		~node() {};
 
+		node & operator=(const node & n) const {
+			first = n.first;
+			second = n.second;
+			left = n.left;
+			right = n.right;
+			parent = n.parent;
+			return (*this);
+		};
 
 		reference operator*() const {
 			std::cout << BC << "dans ope* de node" << NC << std::endl;
@@ -277,41 +285,120 @@ class avl
 			}
 			else 
 			{
-				// node with two children: Get the inorder successor (smallest in the right subtree)
+				// Copy the inorder successor's content to this node
+				// node * temp = new node(*smallest_node(n->right));
+				
 				int side = 0;
 				if (n->parent && n->parent->left == n)
 					side = 1;
-				if (n->parent && n->parent->right == n)
+				else if (n->parent && n->parent->right == n)
 					side = 2;
+				std::cout<< UG<< "side = " << side << NC << std::endl;
 
-				node * temp = new node(*smallest_node(n->right));
-				node * temp_l = temp->left;
-				node * temp_r = temp->right;
-				node * temp_p = temp->parent;
+				node * tmp = smallest_node(n->right);
+
+				// std::cout << BP << "In delete_node,  n->first = " << n->first << " et n->second = " << n->second << NC << std::endl;
+				// // std::cout << BR << "In delete_node,  test->first = " << test->first << " et test->second = " << test->second << NC << std::endl;
+				// // std::cout << BO << "In delete_node,  test->left->first = " << test->left->first << " et test->left->second = " << test->left->second << NC << std::endl;
+				// std::cout << BC << "In delete_node,  tmp->first = " << tmp->first << " et tmp->second = " << tmp->second << NC << std::endl;
+				// std::cout << BC << "In delete_node,  n->right->first = " << n->right->first << " et n->right->second = " << n->right->second << NC << std::endl;
+
+				node * tmp_l = tmp->left;
+				node * tmp_r = tmp->right;
+				node * tmp_p = tmp->parent;
+
+				std::cout << BG << "In delete_node,  tmp->first = " << tmp->first << " et tmp->second = " << tmp->second << NC << std::endl;
+				// std::cout << BG << "In delete_node,  tmp_l->first = " << tmp_l->first << " et tmp_l->second = " << tmp_l->second << NC << std::endl;
+				// std::cout << BG << "In delete_node,  tmp_r->first = " << tmp_r->first << " et tmp_r->second = " << tmp_r->second << NC << std::endl;
+				std::cout << BG << "In delete_node,  tmp_p->first = " << tmp_p->first << " et tmp_p->second = " << tmp_p->second << NC << std::endl;
+
 				node * l = n->left;
 				node * r = n->right;
 				node * p = n->parent;
-				// Copy the inorder successor's content to this node
-				_alloc.destroy(&n[0]);
-				_alloc.construct(&n[0], node(ft::make_pair(temp->first, temp->second)));
-				// std::cout << BR << "In delete_node,  n->first = " << n->first << " et n->second = " << n->second << NC << std::endl; 
-				n->left = l;
-				n->right = r;
-				n->parent = p;
-				l->parent = n;
-				r->parent = n;
-				if (p && side == 1)
-					p->left = n;
-				if (p && side == 2)
-					p->right = n;
 
-				// n->first = temp->first;
+				std::cout << BO << "In delete_node,  n->first = " << n->first << " et n->second = " << n->second << NC << std::endl;
+				std::cout << BO << "In delete_node,  l->first = " << l->first << " et l->second = " << l->second << NC << std::endl;
+				std::cout << BO << "In delete_node,  r->first = " << r->first << " et r->second = " << r->second << NC << std::endl;
+				std::cout << BO << "In delete_node,  p->first = " << p->first << " et p->second = " << p->second << NC << std::endl;
+				tmp_p->left = n;
+				n->parent = tmp_p;
+
+				if (tmp_r)
+					tmp_r->parent = n;
+				n->right = tmp->right;
+				n->left = tmp_l;
+
+				if (p && side == 1)
+					p->left = tmp;
+				else if (p && side == 2)
+					p->right = tmp;
+				tmp->parent = p;
+
+				if (l)
+					l->parent = tmp;
+				tmp->left = l;
+
+				if (r)
+					r->parent = tmp;
+				// tmp = n;
+
+				std::cout << BG << "In delete_node,  tmp->first = " << tmp->first << " et tmp->second = " << tmp->second << NC << std::endl;
+				// std::cout << BG << "In delete_node,  tmp_l->first = " << tmp_l->first << " et tmp_l->second = " << tmp_l->second << NC << std::endl;
+				// std::cout << BG << "In delete_node,  tmp_r->first = " << tmp_r->first << " et tmp_r->second = " << tmp_r->second << NC << std::endl;
+				std::cout << BG << "In delete_node,  tmp_p->first = " << tmp_p->first << " et tmp_p->second = " << tmp_p->second << NC << std::endl;
+
+				std::cout << BO << "In delete_node,  n->first = " << n->first << " et n->second = " << n->second << NC << std::endl;
+				std::cout << BO << "In delete_node,  l->first = " << l->first << " et l->second = " << l->second << NC << std::endl;
+				std::cout << BO << "In delete_node,  r->first = " << r->first << " et r->second = " << r->second << NC << std::endl;
+				std::cout << BO << "In delete_node,  p->first = " << p->first << " et p->second = " << p->second << NC << std::endl;
+
+				// test->left->right = n;
+				// std::cout << BP << "In delete_node,  n->first = " << n->first << " et n->second = " << n->second << NC << std::endl;
+				// // std::cout << BR << "In delete_node,  test->first = " << test->first << " et test->second = " << test->second << NC << std::endl;
+				// // std::cout << BO << "In delete_node,  test->left->first = " << test->left->first << " et test->left->second = " << test->left->second << NC << std::endl;
+				// // std::cout << BY << "In delete_node,  test->left->right->first = " << test->left->right->first << " et test->left->right->second = " << test->left->right->second << NC << std::endl;
+				// std::cout << BC << "In delete_node,  tmp->first = " << tmp->first << " et tmp->second = " << tmp->second << NC << std::endl;
+				// std::cout << BC << "In delete_node,  n->right->first = " << n->right->first << " et n->right->second = " << n->right->second << NC << std::endl;
+
 				// Delete the inorder successor 
-				n->right = delete_node(n->right, temp->first);
-				if (temp)
-					destroy_node(temp);
+				tmp = delete_node(n->right, n->first);
+				
+				// node with two children: Get the inorder successor (smallest in the right subtree)
+				// int side = 0;
+				// if (n->parent && n->parent->left == n)
+				// 	side = 1;
+				// if (n->parent && n->parent->right == n)
+				// 	side = 2;
+
+				// node * temp = new node(*smallest_node(n->right));
+				// node * temp_l = temp->left;
+				// node * temp_r = temp->right;
+				// node * temp_p = temp->parent;
+				// node * l = n->left;
+				// node * r = n->right;
+				// node * p = n->parent;
+				// // Copy the inorder successor's content to this node
+				// _alloc.destroy(&n[0]);
+				// _alloc.construct(&n[0], node(ft::make_pair(temp->first, temp->second)));
+				// n->left = l;
+				// n->right = r;
+				// n->parent = p;
+				// l->parent = n;
+				// r->parent = n;
+				// if (p && side == 1)
+				// 	p->left = n;
+				// if (p && side == 2)
+				// 	p->right = n;
+
+				// // n->first = temp->first;
+				// // Delete the inorder successor 
+				// n->right = delete_node(n->right, temp->first);
+				// if (temp)
+				// 	destroy_node(temp);
 			}
 		}
+		
+		std::cout << UO << "ARRIVE ICI" << NC << std::endl;
 
 		int bf = balance_factor(n);
 		// Left Left Imbalance/Case or Right rotation 

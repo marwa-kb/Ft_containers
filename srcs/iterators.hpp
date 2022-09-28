@@ -245,7 +245,9 @@ namespace ft
 			explicit m_iterator(iterator_type x) : current(iterator_type(x)) {};
  
 			template <class Iter, class K, class U>
-  			m_iterator(const m_iterator<Iter, K, U> & other) : current(other.base()) {};
+  			m_iterator(const m_iterator<Iter, K, U> & other) : current(other.base()) {
+				// *this = other;
+			};
 
 			m_iterator(const iterator_type p, avl<Key, T> *const* t) : current(iterator_type(p)), tree(*t) {};
 
