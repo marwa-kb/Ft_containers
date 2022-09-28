@@ -58,56 +58,28 @@ namespace ft
 			};
 			
 
-		private :
-
-			key_compare			_comp;
-			allocator_type		_alloc;
-			avl_allocator		_avl_alloc;
-			avl					*_tree;
-
-			avl *_create_avl() {
-				avl *tree = _avl_alloc.allocate(1);
-				_avl_alloc.construct(&tree[0], avl());
-				return (tree);
-			};
-
-			void _destroy_avl() {
-				_avl_alloc.destroy(&_tree[0]);
-				_avl_alloc.deallocate(_tree, 1);
-				_tree = NULL;
-			};
-
-			node *_create_node(const value_type & x) {
-				node * n = _alloc.allocate(1);
-				// std::cout << BY << "In insert(it, x),  it->first = " << x.first << " et it->second = " << x.second << NC << std::endl; 
-				_alloc.construct(&n[0], x);
-				// std::cout << BR << "In insert(it, x),  it->first = " << x.first << " et it->second = " << x.second << NC << std::endl; 
-
-				return (n);
-			};
-
-			void _destroy_node(node * n) {
-				_alloc.destroy(&n[0]);
-				_alloc.deallocate(n, 1);
-				n = NULL;
-			};
 
 		public :
 
 			/************* CONSTRUCTOR AND  DESTRUCTOR *************/
 
 			explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator())
-				: _comp(comp), _alloc(alloc), _avl_alloc(avl_allocator()) {
-					_tree = _create_avl();
-				};
+					: _comp(comp), _alloc(alloc), _avl_alloc(avl_allocator()), _tree(NULL) {
+				_tree = _create_avl();
+			};
 
-			// template <class InputIterator>
-			// map(InputIterator first, InputIterator last, const Compare& comp = Compare(), const Allocator& = Allocator());
+			template <class InputIterator>
+			map(InputIterator first, InputIterator last, const Compare & comp = Compare(), const Allocator & alloc = Allocator(),
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type = 0)
+					: _comp(comp), _alloc(alloc), _avl_alloc(avl_allocator()), _tree(NULL) {
+				_tree = _create_avl();
+				insert(first, last);
+			};
 
 			map(map<Key, T, Compare, Allocator>& x)
-				: _comp(x._comp), _alloc(x._alloc), _avl_alloc(avl_allocator()), _tree(NULL) {
-					*this = x;
-				};
+					: _comp(x._comp), _alloc(x._alloc), _avl_alloc(avl_allocator()), _tree(NULL) {
+				*this = x;
+			};
 
 			~map() {
 				_destroy_avl();
@@ -124,13 +96,6 @@ namespace ft
 				if (_tree)
 					_destroy_avl();
 				_tree = _create_avl();
-				avl *a = x._tree;
-				// iterator it1 = iterator(x._tree->smallest_node(x._tree->_root), &a);
-				// iterator it2 = iterator(x._tree->biggest_node(x._tree->_root), &a);
-				// // insert(it1, it2);
-				// for (; it1 != it2; it1++)
-				// 	insert(ft::make_pair(it1->first, it1->second));
-				// insert(ft::make_pair(it1->first, it1->second));
 				insert(x.begin(), x.end());
 				return (*this);
 			};
@@ -259,19 +224,53 @@ namespace ft
 				return (1);
 			};
 			
-			// iterator lower_bound(const key_type& x);
+			iterator lower_bound(const key_type& x) {
+				for (iterator it = begin(); it != end(); it++)
+				{
+					if ((!_comp(x, it->first) && !_comp(it->first, x)) || _comp(x, it->first))
+						return (it);
+				}
+				return (end());
+			};
+
+			const_iterator lower_bound(const key_type& x) const {
+				for (iterator it = begin(); it != end(); it++)
+				{
+					if ((!_comp(x, it->first) && !_comp(it->first, x)) || _comp(x, it->first))
+						return (it);
+				}
+				return (end());
+			};
 			
-			// const_iterator lower_bound(const key_type& x) const;
+			iterator upper_bound(const key_type& x) {
+				for (iterator it = begin(); it != end(); it++)
+				{
+					if (_comp(x, it->first))
+						return (it);					
+				}
+				return (end());
+			};
 			
-			// iterator upper_bound(const key_type& x);
+			const_iterator upper_bound(const key_type& x) const {
+				for (const_iterator it = begin(); it != end(); it++)
+				{
+					if (_comp(x, it->first))
+						return (it);					
+				}
+				return (end());
+			};
 			
-			// const_iterator upper_bound(const key_type& x) const;
+			pair<iterator, iterator>
+			equal_range(const key_type& x) {
+				iterator lb = lower_bound(x);
+				iterator ub = upper_bound(x);
+				return (ft::make_pair<iterator, iterator>(lb, ub));
+			};
 			
-			// pair<iterator,iterator>
-			// equal_range(const key_type& x);
-			
-			// pair<const_iterator,const_iterator>
-			// equal_range(const key_type& x) const;
+			pair<const_iterator, const_iterator>
+			equal_range(const key_type& x) const {
+				return (ft::make_pair<const_iterator, const_iterator>(lower_bound(x), upper_bound(x)));
+			};
 
 
 			/********************** ITERATORS **********************/
@@ -312,31 +311,70 @@ namespace ft
 				return (const_reverse_iterator(begin()));
 			};
 			
-		};
-	
-
+		
 			/**************** NON MEMBER  FUNCTIONS ****************/
 
-			template <class Key, class T, class Compare, class Allocator>
-			bool operator==(const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y);
+			friend bool operator==(const ft::map<Key, T, Compare, Allocator>& lhs, const ft::map<Key, T, Compare, Allocator>& rhs) {
+				return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+			};
 			
-			template <class Key, class T, class Compare, class Allocator>
-			bool operator< (const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y);
+			friend bool operator!=(const ft::map<Key, T, Compare, Allocator>& lhs, const ft::map<Key, T, Compare, Allocator>& rhs) {
+				return (!(lhs == rhs));
+			};
 			
-			template <class Key, class T, class Compare, class Allocator>
-			bool operator!=(const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y);
+			friend bool operator<(const ft::map<Key, T, Compare, Allocator>& lhs, const ft::map<Key, T, Compare, Allocator>& rhs) {
+				return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+			};
 			
-			template <class Key, class T, class Compare, class Allocator>
-			bool operator> (const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y);
+			friend bool operator<=(const ft::map<Key, T, Compare, Allocator>& lhs, const ft::map<Key, T, Compare, Allocator>& rhs) {
+				return (!(rhs < lhs));
+			};
 			
-			template <class Key, class T, class Compare, class Allocator>
-			bool operator>=(const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y);
+			friend bool operator>(const ft::map<Key, T, Compare, Allocator>& lhs, const ft::map<Key, T, Compare, Allocator>& rhs) {
+				return (rhs < lhs);
+			};
 			
-			template <class Key, class T, class Compare, class Allocator>
-			bool operator<=(const map<Key, T, Compare, Allocator>& x, const map<Key, T, Compare, Allocator>& y);
+			friend bool operator>=(const ft::map<Key, T, Compare, Allocator>& lhs, const ft::map<Key, T, Compare, Allocator>& rhs) {
+				return (!(lhs < rhs));
+			};
 
-			template <class Key, class T, class Compare, class Allocator>
-			void swap(map<Key, T, Compare, Allocator>& x, map<Key, T, Compare, Allocator>& y);
+			friend void swap(ft::map<Key, T, Compare, Allocator>& lhs, ft::map<Key, T, Compare, Allocator>& rhs) ;
+
+
+
+		private :
+
+			key_compare			_comp;
+			allocator_type		_alloc;
+			avl_allocator		_avl_alloc;
+			avl					*_tree;
+
+			avl *_create_avl() {
+				avl *tree = _avl_alloc.allocate(1);
+				_avl_alloc.construct(&tree[0], avl());
+				return (tree);
+			};
+
+			void _destroy_avl() {
+				_avl_alloc.destroy(&_tree[0]);
+				_avl_alloc.deallocate(_tree, 1);
+				_tree = NULL;
+			};
+
+			node *_create_node(const value_type & x) {
+				node * n = _alloc.allocate(1);
+				_alloc.construct(&n[0], x);
+				// std::cout << BR << "In insert(it, x),  it->first = " << x.first << " et it->second = " << x.second << NC << std::endl; 
+				return (n);
+			};
+
+			void _destroy_node(node * n) {
+				_alloc.destroy(&n[0]);
+				_alloc.deallocate(n, 1);
+				n = NULL;
+			};
+
+		};
 
 }
 

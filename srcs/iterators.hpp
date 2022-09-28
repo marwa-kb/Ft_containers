@@ -199,8 +199,41 @@ namespace ft
 
 		protected :
 
+			typedef typename std::allocator<node<const Key, T> >	allocator;
+			typedef typename std::allocator<avl<Key, T> > 			avl_allocator;
+
 			iterator_type		current;
 			avl<Key, T>			*tree;
+			allocator			node_alloc;
+			avl_allocator		avl_alloc;
+
+		
+			avl<Key, T> *create_avl() {
+				avl<Key, T> *tree = avl_alloc.allocate(1);
+				avl_alloc.construct(&tree[0], avl<Key, T>());
+				return (tree);
+			};
+
+			void destroy_avl() {
+				avl_alloc.destroy(&tree[0]);
+				avl_alloc.deallocate(tree, 1);
+				tree = NULL;
+			};
+
+			node<Key, T> *create_node(const ft::pair<const Key, T> & x) {
+				node<Key, T> * n = node_alloc.allocate(1);
+				// std::cout << BY << "In insert(it, x),  it->first = " << x.first << " et it->second = " << x.second << NC << std::endl; 
+				node_alloc.construct(&n[0], x);
+				// std::cout << BR << "In insert(it, x),  it->first = " << x.first << " et it->second = " << x.second << NC << std::endl; 
+
+				return (n);
+			};
+
+			void destroy_node(node<Key, T> * n) {
+				node_alloc.destroy(&n[0]);
+				node_alloc.deallocate(n, 1);
+				n = NULL;
+			};
 
 
 		public :
@@ -210,15 +243,7 @@ namespace ft
 			m_iterator() : current(NULL) {};
 
 			explicit m_iterator(iterator_type x) : current(iterator_type(x)) {};
-
-			// m_iterator() : current(iterator_type()) {
-			// 	std::cout << BP << "ici dans m_iterator()" << NC << std::endl;
-			// };
-
-			// explicit m_iterator(iterator_type x) : current(iterator_type(x)) {
-			// 	std::cout << BP << "ici dans exp m_iterator()" << NC << std::endl;
-			// };
-
+ 
 			template <class Iter, class K, class U>
   			m_iterator(const m_iterator<Iter, K, U> & other) : current(other.base()) {};
 
@@ -239,14 +264,16 @@ namespace ft
 
 				current = other.base();
 				if (tree)
-					delete tree; // /!\ allocator
-				avl<Key, T> * b = new avl<Key, T>();
-				m_iterator<node<Key, T>*, Key, T> it1(other->tree->smallest_node());
-				m_iterator<node<Key, T>*, Key, T> it2(other->tree->biggest_node());
+					destroy_avl();
+				m_iterator<node<K, U>*, K, U> it1(other->tree->smallest_node(), &other->tree);
+				m_iterator<node<K, U>*, K, U> it2(other->tree->biggest_node(), &other->tree);
 				for (; it1 != it2; it1++)
-					b->insert_node(it1.current, b->_root, NULL, NULL);
-				b->insert_node(it1.current, b->_root, NULL, NULL);
-				tree = b;	
+				{
+					node<K, U> * n = create_node(ft::make_pair<K, U>(it1->first, it1->second));
+					tree->insert_node(n, tree->_root, NULL, NULL);
+				}
+				node<K, U> * n = create_node(ft::make_pair<K, U>(it1->first, it1->second));
+				tree->insert_node(n, tree->_root, NULL, NULL);
 				return (*this);
 			};
 
@@ -260,10 +287,6 @@ namespace ft
 
 			pointer operator->() const {
 				return (current);
-			};
-
-			reference operator[](difference_type n) const {	// ?
-				return (current[n]);
 			};
 
 			m_iterator & operator++() {
@@ -330,32 +353,13 @@ namespace ft
 				m_iterator tmp = *this;
 				operator++();
 				return (tmp);
-			}
+			};
 
 			m_iterator operator--(int) {
 				m_iterator tmp = *this;
 				operator--();
 				return (tmp);
-			}
-
-			m_iterator operator+(difference_type n) const {
-				return (m_iterator(current + n));
-			}
-
-			m_iterator operator-(difference_type n) const {
-				return (m_iterator(current - n));
-			}
-
-			m_iterator & operator+=(difference_type n) {
-				current += n;
-				return (*this);
-			}
-
-			m_iterator & operator-=(difference_type n) {
-				current -= n;
-				return (*this);
-			}
-
+			};
 
 			/**************** NON MEMBER  FUNCTIONS ****************/
 

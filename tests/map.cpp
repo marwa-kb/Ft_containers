@@ -8,6 +8,7 @@ void map_tests()
 
 
 	/********* testing constructors *********/
+
 	std::cout << UG << "Testing constructors" << NC << std::endl;
 
 	NAMESPACE::map<char,int> first;
@@ -21,6 +22,33 @@ void map_tests()
 	first.insert(NAMESPACE::pair<char, int>('e', 500));
 	first.insert(NAMESPACE::pair<char, int>('f', 600));
 	print_map(first, "first");
+	
+	// first_dup == first
+	NAMESPACE::map<char,int> first_dup(first);
+	print_map(first_dup, "first_dup");
+
+	// second == first
+	NAMESPACE::map<char,int> second(first.begin(),first.end());
+	print_map(second, "second");
+
+	// second == first
+	NAMESPACE::map<char,int> third(second);
+	print_map(third, "third");
+
+
+
+	/******* testing member functions *******
+	* 
+	*		operators =, []
+	*	assign, at, empty, size, insert,
+	*	erase, clear, key_comp, value_comp,
+	*	find, count, lower_bound, upper_bound,
+	*			equal_range, swap
+	* 
+	******* ************************** *******/
+
+	std::cout << UG << "\nTesting member functions" << NC << std::endl;
+
 	std::cout << "first empty ? " << (first.empty() ? "yes" : "no") << std::endl;
 	std::cout << "first size = " << first.size() << std::endl;
 	first.erase('a');
@@ -51,37 +79,6 @@ void map_tests()
 	first['y'] = 500;
 	first['z'] = 700;
 	print_map(first, "first");
-
-	NAMESPACE::map<char,int> first_dup(first);
-	print_map(first, "first");
-	print_map(first_dup, "first_dup");
-
-	
-	
-
-	// NAMESPACE::map<char,int> second(first.begin(),first.end());
-
-	// NAMESPACE::map<char,int> third(second);
-
-	// NAMESPACE::map<char,int,classcomp> fourth;								 // class as Compare
-
-	// bool(*fn_pt)(char,char) = fncomp;
-	// NAMESPACE::map<char, int, bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
-
-
-
-
-	/******* testing member functions *******
-	* 
-	*		operators =, []
-	*	assign, at, empty, size, insert,
-	*	erase, clear, key_comp, value_comp,
-	*	find, count, lower_bound, upper_bound,
-	*			equal_range, swap
-	* 
-	******* ************************** *******/
-
-	std::cout << UG << "\nTesting member functions" << NC << std::endl;
 
 	/*at*/
 	{
@@ -157,14 +154,14 @@ void map_tests()
 		mymap['f'] = 60;
 		print_map(mymap, "mymap");
 
-		it = mymap.find('b');
-		mymap.erase(it);	// erasing by iterator
-		std::cout << YE << "erase(find('b'));" << NC << std::endl;
-		print_map(mymap, "mymap");
-		mymap.erase('c');		// erasing by key
-		std::cout << YE << "erase('c');" << NC << std::endl;
-		print_map(mymap, "mymap");
-		// it = mymap.find('e');
+		// it = mymap.find('b');
+		// mymap.erase(it);	// erasing by iterator
+		// std::cout << YE << "erase(find('b'));" << NC << std::endl;
+		// print_map(mymap, "mymap");
+		// mymap.erase('c');		// erasing by key
+		// std::cout << YE << "erase('c');" << NC << std::endl;
+		// print_map(mymap, "mymap");
+		// // it = mymap.find('e');
 		// mymap.erase(it, mymap.end());	// erasing by range
 		// std::cout << YE << "erase(find('e'), mymap.end());" << NC << std::endl;
 		// print_map(mymap, "mymap");
@@ -229,6 +226,41 @@ void map_tests()
 		std::cout << std::endl;
 	}
 
+	/*lower_bound, upper_bound, equal_range*/
+	{
+		std::cout << GN << "\n*lower_bound, upper_bound, equal_range*" << NC << std::endl;
+
+		NAMESPACE::map<int, float> mymap;
+		NAMESPACE::map<int, float>::iterator itlow, itup;
+		mymap[1] = 1.1f;
+		mymap[2] = 2.2f;
+		mymap[3] = 3.3f;
+		mymap[4] = 4.4f;
+		mymap[5] = 5.5f;
+		print_map(mymap, "mymap");
+
+		itlow = mymap.lower_bound(10);	// itlow points to 2
+		if (itlow != mymap.end())
+			std::cout << YE << "mymap.lower_bound(2) = " << NC << itlow->first << std::endl;
+		else
+			std::cout << "nope" << std::endl;
+
+		itup = mymap.upper_bound(10);	 // itup points to 5 (not 4!)
+		if (itup != mymap.end())
+			std::cout << YE << "mymap.upper_bound(4) = " << NC << itup->first << std::endl;
+		else
+			std::cout << "nope" << std::endl;
+		
+		// mymap.erase(itlow, itup);	// erases [itlow,itup)
+		// print_map(mymap, "mymap");
+
+		NAMESPACE::pair<NAMESPACE::map<int, float>::iterator, NAMESPACE::map<int, float>::iterator> ret;
+		// ret = mymap.equal_range(6);
+		// std::cout << YE << "equal_range(5) from " NC << "(" << ret.first->first << ", " << ret.first->second << ")";
+		// std::cout << YE << " to " NC << "(" << ret.second->first << ", " << ret.second->second << ")" << '\n';
+
+	}
+
 
 	/*************** iterators **************
 	* 
@@ -249,6 +281,29 @@ void map_tests()
 	for (; c != d; c++)
 		std::cout << " [ " << YE << c->first << NC << " ] = " << BC << c->second << NC << " |";
 	std::cout << std::endl;
+
+
+
+	/***** testing non member functions *****
+	*
+	*	operators ==, !=, <, <=, >, >=
+	*
+	****** **************************** *****/
+
+	NAMESPACE::map<char,int> foo, bar;
+	foo['a'] = 100;
+	foo['b'] = 200;
+	bar['a'] = 10;
+	bar['z'] = 1000;
+	print_map(foo, "foo");
+	print_map(bar, "bar");
+
+	std::cout << "foo and bar are " << (foo == bar ? "equal" : "different") << std::endl;
+	std::cout << "foo and foo are " << (foo != foo ? "different" : "equal") << std::endl;
+	std::cout << "foo is " << (foo < bar ? "inferior" : "superior or equal") << " to bar" << std::endl;
+	std::cout << "foo is " << (foo > foo ? "superior" : "inferior or equal") << " to foo" << std::endl;
+	std::cout << "foo is " << (foo <= bar ? "inferior or equal" : "superior") << " to bar" << std::endl;
+	std::cout << "foo is " << (foo >= foo ? "superior or equal" : "inferior") << "to foo" << std::endl;
 	
 	return ;
 }

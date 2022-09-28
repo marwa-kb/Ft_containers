@@ -318,6 +318,7 @@ void vector_tests()
 	*	operators ==, !=, <, <=, >, >=
 	*
 	****** **************************** *****/
+
 	std::cout << UG << "\nTesting non member functions" << NC << std::endl;
 	
 	std::cout << (v1 == v2 ? "same" : "different") << std::endl;

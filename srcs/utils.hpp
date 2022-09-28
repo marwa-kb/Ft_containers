@@ -1,8 +1,6 @@
 #ifndef UTILS_HPP
 # define UTILS_HPP
 
-
-
 namespace ft
 {
 	/****************** ENABLE_IF ******************/
@@ -167,7 +165,6 @@ namespace ft
 
 		typedef T1	first_type;
 		typedef T2	second_type;
-		// typedef node<T1, T2> node;
 
 		first_type	first;
 		second_type	second;
@@ -189,7 +186,7 @@ namespace ft
 		};
 
 		friend bool operator==(const pair<T1, T2>& lhs, const pair<T1, T2>& rhs) {
-			return (lhs.first == rhs.first && lhs.second == rhs.second);
+			return ((lhs.first == rhs.first) && (lhs.second == rhs.second));
 		};
 
 		friend bool operator!=(const pair<T1, T2>& lhs, const pair<T1, T2>& rhs) {

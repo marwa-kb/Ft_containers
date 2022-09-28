@@ -4,7 +4,6 @@
 #include "iterators.hpp"
 #include "utils.hpp"
 
-
 template <class Key, class T>
 class node
 {
@@ -23,13 +22,6 @@ class node
 		// typedef pair&							reference;
 		// typedef const pair_ck					const_pair_ck;
 
-
-	private :
-
-		// allocator_type	_alloc;
-
-
-	public :
 
 		pair		p;
 		key_type	first;
@@ -61,6 +53,30 @@ class node
 		reference operator*() const {
 			std::cout << BC << "dans ope* de node" << NC << std::endl;
 			return (p);
+		};
+
+		friend bool operator==(const node<Key, T>& lhs, const node<Key, T>& rhs) {
+			return ((lhs.first == rhs.first) && (lhs.second == rhs.second));
+		};
+
+		friend bool operator!=(const node<Key, T>& lhs, const node<Key, T>& rhs) {
+			return (!(lhs == rhs));
+		};
+
+		friend bool operator<(const node<Key, T>& lhs, const node<Key, T>& rhs) {
+			return (lhs.first < rhs.first || (!(rhs.first < lhs.first) && lhs.second < rhs.second));
+		};
+
+		friend bool operator<=(const node<Key, T>& lhs, const node<Key, T>& rhs) {
+			return (!(rhs < lhs));
+		};
+
+		friend bool operator>(const node<Key, T>& lhs, const node<Key, T>& rhs) {
+			return (rhs < lhs);
+		};
+
+		friend bool operator>=(const node<Key, T>& lhs, const node<Key, T>& rhs) {
+			return (!(lhs < rhs));
 		};
 
 
@@ -115,29 +131,6 @@ class avl
 
 	avl() : _root(NULL), _size(0), _alloc() {};
 
-	// avl(const avl & a) : _root(NULL), _size(a._size) {
-	// 	std::cout << BO << "avl copy constructor" << NC << std::endl;
-
-	// 	node<Key, T>* n1 = a._root;
-	// 	node<Key, T>* n2 = _root;
-
-	// 	while (n1)
-	// 	{
-	// 		while (n1->left)
-	// 		{
-	// 			node<Key, T> *n3 = new node<Key, T>(n1->p);
-	// 			insert_node(n2, n3);
-	// 			n1 = n1->left;
-	// 		}
-	// 		while (n1->right)
-	// 		{
-	// 			node<Key, T> *n4 = new node<Key, T>(n1->p);
-	// 			insert_node(n2, n4);
-	// 			n1 = n1->right;
-	// 		}
-	// 	}
-	// };
-
 	~avl() {
 		if (_root)
 		{
@@ -147,19 +140,8 @@ class avl
 		}
 	};
 
-	// node<Key, T>* create_node(bool x) {
-	// 	node<Key, T> *n = new node<Key, T>(x);
-	// 	return (n);
-	// }
-	
-	// node *create_node(const value_type & x) {
-	// 	node * n = _alloc.allocate(1);
-	// 	_alloc.construct(&n[0], x);
-	// 	return (n);
-	// };
-
 	void destroy_node(node * n) {
-		std::cout << UC << n->first << " DESTOYED" << NC << std::endl;
+		// std::cout << UC << n->first << " DESTOYED" << NC << std::endl;
 		_alloc.destroy(&n[0]);
 		_alloc.deallocate(n, 1);
 		n = NULL;
@@ -170,7 +152,7 @@ class avl
 		{
 			delete_avl(n->left);
 			delete_avl(n->right);
-			std::cout << BR << n->first << " DELETED" << NC << std::endl;
+			// std::cout << BR << n->first << " DELETED" << NC << std::endl;
 			destroy_node(n);
 		}
 		n = NULL;
@@ -212,37 +194,18 @@ class avl
 		return (height(n->left) - height(n->right));
 	};
 
-	node * right_rotate(node * n) {
-		node * n_l = n->left;
-		node * n_l_r = n_l->right;
-		node * n_p = n->parent;
-		// std::cout << UR << "RIGHT ROTATE" << NC << std::endl;
-		// std::cout << UO << "data of node = " << n->first << " et " << n->second << NC << std::endl;
-
-		n_l->parent = n_p;
-		if (n_l_r)
-			n_l_r->parent = n;
-		n->parent = n_l;
-		n_l->right = n;
-		n->left = n_l_r;
-		return (n_l);
+	node * smallest_node(node * n) {	//loop down to find the leftmost leaf
+		node * current = n;
+		while (current && current->left)
+			current = current->left;
+		return (current);
 	};
 
-	node * left_rotate(node * n) {
-		node * n_r = n->right;
-		node * n_r_l = n_r->left;
-		node * n_p = n->parent;
-
-		// std::cout << UR << "LEFT ROTATE" << NC << std::endl;
-		// std::cout << UO << "data of node = " << n->first << " et " << n->second << NC << std::endl;
-
-		n_r->parent = n_p;
-		if (n_r_l)
-			n_r_l->parent = n;
-		n->parent = n_r;
-		n_r->left = n;
-		n->right = n_r_l;
-		return (n_r);
+	node * biggest_node(node * n) {		//loop down to find the righftmost leaf
+		node * current = n;
+		while (current && current->right)
+			current = current->right;
+		return (current);
 	};
 
 	node * insert_node(node * n, node * new_node, node * par = NULL, bool *ok = NULL) {
@@ -284,20 +247,6 @@ class avl
 			return (left_rotate(n));
 		}
 		return (n);
-	};
-
-	node * smallest_node(node * n) {	//loop down to find the leftmost leaf
-		node * current = n;
-		while (current && current->left)
-			current = current->left;
-		return (current);
-	};
-
-	node * biggest_node(node * n) {		//loop down to find the righftmost leaf
-		node * current = n;
-		while (current && current->right)
-			current = current->right;
-		return (current);
 	};
 
 	node * delete_node(node * n, const Key v) {
@@ -384,6 +333,34 @@ class avl
 		return (n);
 	}
 
+	node * right_rotate(node * n) {
+		node * n_l = n->left;
+		node * n_l_r = n_l->right;
+		node * n_p = n->parent;
+
+		n_l->parent = n_p;
+		if (n_l_r)
+			n_l_r->parent = n;
+		n->parent = n_l;
+		n_l->right = n;
+		n->left = n_l_r;
+		return (n_l);
+	};
+
+	node * left_rotate(node * n) {
+		node * n_r = n->right;
+		node * n_r_l = n_r->left;
+		node * n_p = n->parent;
+
+		n_r->parent = n_p;
+		if (n_r_l)
+			n_r_l->parent = n;
+		n->parent = n_r;
+		n_r->left = n;
+		n->right = n_r_l;
+		return (n_r);
+	};
+	
 	node * iterative_search(const Key & val) const {
 		if (!_root)
 			return (NULL);
