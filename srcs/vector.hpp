@@ -33,16 +33,6 @@ namespace ft
 			typedef	typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 
-		private :
-
-			T*				_tab;
-			size_type		_size;
-			size_type		_capacity;
-			allocator_type	_alloc;
-
-
-		public :
-
 
 			/************* CONSTRUCTOR AND  DESTRUCTOR *************/
 
@@ -367,14 +357,17 @@ namespace ft
 				T* tmp_tab = x._tab;
 				size_type tmp_size = x._size;
 				size_type tmp_capacity = x._capacity;
+				allocator_type tmp_alloc = x._alloc;
 
 				x._tab = this->_tab;
 				x._size = this->_size;
 				x._capacity = this->_capacity;
+				x._alloc = this->_alloc;
 
 				this->_tab = tmp_tab;
 				this->_size = tmp_size;
 				this->_capacity = tmp_capacity;
+				this->_alloc = tmp_alloc;
 			};
 
 
@@ -442,6 +435,14 @@ namespace ft
 			friend void swap(ft::vector<T, Allocator>& x, ft::vector<T, Allocator>& y) {
 				x.swap(y);
 			}
+
+			
+			private :
+
+			T*				_tab;
+			size_type		_size;
+			size_type		_capacity;
+			allocator_type	_alloc;
 	};
 }
 

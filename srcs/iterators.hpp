@@ -208,50 +208,48 @@ namespace ft
 			avl_allocator		avl_alloc;
 
 		
-			avl<Key, T> *create_avl() {
-				avl<Key, T> *tree = avl_alloc.allocate(1);
-				avl_alloc.construct(&tree[0], avl<Key, T>());
-				return (tree);
-			};
+			// avl<Key, T> *create_avl() {
+			// 	avl<Key, T> *tree = avl_alloc.allocate(1);
+			// 	avl_alloc.construct(&tree[0], avl<Key, T>());
+			// 	return (tree);
+			// };
 
-			void destroy_avl() {
-				avl_alloc.destroy(&tree[0]);
-				avl_alloc.deallocate(tree, 1);
-				tree = NULL;
-			};
+			// void destroy_avl() {
+			// 	avl_alloc.destroy(&tree[0]);
+			// 	avl_alloc.deallocate(tree, 1);
+			// 	tree = NULL;
+			// };
 
-			node<Key, T> *create_node(const ft::pair<const Key, T> & x) {
-				node<Key, T> * n = node_alloc.allocate(1);
-				// std::cout << BY << "In insert(it, x),  it->first = " << x.first << " et it->second = " << x.second << NC << std::endl; 
-				node_alloc.construct(&n[0], x);
-				// std::cout << BR << "In insert(it, x),  it->first = " << x.first << " et it->second = " << x.second << NC << std::endl; 
+			// node<Key, T> *create_node(const ft::pair<const Key, T> & x) {
+			// 	node<Key, T> * n = node_alloc.allocate(1);
+			// 	// std::cout << BY << "In insert(it, x),  it->first = " << x.first << " et it->second = " << x.second << NC << std::endl; 
+			// 	node_alloc.construct(&n[0], x);
+			// 	// std::cout << BR << "In insert(it, x),  it->first = " << x.first << " et it->second = " << x.second << NC << std::endl; 
 
-				return (n);
-			};
+			// 	return (n);
+			// };
 
-			void destroy_node(node<Key, T> * n) {
-				node_alloc.destroy(&n[0]);
-				node_alloc.deallocate(n, 1);
-				n = NULL;
-			};
+			// void destroy_node(node<Key, T> * n) {
+			// 	node_alloc.destroy(&n[0]);
+			// 	node_alloc.deallocate(n, 1);
+			// 	n = NULL;
+			// };
 
 
 		public :
 
 			/******************** CONSTRUCTORS *********************/
 
-			m_iterator() : current(NULL) {};
+			m_iterator() : current(NULL), tree(NULL), node_alloc(), avl_alloc() {};
 
-			explicit m_iterator(iterator_type x) : current(iterator_type(x)) {};
+			explicit m_iterator(iterator_type x) : current(iterator_type(x)), tree(NULL), node_alloc(), avl_alloc() {};
  
 			template <class Iter, class K, class U>
-  			m_iterator(const m_iterator<Iter, K, U> & other) : current(other.base()) {
-				// *this = other;
+  			m_iterator(const m_iterator<Iter, K, U> & other) : current(other.base()), tree(NULL), node_alloc(), avl_alloc() {
+				*this = other;
 			};
 
-			m_iterator(const iterator_type p, avl<Key, T> *const* t) : current(iterator_type(p)), tree(*t) {};
-
-			// m_iterator(const iterator_type p, const avl<Key, T> **t) : current(iterator_type(p)), tree(*t) {};
+			m_iterator(const iterator_type p, avl<Key, T> *const* t) : current(iterator_type(p)), tree(*t), node_alloc(), avl_alloc() {};
 
 
 			/****************** MEMBER  FUNCTIONS ******************/
@@ -260,22 +258,32 @@ namespace ft
 			// 	return(m_iterator<Iterator const, Key, T>(current, tree));
 			// };
 
+			avl<Key, T>** get_address_tree() const {
+				return (&(this->tree));
+			};
+
+			avl<Key, T>* get_tree() const {
+				return (this->tree);
+			};
+
 			template <class Iter, class K, class U>
 			m_iterator & operator=(const m_iterator<Iter, K, U> & other) {
 				std::cout << BP << "ici dans copy assignment operator)" << NC << std::endl;
-
 				current = other.base();
-				if (tree)
-					destroy_avl();
-				m_iterator<node<K, U>*, K, U> it1(other->tree->smallest_node(), &other->tree);
-				m_iterator<node<K, U>*, K, U> it2(other->tree->biggest_node(), &other->tree);
-				for (; it1 != it2; it1++)
-				{
-					node<K, U> * n = create_node(ft::make_pair<K, U>(it1->first, it1->second));
-					tree->insert_node(n, tree->_root, NULL, NULL);
-				}
-				node<K, U> * n = create_node(ft::make_pair<K, U>(it1->first, it1->second));
-				tree->insert_node(n, tree->_root, NULL, NULL);
+				tree = other.get_tree();
+				// }
+				// els
+				// 	destroy_avl();
+				// tree = create_avl();
+				// m_iterator<node<K, U>*, K, U> it1(other.get_tree()->smallest_node(other.get_tree()->_root), other.get_address_tree());
+				// m_iterator<node<K, U>*, K, U> it2(other.get_tree()->biggest_node(other.get_tree()->_root), other.get_address_tree());
+				// for (; it1 != it2; it1++)
+				// {
+				// 	node<K, U> * n = create_node(ft::make_pair<K, U>(it1->first, it1->second));
+				// 	tree->insert_node(n, tree->_root, NULL, NULL);
+				// }
+				// node<K, U> * n = create_node(ft::make_pair<K, U>(it1->first, it1->second));
+				// tree->insert_node(n, tree->_root, NULL, NULL);
 				return (*this);
 			};
 

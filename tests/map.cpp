@@ -154,13 +154,23 @@ void map_tests()
 		mymap['f'] = 60;
 		print_map(mymap, "mymap");
 
+
+		it = mymap.find('d');
+		mymap.erase(it);	// erasing by iterator
+		std::cout << YE << "erase(find('d'));" << NC << std::endl;
+		print_map(mymap, "mymap");
 		it = mymap.find('b');
 		mymap.erase(it);	// erasing by iterator
 		std::cout << YE << "erase(find('b'));" << NC << std::endl;
 		print_map(mymap, "mymap");
-		// mymap.erase('c');		// erasing by key
-		// std::cout << YE << "erase('c');" << NC << std::endl;
-		// print_map(mymap, "mymap");
+		mymap.erase('c');		// erasing by key
+		std::cout << YE << "erase('c');" << NC << std::endl;
+		print_map(mymap, "mymap");
+
+		mymap.erase('f');		// erasing by key
+		std::cout << YE << "erase('f');" << NC << std::endl;
+		print_map(mymap, "mymap");
+
 		// it = mymap.find('e');
 		// mymap.erase(it, mymap.end());	// erasing by range
 		// std::cout << YE << "erase(find('e'), mymap.end());" << NC << std::endl;
@@ -226,6 +236,31 @@ void map_tests()
 		std::cout << std::endl;
 	}
 
+	/*swap*/
+	{
+		std::cout << GN << "\n*swap*" << NC << std::endl;
+
+		NAMESPACE::map<int, std::string> foo, bar;
+
+		foo[10] = "dix";
+		foo[20] = "vingt";
+
+ 		bar[30] = "trente";
+		bar[40] = "quarante";
+		bar[50] = "cinquante";
+
+		print_map(foo, "foo");
+		std::cout << YE << "foo.size() = " << foo.size() << NC << std::endl;
+		print_map(bar, "bar");
+		std::cout << YE << "bar.size() = " << bar.size() << NC << std::endl;
+		foo.swap(bar);
+		std::cout << YE << "foo.swap(bar);" << NC << std::endl;
+		print_map(foo, "foo");
+		std::cout << YE << "foo.size() = " << foo.size() << NC << std::endl;
+		print_map(bar, "bar");
+		std::cout << YE << "bar.size() = " << bar.size() << NC << std::endl;
+	}
+
 	/*lower_bound, upper_bound, equal_range*/
 	{
 		std::cout << GN << "\n*lower_bound, upper_bound, equal_range*" << NC << std::endl;
@@ -282,6 +317,10 @@ void map_tests()
 		std::cout << " [ " << YE << c->first << NC << " ] = " << BC << c->second << NC << " |";
 	std::cout << std::endl;
 
+	NAMESPACE::map<int, int>::iterator iter;
+	NAMESPACE::map<int, int>::const_iterator const_iter;
+	// const_iter = iter;
+	// iter = const_iter; // --> should not work
 
 
 	/***** testing non member functions *****
@@ -289,6 +328,8 @@ void map_tests()
 	*	operators ==, !=, <, <=, >, >=
 	*
 	****** **************************** *****/
+
+	std::cout << UG << "\nTesting non member functions" << NC << std::endl;
 
 	NAMESPACE::map<char,int> foo, bar;
 	foo['a'] = 100;

@@ -88,8 +88,6 @@ namespace ft
 
 			/****************** MEMBER  FUNCTIONS ******************/
 			
-			//pb rencontre : ca marchait mais avec insert ca marche pas bien : surement un pb de const iterator
-
 			map<Key, T, Compare, Allocator>& operator=(map<Key, T, Compare, Allocator>& x) {
 				_comp = x.key_comp();
 				_alloc = x.get_allocator();
@@ -168,15 +166,19 @@ namespace ft
 			// pb rencontre : erase ne fonctionne pas bien avec position
 
 			void erase(iterator position) {
+				// if (find(position->first) != end())
+				// 	_tree->delete_node(position.base(), position->first);
+
 				// std::cout << BO << "In erase(it), it->first = " << position->first << " et it->second = " << position->second << NC << std::endl; 
 				erase(position->first);
+				// std::cout << BP << "after erase, tree->root = " << _tree->_root->first << ", " << _tree->_root->second << NC << std::endl;
 			};
 			
 			size_type erase(const key_type& x) {
-				// std::cout << BP << "In erase(x),  x = " << x << NC << std::endl; 
 				if (find(x) == end())
 					return (0);
 				_tree->_root = _tree->delete_node(_tree->_root, x);
+				// std::cout << BP << "after erase, tree->root = " << _tree->_root->first << ", " << _tree->_root->second << NC << std::endl;
 				return (1);
 			};
 			
@@ -188,7 +190,22 @@ namespace ft
 				}
 			};
 			
-			void swap(map<Key, T, Compare, Allocator>&);
+			void swap(map<Key, T, Compare, Allocator>& x) {
+				key_compare	tmp_comp = x._comp;
+				allocator_type tmp_alloc = x._alloc;
+				avl_allocator tmp_avl_alloc = x._avl_alloc;
+				avl* tmp_tree = x._tree;
+
+				x._tree = this->_tree;
+				x._alloc = this->_alloc;
+				x._avl_alloc = this->_avl_alloc;
+				x._tree = this->_tree;
+
+				this->_tree = tmp_tree;
+				this->_alloc = tmp_alloc;
+				this->_avl_alloc = tmp_avl_alloc;
+				this->_tree = tmp_tree;
+			};
 			
 			void clear() {
 				_tree->clear();
@@ -338,7 +355,9 @@ namespace ft
 				return (!(lhs < rhs));
 			};
 
-			friend void swap(ft::map<Key, T, Compare, Allocator>& lhs, ft::map<Key, T, Compare, Allocator>& rhs) ;
+			friend void swap(ft::map<Key, T, Compare, Allocator>& lhs, ft::map<Key, T, Compare, Allocator>& rhs) {
+				lhs.swap(rhs);
+			};
 
 
 
