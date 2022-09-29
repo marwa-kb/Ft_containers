@@ -301,11 +301,12 @@ class avl
 					side = 1;
 				else if (n->parent && n->parent->right == n)
 					side = 2;
-				else if (!n->parent)
-					side = 3;
 
 				node * tmp = smallest_node(n->right);
-				std::cout << BR << "In delete_node,  tmp->first = " << tmp->first << " et tmp->second = " << tmp->second << NC << std::endl;
+				int direct = 0;
+				if (tmp == n)
+					direct = 1;
+				// std::cout << BR << "In delete_node,  tmp->first = " << tmp->first << " et tmp->second = " << tmp->second << NC << std::endl;
 
 				node * tmp_l = tmp->left;
 				node * tmp_r = tmp->right;
@@ -316,22 +317,33 @@ class avl
 				node * p = n->parent;
 
 				_alloc.destroy(&n[0]);
+				if (direct)
+				{
 				_alloc.construct(&n[0], node(ft::make_pair(tmp->first, tmp->second), l, tmp_r, p));
+					if (tmp_r)
+						tmp_r->parent = n;
+				}
+				else
+				{
+					_alloc.construct(&n[0], node(ft::make_pair(tmp->first, tmp->second), l, r->right, p));
+					if (tmp_r)
+						tmp_r->parent = tmp->parent;
+					if (tmp)
+						tmp->left = tmp_r;
+				}
 
 				if (p && side == 1)
 					p->left = n;
 				else if (p && side == 2)
 					p->right = n;
 
-				if (l && side == 3)
-					l->parent = NULL;
-				else if (l)
+				if (l)
 					l->parent = n;
 
-				if (r && side == 3)
-					r->parent = NULL;
-				else if (r)
-					r->parent = n;
+				// if (r && side == 3)
+				// 	r->parent = NULL;
+				// else if (r)
+				// 	r->parent = n;
 
 				// std::cout << BR << "In delete_node,  n->first = " << n->first << " et n->second = " << n->second << NC << std::endl;
 				// if (!n->right)
@@ -362,7 +374,7 @@ class avl
 			return (left_rotate(n));
 		}
 		return (n);
-	}
+	};
 
 	node * right_rotate(node * n) {
 		node * n_l = n->left;
