@@ -24,7 +24,7 @@ void map_tests()
 	print_map(first, "first");
 	
 	// first_dup == first
-	NAMESPACE::map<char,int> first_dup(first);
+	NAMESPACE::map<char,int> first_dup = first;
 	print_map(first_dup, "first_dup");
 
 	// second == first
@@ -153,23 +153,29 @@ void map_tests()
 		mymap['d'] = 40;
 		mymap['e'] = 50;
 		mymap['f'] = 60;
+		mymap['g'] = 70;
+		mymap['h'] = 80;
+
 		print_map(mymap, "mymap");
 
 
-		// it = mymap.find('e');
-		// mymap.erase(it);	// erasing by iterator
-		// std::cout << YE << "erase(find('e'));" << NC << std::endl;
-		// print_map(mymap, "mymap");
+		it = mymap.find('e');
+		mymap.erase(it);	// erasing by iterator
+		std::cout << YE << "erase(find('e'));" << NC << std::endl;
+		print_map(mymap, "mymap");
 
-		// mymap.erase('d');		// erasing by key
-		// std::cout << YE << "erase('d');" << NC << std::endl;
-		// print_map(mymap, "mymap");
+		mymap.erase('b');		// erasing by key
+		std::cout << YE << "erase('b');" << NC << std::endl;
+		print_map(mymap, "mymap");
 
-		// it = mymap.find('b');
-		// mymap.erase(it, mymap.end());	// erasing by range
-		// std::cout << YE << "erase(find('b'), mymap.end());" << NC << std::endl;
-		// print_map(mymap, "mymap");
+		mymap.erase('d');		// erasing by key
+		std::cout << YE << "erase('d');" << NC << std::endl;
+		print_map(mymap, "mymap");
 
+		it = mymap.find('c');
+		mymap.erase(it, mymap.end());	// erasing by range
+		std::cout << YE << "erase(find('c'), mymap.end());" << NC << std::endl;
+		print_map(mymap, "mymap");
 	}
 
 	/*count*/
@@ -268,26 +274,25 @@ void map_tests()
 		mymap[5] = 5.5f;
 		print_map(mymap, "mymap");
 
-		itlow = mymap.lower_bound(10);	// itlow points to 2
+		itlow = mymap.lower_bound(1);	// itlow points to 2
 		if (itlow != mymap.end())
 			std::cout << YE << "mymap.lower_bound(2) = " << NC << itlow->first << std::endl;
 		else
 			std::cout << "nope" << std::endl;
 
-		itup = mymap.upper_bound(10);	 // itup points to 5 (not 4!)
+		itup = mymap.upper_bound(2);	 // itup points to 5 (not 4!)
 		if (itup != mymap.end())
 			std::cout << YE << "mymap.upper_bound(4) = " << NC << itup->first << std::endl;
 		else
 			std::cout << "nope" << std::endl;
 		
-		// mymap.erase(itlow, itup);	// erases [itlow,itup)
-		// print_map(mymap, "mymap");
+		mymap.erase(itlow, itup);	// erases [itlow,itup)
+		print_map(mymap, "mymap");
 
 		NAMESPACE::pair<NAMESPACE::map<int, float>::iterator, NAMESPACE::map<int, float>::iterator> ret;
-		// ret = mymap.equal_range(6);
-		// std::cout << YE << "equal_range(5) from " NC << "(" << ret.first->first << ", " << ret.first->second << ")";
-		// std::cout << YE << " to " NC << "(" << ret.second->first << ", " << ret.second->second << ")" << '\n';
-
+		ret = mymap.equal_range(5);
+		std::cout << YE << "equal_range(5) from " NC << "(" << ret.first->first << ", " << ret.first->second << ")";
+		std::cout << YE << " to " NC << "(" << ret.second->first << ", " << ret.second->second << ")" << '\n';
 	}
 
 

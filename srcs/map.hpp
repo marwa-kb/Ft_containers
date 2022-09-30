@@ -76,7 +76,7 @@ namespace ft
 				insert(first, last);
 			};
 
-			map(map<Key, T, Compare, Allocator>& x)
+			map(const map<Key, T, Compare, Allocator>& x)
 					: _comp(x._comp), _alloc(x._alloc), _avl_alloc(avl_allocator()), _tree(NULL) {
 				*this = x;
 			};
@@ -88,7 +88,7 @@ namespace ft
 
 			/****************** MEMBER  FUNCTIONS ******************/
 			
-			map<Key, T, Compare, Allocator>& operator=(map<Key, T, Compare, Allocator>& x) {
+			map<Key, T, Compare, Allocator>& operator=(const map<Key, T, Compare, Allocator>& x) {
 				_comp = x.key_comp();
 				_alloc = x.get_allocator();
 				if (_tree)
@@ -278,12 +278,28 @@ namespace ft
 			equal_range(const key_type& x) {
 				iterator lb = lower_bound(x);
 				iterator ub = upper_bound(x);
+				if (lb == end())
+					lb = special_it();
+				if (ub == end())
+					ub = special_it();
 				return (ft::make_pair<iterator, iterator>(lb, ub));
 			};
 			
 			pair<const_iterator, const_iterator>
 			equal_range(const key_type& x) const {
-				return (ft::make_pair<const_iterator, const_iterator>(lower_bound(x), upper_bound(x)));
+				const_iterator lb = lower_bound(x);
+				const_iterator ub = upper_bound(x);
+				if (lb == end())
+				{
+					lb = const_iterator(rbegin().base());
+					lb->second = 0;
+				}
+				if (ub == end())
+				{
+					ub = const_iterator(rbegin().base());
+					ub->second = 0;
+				}
+				return (ft::make_pair<const_iterator, const_iterator>(lb, ub));
 			};
 
 
@@ -364,6 +380,7 @@ namespace ft
 			allocator_type		_alloc;
 			avl_allocator		_avl_alloc;
 			avl					*_tree;
+			node				_special;
 
 			avl *_create_avl() {
 				avl *tree = _avl_alloc.allocate(1);
@@ -389,6 +406,19 @@ namespace ft
 				_alloc.deallocate(n, 1);
 				n = NULL;
 			};
+
+			iterator special_it() {
+				return (iterator(special_node()));
+			};
+			
+			const_iterator special_it() const {
+				return (const_iterator(special_node()));
+			};
+
+			node * special_node() {
+				_special = node(ft::make_pair(size(), 0));
+				return (&_special);
+			}
 
 		};
 

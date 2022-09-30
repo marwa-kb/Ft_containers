@@ -39,7 +39,7 @@ class node : public ft::pair<Key, T>
 
 		~node() {};
 
-		node & operator=(const node & n) const {
+		node & operator=(const node & n) {
 			*this = n;
 			left = n.left;
 			right = n.right;
@@ -247,10 +247,11 @@ class avl
 
 					node * tmp = smallest_node(n->right);
 					int direct = 0;
-					if (tmp == n)
+					if (tmp == n->right)
 						direct = 1;
 
 					node * tmp_r = tmp->right;
+					node * tmp_p = tmp->parent;
 
 					node * l = n->left;
 					node * r = n->right;
@@ -260,16 +261,16 @@ class avl
 					if (direct)
 					{
 						_alloc.construct(&n[0], node(ft::make_pair(tmp->first, tmp->second), l, tmp_r, p));
-						if (tmp_r)
-							tmp_r->parent = n;
+						if (n->right)
+							n->right->parent = n;
 					}
 					else
 					{
-						_alloc.construct(&n[0], node(ft::make_pair(tmp->first, tmp->second), l, r->right, p));
+						_alloc.construct(&n[0], node(ft::make_pair(tmp->first, tmp->second), l, r, p));
 						if (tmp_r)
-							tmp_r->parent = tmp->parent;
-						if (tmp)
-							tmp->left = tmp_r;
+							tmp_r->parent = tmp_p;
+						if (tmp_p)
+							tmp_p->left = tmp_r;
 					}
 
 					if (p && side == 1)

@@ -207,34 +207,6 @@ namespace ft
 			allocator			node_alloc;
 			avl_allocator		avl_alloc;
 
-		
-			// avl<Key, T> *create_avl() {
-			// 	avl<Key, T> *tree = avl_alloc.allocate(1);
-			// 	avl_alloc.construct(&tree[0], avl<Key, T>());
-			// 	return (tree);
-			// };
-
-			// void destroy_avl() {
-			// 	avl_alloc.destroy(&tree[0]);
-			// 	avl_alloc.deallocate(tree, 1);
-			// 	tree = NULL;
-			// };
-
-			// node<Key, T> *create_node(const ft::pair<const Key, T> & x) {
-			// 	node<Key, T> * n = node_alloc.allocate(1);
-			// 	// std::cout << BY << "In insert(it, x),  it->first = " << x.first << " et it->second = " << x.second << NC << std::endl; 
-			// 	node_alloc.construct(&n[0], x);
-			// 	// std::cout << BR << "In insert(it, x),  it->first = " << x.first << " et it->second = " << x.second << NC << std::endl; 
-
-			// 	return (n);
-			// };
-
-			// void destroy_node(node<Key, T> * n) {
-			// 	node_alloc.destroy(&n[0]);
-			// 	node_alloc.deallocate(n, 1);
-			// 	n = NULL;
-			// };
-
 
 		public :
 
@@ -253,10 +225,6 @@ namespace ft
 
 
 			/****************** MEMBER  FUNCTIONS ******************/
-
-			avl<Key, T>* get_tree() const {
-				return (this->tree);
-			};
 
 			template <class Iter, class K, class U>
 			m_iterator & operator=(const m_iterator<Iter, K, U> & other) {
@@ -347,6 +315,10 @@ namespace ft
 				m_iterator tmp = *this;
 				operator--();
 				return (tmp);
+			};
+
+			avl<Key, T>* get_tree() const {
+				return (this->tree);
 			};
 
 			/**************** NON MEMBER  FUNCTIONS ****************/
