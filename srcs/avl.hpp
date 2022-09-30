@@ -71,39 +71,7 @@ class node : public ft::pair<Key, T>
 			return (!(lhs < rhs));
 		};
 
-
-		// operator pair();
-		// operator pair_t();
-		// operator const_pair();
-		// operator const_pair_c();
-		// operator pair_c();
-
 };
-
-
-// template <class Key, class T>
-// node<Key, T>::operator pair() {
-// 	std::cout << BP << "in ope const_() node" << NC << std::endl;
-// 	pair obj(first, second);
-// 	// obj.first = first;
-// 	// obj.second = second;
-// 	return (obj);
-// }
-
-// template <class Key, class T>
-// node<Key, T>::operator const_pair() {
-// 	std::cout << BP << "in ope pair() node" << NC << std::endl;
-// 	const_pair obj();
-// 	return (obj);
-// }
-
-// template <class Key, class T>
-// node<Key, T>::operator const_pair_c() {
-// 	std::cout << BP << "in ope pair() node" << NC << std::endl;
-// 	const_pair_c obj(first, second);
-// 	return (obj);
-// }
-
 
 
 template <class Key, class T>

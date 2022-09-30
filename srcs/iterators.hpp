@@ -254,10 +254,6 @@ namespace ft
 
 			/****************** MEMBER  FUNCTIONS ******************/
 
-			// operator m_iterator<Iterator const, Key, T>() const {
-			// 	return(m_iterator<Iterator const, Key, T>(current, tree));
-			// };
-
 			avl<Key, T>* get_tree() const {
 				return (this->tree);
 			};
