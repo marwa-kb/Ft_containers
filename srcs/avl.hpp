@@ -5,11 +5,10 @@
 #include "utils.hpp"
 
 template <class Key, class T>
-class node
+class node : public ft::pair<Key, T>
 {
 
 	public :
-
 
 		typedef Key								key_type;
 		typedef T								mapped_type;
@@ -23,47 +22,29 @@ class node
 		// typedef const pair_ck					const_pair_ck;
 
 
-		pair		p;
-		key_type	first;
-		mapped_type	second;	
 		node		*left;
 		node		*right;
 		node		*parent;
 
-		node() : p(pair()), first(), second(),
-				left(NULL), right(NULL), parent(NULL) {};
+		node() : pair(), left(NULL), right(NULL), parent(NULL) {};
 
-		node(const pair & x) : p(x), first(x.first), second(x.second),
-				left(NULL), right(NULL), parent(NULL) {};
+		node(const pair & x) :  pair(x), left(NULL), right(NULL), parent(NULL) {};
 
-  		node(const key_type & k, const mapped_type & m) : p(ft::make_pair(k, m)), first(k), second(m),
-				left(NULL), right(NULL), parent(NULL) {};
+  		node(const key_type & k, const mapped_type & m) :  pair (ft::make_pair(k, m)), left(NULL), right(NULL), parent(NULL) {};
 
-		node(const pair & x, node * l, node * r, node * p) : p(x), first(x.first), second(x.second),
-				left(l), right(r), parent(p) {};
+		node(const pair & x, node * l, node * r, node * p) : pair(x), left(l), right(r), parent(p) {};
 
 		template <class K, class U>
-  		node(const node<const K, U> & x) : p(x), first(x.first), second(x.second),
-				left(x.left), right(x.right), parent(x.parent) {};
+  		node(const node<const K, U> & x) : pair(x),	left(x.left), right(x.right), parent(x.parent) {};
 
-		// template <class K, class U>
-  		// node(const K & k, const U & m) : p(ft::make_pair(k, m)), first(k), second(m),
-		// 		left(NULL), right(NULL), parent(NULL) {
-		// };
 		~node() {};
 
 		node & operator=(const node & n) const {
-			first = n.first;
-			second = n.second;
+			*this = n;
 			left = n.left;
 			right = n.right;
 			parent = n.parent;
 			return (*this);
-		};
-
-		reference operator*() const {
-			std::cout << BC << "dans ope* de node" << NC << std::endl;
-			return (p);
 		};
 
 		friend bool operator==(const node<Key, T>& lhs, const node<Key, T>& rhs) {
@@ -93,7 +74,7 @@ class node
 
 		// operator pair();
 		// operator pair_t();
-		operator const_pair();
+		// operator const_pair();
 		// operator const_pair_c();
 		// operator pair_c();
 
@@ -109,12 +90,12 @@ class node
 // 	return (obj);
 // }
 
-template <class Key, class T>
-node<Key, T>::operator const_pair() {
-	std::cout << BP << "in ope pair() node" << NC << std::endl;
-	const_pair obj(first, second);
-	return (obj);
-}
+// template <class Key, class T>
+// node<Key, T>::operator const_pair() {
+// 	std::cout << BP << "in ope pair() node" << NC << std::endl;
+// 	const_pair obj();
+// 	return (obj);
+// }
 
 // template <class Key, class T>
 // node<Key, T>::operator const_pair_c() {

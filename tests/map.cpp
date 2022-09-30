@@ -156,19 +156,19 @@ void map_tests()
 		print_map(mymap, "mymap");
 
 
-		it = mymap.find('e');
-		mymap.erase(it);	// erasing by iterator
-		std::cout << YE << "erase(find('e'));" << NC << std::endl;
-		print_map(mymap, "mymap");
+		// it = mymap.find('e');
+		// mymap.erase(it);	// erasing by iterator
+		// std::cout << YE << "erase(find('e'));" << NC << std::endl;
+		// print_map(mymap, "mymap");
 
-		mymap.erase('d');		// erasing by key
-		std::cout << YE << "erase('d');" << NC << std::endl;
-		print_map(mymap, "mymap");
+		// mymap.erase('d');		// erasing by key
+		// std::cout << YE << "erase('d');" << NC << std::endl;
+		// print_map(mymap, "mymap");
 
-		it = mymap.find('b');
-		mymap.erase(it, mymap.end());	// erasing by range
-		std::cout << YE << "erase(find('b'), mymap.end());" << NC << std::endl;
-		print_map(mymap, "mymap");
+		// it = mymap.find('b');
+		// mymap.erase(it, mymap.end());	// erasing by range
+		// std::cout << YE << "erase(find('b'), mymap.end());" << NC << std::endl;
+		// print_map(mymap, "mymap");
 
 	}
 
@@ -198,17 +198,17 @@ void map_tests()
 		
 		NAMESPACE::map<char, int> mymap;
   		mymap['x'] = 1001;
-  		mymap['y'] = 2002;
-  		mymap['z'] = 3003;
+		mymap['y'] = 2002;
+		mymap['z'] = 3003;
 		
-  		std::cout << "mymap contains:\n";
+		std::cout << "mymap contains:\n";
 		
-  		// NAMESPACE::pair<char, int> highest = *mymap.rbegin();
+		NAMESPACE::pair<char, int> highest = *mymap.rbegin();
 		
-  		// NAMESPACE::map<char, int>::iterator it = mymap.begin();
-  		// do
-    	// 	std::cout << it->first << " => " << it->second << '\n';
-		// while (mymap.value_comp()(*it++, highest));
+		NAMESPACE::map<char, int>::iterator it = mymap.begin();
+		do
+		std::cout << it->first << " => " << it->second << '\n';
+		while (mymap.value_comp()(*it++, highest));
 	}
 
 	/*key_comp*/
@@ -313,8 +313,13 @@ void map_tests()
 
 	NAMESPACE::map<int, int>::iterator iter;
 	NAMESPACE::map<int, int>::const_iterator const_iter;
-	// const_iter = iter;
+	const_iter = iter;
 	// iter = const_iter; // --> should not work
+
+	NAMESPACE::map<int, int>::reverse_iterator r_iter;
+	NAMESPACE::map<int, int>::const_reverse_iterator const_r_iter;
+	const_r_iter = r_iter;
+	// r_iter = const_r_iter; // --> should not work
 
 
 	/***** testing non member functions *****

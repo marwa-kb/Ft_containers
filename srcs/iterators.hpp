@@ -258,32 +258,14 @@ namespace ft
 			// 	return(m_iterator<Iterator const, Key, T>(current, tree));
 			// };
 
-			avl<Key, T>** get_address_tree() const {
-				return (&(this->tree));
-			};
-
 			avl<Key, T>* get_tree() const {
 				return (this->tree);
 			};
 
 			template <class Iter, class K, class U>
 			m_iterator & operator=(const m_iterator<Iter, K, U> & other) {
-				std::cout << BP << "ici dans copy assignment operator)" << NC << std::endl;
 				current = other.base();
 				tree = other.get_tree();
-				// }
-				// els
-				// 	destroy_avl();
-				// tree = create_avl();
-				// m_iterator<node<K, U>*, K, U> it1(other.get_tree()->smallest_node(other.get_tree()->_root), other.get_address_tree());
-				// m_iterator<node<K, U>*, K, U> it2(other.get_tree()->biggest_node(other.get_tree()->_root), other.get_address_tree());
-				// for (; it1 != it2; it1++)
-				// {
-				// 	node<K, U> * n = create_node(ft::make_pair<K, U>(it1->first, it1->second));
-				// 	tree->insert_node(n, tree->_root, NULL, NULL);
-				// }
-				// node<K, U> * n = create_node(ft::make_pair<K, U>(it1->first, it1->second));
-				// tree->insert_node(n, tree->_root, NULL, NULL);
 				return (*this);
 			};
 
