@@ -169,25 +169,22 @@ namespace ft
 				// if (find(position->first) != end())
 				// 	_tree->delete_node(position.base(), position->first);
 
-				// std::cout << BO << "In erase(it), it->first = " << position->first << " et it->second = " << position->second << NC << std::endl; 
 				erase(position->first);
-				// std::cout << BP << "after erase, tree->root = " << _tree->_root->first << ", " << _tree->_root->second << NC << std::endl;
 			};
 			
 			size_type erase(const key_type& x) {
 				if (find(x) == end())
 					return (0);
 				_tree->_root = _tree->delete_node(_tree->_root, x);
-				// std::cout << BP << "after erase, tree->root = " << _tree->_root->first << ", " << _tree->_root->second << NC << std::endl;
 				return (1);
 			};
 			
 			void erase(iterator first, iterator last) {
-				for (iterator it = first; it != last; it++)
-				{
-					// std::cout << BR << "In erase(it, it),  it->first = " << it->first << " et it->second = " << it->second << NC << std::endl; 
-					erase(it);
-				}
+				ft::vector<key_type> tmp;
+				for (; first != last; first++)
+					tmp.push_back(first->first);
+				for (size_t x = 0; x < tmp.size(); x++)
+					erase(tmp[x]);
 			};
 			
 			void swap(map<Key, T, Compare, Allocator>& x) {

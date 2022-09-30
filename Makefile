@@ -18,7 +18,7 @@ OBJS2		=	$(addprefix $(OBJDIR2)/, $(SRCS:.cpp=.o))
 
 RM			=	rm -rf
 
-CXX			=	clang++
+CXX			=	c++
 
 CXXFLAGS	=	-Wall -Wextra -Werror -Wno-unused -std=c++98 -g -fsanitize=address
 

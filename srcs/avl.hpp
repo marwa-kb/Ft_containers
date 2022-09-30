@@ -261,7 +261,6 @@ class avl
 	};
 
 	node * delete_node(node * n, const Key v) {
-		// std::cout << BC << "In delete_node, v = " << v << ",  n->first = " << n->first << " et n->second = " << n->second << NC << std::endl; 
 		if (!n)
 			return (NULL);
 		else if (v < n->first)
@@ -281,11 +280,6 @@ class avl
 			}
 			else if (!n->right)
 			{
-				// std::cout << BR << "In ONE CHILD,  n->first = " << n->first << " et n->second = " << n->second << NC << std::endl;
-				// if (!n->right)
-				// 	std::cout << BO << "In delete_node,  n->right = NULL" << NC << std::endl;
-				// std::cout << BO << "In ONE CHILD,  n->left->first = " << n->left->first << " et n->left->second = " << n->left->second << NC << std::endl;
-
 				node * tmp = n->left;
 				if (n->left)
 					n->left->parent = n->parent;
@@ -306,11 +300,8 @@ class avl
 				int direct = 0;
 				if (tmp == n)
 					direct = 1;
-				// std::cout << BR << "In delete_node,  tmp->first = " << tmp->first << " et tmp->second = " << tmp->second << NC << std::endl;
 
-				node * tmp_l = tmp->left;
 				node * tmp_r = tmp->right;
-				node * tmp_p = tmp->parent;
 
 				node * l = n->left;
 				node * r = n->right;
@@ -319,7 +310,7 @@ class avl
 				_alloc.destroy(&n[0]);
 				if (direct)
 				{
-				_alloc.construct(&n[0], node(ft::make_pair(tmp->first, tmp->second), l, tmp_r, p));
+					_alloc.construct(&n[0], node(ft::make_pair(tmp->first, tmp->second), l, tmp_r, p));
 					if (tmp_r)
 						tmp_r->parent = n;
 				}
@@ -340,24 +331,10 @@ class avl
 				if (l)
 					l->parent = n;
 
-				// if (r && side == 3)
-				// 	r->parent = NULL;
-				// else if (r)
-				// 	r->parent = n;
-
-				// std::cout << BR << "In delete_node,  n->first = " << n->first << " et n->second = " << n->second << NC << std::endl;
-				// if (!n->right)
-				// 	std::cout << BO << "In delete_node,  n->right = NULL" << NC << std::endl;
-				// std::cout << BO << "In ONE CHILD,  n->left->first = " << n->left->first << " et n->left->second = " << n->left->second << NC << std::endl;
 				destroy_node(tmp);
 			}
 		}
-		
-		// std::cout << UG << "n->first = " << n->first << " et n->second = " << n->second << NC << std::endl;
-		// if (n->right)
-		// 	std::cout << UG << "n->right->first = " << n->right->first << " et n->right->second = " << n->right->second << NC << std::endl;
-		// if (n->left)
-		// 	std::cout << UG << "n->left->first = " << n->left->first << " et n->left->second = " << n->left->second << NC << std::endl;
+
 		int bf = balance_factor(n);
 		if (bf == 2 && balance_factor(n->left) >= 0)		// Left Left Imbalance/Case or Right rotation
 			return (right_rotate(n));

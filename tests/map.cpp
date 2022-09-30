@@ -145,6 +145,7 @@ void map_tests()
 
 		NAMESPACE::map<char,int> mymap;
 		NAMESPACE::map<char,int>::iterator it;
+		NAMESPACE::map<char,int>::iterator it2;
 		// insert some values:
 		mymap['a'] = 10;
 		mymap['b'] = 20;
@@ -155,26 +156,19 @@ void map_tests()
 		print_map(mymap, "mymap");
 
 
-		it = mymap.find('d');
+		it = mymap.find('e');
 		mymap.erase(it);	// erasing by iterator
-		std::cout << YE << "erase(find('d'));" << NC << std::endl;
+		std::cout << YE << "erase(find('e'));" << NC << std::endl;
 		print_map(mymap, "mymap");
+
+		mymap.erase('d');		// erasing by key
+		std::cout << YE << "erase('d');" << NC << std::endl;
+		print_map(mymap, "mymap");
+
 		it = mymap.find('b');
-		mymap.erase(it);	// erasing by iterator
-		std::cout << YE << "erase(find('b'));" << NC << std::endl;
+		mymap.erase(it, mymap.end());	// erasing by range
+		std::cout << YE << "erase(find('b'), mymap.end());" << NC << std::endl;
 		print_map(mymap, "mymap");
-		mymap.erase('c');		// erasing by key
-		std::cout << YE << "erase('c');" << NC << std::endl;
-		print_map(mymap, "mymap");
-
-		mymap.erase('f');		// erasing by key
-		std::cout << YE << "erase('f');" << NC << std::endl;
-		print_map(mymap, "mymap");
-
-		// it = mymap.find('e');
-		// mymap.erase(it, mymap.end());	// erasing by range
-		// std::cout << YE << "erase(find('e'), mymap.end());" << NC << std::endl;
-		// print_map(mymap, "mymap");
 
 	}
 
