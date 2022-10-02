@@ -2,8 +2,8 @@
 # define MAP_HPP
 
 #include "avl.hpp"
-
-// #include "iterators.hpp"
+#include "vector.hpp"
+#include "iterators.hpp"
 
 namespace ft
 {
@@ -32,7 +32,7 @@ namespace ft
 			typedef value_type*										pointer;
 			typedef const value_type*								const_pointer;
 			typedef typename ft::m_iterator<node*, Key, T>			iterator;
-			typedef typename ft::m_iterator<const node*, Key, T>	const_iterator;
+			typedef typename ft::const_m_iterator<node*, Key, T>	const_iterator;
 			typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
@@ -157,7 +157,7 @@ namespace ft
 			void insert(InputIterator first, InputIterator last,
 							typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type = 0) {
 				for (; first != last; first++){
-					insert(first, ft::make_pair(first->first, first->second));
+					insert(ft::make_pair(first->first, first->second));
 				}
 			};
 			
@@ -215,68 +215,72 @@ namespace ft
 			};
 			
 			iterator lower_bound(const key_type& x) {
-				for (iterator it = begin(); it != end(); it++)
+				iterator it2 = end();
+				for (iterator it1 = begin(); it1 != it2; it1++)
 				{
-					if ((!_comp(x, it->first) && !_comp(it->first, x)) || _comp(x, it->first))
-						return (it);
+					if ((!_comp(x, it1->first) && !_comp(it1->first, x)) || _comp(x, it1->first))
+						return (it1);
 				}
-				return (end());
+				return (it2);
 			};
 
 			const_iterator lower_bound(const key_type& x) const {
-				for (iterator it = begin(); it != end(); it++)
+				const_iterator it2 = end();
+				for (const_iterator it1 = begin(); it1 != it2; it1++)
 				{
-					if ((!_comp(x, it->first) && !_comp(it->first, x)) || _comp(x, it->first))
-						return (it);
+					if ((!_comp(x, it1->first) && !_comp(it1->first, x)) || _comp(x, it1->first))
+						return (it1);
 				}
-				return (end());
+				return (it2);
 			};
 			
 			iterator upper_bound(const key_type& x) {
-				for (iterator it = begin(); it != end(); it++)
+				iterator it2 = end();
+				for (iterator it1 = begin(); it1 != it2; it1++)
 				{
-					if (_comp(x, it->first))
-						return (it);					
+					if (_comp(x, it1->first))
+						return (it1);					
 				}
-				return (end());
+				return (it2);
 			};
 			
 			const_iterator upper_bound(const key_type& x) const {
-				for (const_iterator it = begin(); it != end(); it++)
+				const_iterator it2 = end();
+				for (const_iterator it1 = begin(); it1 != it2; it1++)
 				{
-					if (_comp(x, it->first))
-						return (it);					
+					if (_comp(x, it1->first))
+						return (it1);					
 				}
-				return (end());
+				return (it2);
 			};
 			
-			// pair<iterator, iterator>
-			// equal_range(const key_type& x) {
-			// 	iterator lb = lower_bound(x);
-			// 	iterator ub = upper_bound(x);
-			// 	if (lb == end())
-			// 		lb = special_it();
-			// 	if (ub == end())
-			// 		ub = special_it();
-			// 	return (ft::make_pair<iterator, iterator>(lb, ub));
-			// };
+			pair<iterator, iterator>
+			equal_range(const key_type& x) {
+				iterator lb = lower_bound(x);
+				iterator ub = upper_bound(x);
+				// if (lb == end())
+				// 	lb = special_it();
+				// if (ub == end())
+				// 	ub = special_it();
+				return (ft::make_pair<iterator, iterator>(lb, ub));
+			};
 			
-			// pair<const_iterator, const_iterator>
-			// equal_range(const key_type& x) const {
-			// 	const_iterator lb = lower_bound(x);
-			// 	const_iterator ub = upper_bound(x);
-			// 	if (lb == end())
-			// 	{
-			// 		lb = const_iterator(rbegin().base());
-			// 		lb->second = 0;
-			// 	}
-			// 	if (ub == end())
-			// 	{
-			// 		ub = const_iterator(rbegin().base());
-			// 		ub->second = 0;
-			// 	}
-			// 	return (ft::make_pair<const_iterator, const_iterator>(lb, ub));
-			// };
+			pair<const_iterator, const_iterator>
+			equal_range(const key_type& x) const {
+				const_iterator lb = lower_bound(x);
+				const_iterator ub = upper_bound(x);
+				// if (lb == end())
+				// {
+				// 	lb = const_iterator(rbegin().base());
+				// 	lb->second = 0;
+				// }
+				// if (ub == end())
+				// {
+				// 	ub = const_iterator(rbegin().base());
+				// 	ub->second = 0;
+				// }
+				return (ft::make_pair<const_iterator, const_iterator>(lb, ub));
+			};
 
 			void swap(map<Key, T, Compare, Allocator>& x) {
 				key_compare	tmp_comp = x._comp;
@@ -314,7 +318,7 @@ namespace ft
 
 			const_iterator end() const {
 				if (!(_tree->_root))
-					return (iterator(_tree->biggest_node(_tree->_root), &_tree));
+					return (const_iterator(_tree->biggest_node(_tree->_root), &_tree));
 				return (const_iterator(_tree->biggest_node(_tree->_root)->right, &_tree));
 			};
 

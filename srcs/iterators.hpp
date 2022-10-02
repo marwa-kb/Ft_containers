@@ -154,12 +154,12 @@ namespace ft
 
 			/**************** NON MEMBER  FUNCTIONS ****************/
 
-			friend bool operator==(const v_iterator<Iterator> & lhs, const v_iterator<Iterator> & rhs) {
+			friend bool operator==(const ft::v_iterator<Iterator> & lhs, const ft::v_iterator<Iterator> & rhs) {
 				return (lhs.base() == rhs.base());
 			};
 	
-			friend bool operator!=(const v_iterator<Iterator> & lhs, const v_iterator<Iterator> & rhs) {
-				return (lhs.base() != rhs.base());
+			friend bool operator!=(const ft::v_iterator<Iterator> & lhs, const ft::v_iterator<Iterator> & rhs) {
+				return (!(lhs == rhs));
 			};
 
 			friend bool operator<(const ft::v_iterator<Iterator> & lhs, const ft::v_iterator<Iterator> & rhs) {
@@ -178,11 +178,11 @@ namespace ft
 				return (lhs.base() >= rhs.base());
 			};
 
-			friend v_iterator<Iterator> operator+(difference_type n, const v_iterator<Iterator> & it) {
+			friend v_iterator<Iterator> operator+(difference_type n, const ft::v_iterator<Iterator> & it) {
 				return (v_iterator(it.base() + n));
 			};
 			
-			friend difference_type operator-(const v_iterator<Iterator> & lhs, const v_iterator<Iterator> & rhs) {
+			friend difference_type operator-(const ft::v_iterator<Iterator> & lhs, const ft::v_iterator<Iterator> & rhs) {
 				return (lhs.base() - rhs.base());
 			};	
 		};
@@ -200,6 +200,7 @@ namespace ft
 			typedef typename ft::iterator_traits<Iterator>::difference_type		difference_type;
 			typedef typename ft::iterator_traits<Iterator>::pointer				pointer;
 			typedef typename ft::iterator_traits<Iterator>::reference			reference;
+			typedef ft::node<const Key, T>*											link_type;
 	
 
 		protected :
@@ -360,6 +361,188 @@ namespace ft
 				return (lhs.base() - rhs.base());
 			};*/
 		};
+		
+	template <class Iterator, class Key, class T>
+	class const_m_iterator
+	{
+
+		public :
+
+			typedef Iterator													iterator_type;
+			typedef typename ft::m_iterator<Iterator, Key, T>					m_it;
+			typedef typename ft::iterator_traits<Iterator>::iterator_category	iterator_category;
+			typedef typename ft::iterator_traits<Iterator>::value_type			value_type;
+			typedef typename ft::iterator_traits<Iterator>::difference_type		difference_type;
+			typedef ft::node<const Key, T>										type;
+			typedef const type													const_type;
+			typedef const type*													pointer;
+			typedef const type&													reference;
+
+		protected :
+
+			typedef typename std::allocator<ft::node<const Key, T> >	allocator;
+			typedef typename std::allocator<ft::avl<Key, T> > 			avl_allocator;
+
+			iterator_type		current;
+			ft::avl<Key, T>		*tree;
+			allocator			node_alloc;
+			avl_allocator		avl_alloc;
+
+
+		public :
+
+			/******************** CONSTRUCTORS *********************/
+
+			const_m_iterator() : current(NULL), tree(NULL), node_alloc(), avl_alloc() {};
+
+			explicit const_m_iterator(iterator_type x) : current(iterator_type(x)), tree(NULL), node_alloc(), avl_alloc() {};
+
+			const_m_iterator(const m_it & x) : current(x.base()), tree(NULL), node_alloc(), avl_alloc() {};
+ 
+			template <class Iter, class K, class U>
+  			const_m_iterator(const const_m_iterator<Iter, K, U> & other) : current(other.base()), tree(NULL), node_alloc(), avl_alloc() {
+				*this = other;
+			};
+
+			const_m_iterator(const iterator_type p, ft::avl<Key, T> *const* t) : current(iterator_type(p)), tree(*t), node_alloc(), avl_alloc() {};
+
+
+			/****************** MEMBER  FUNCTIONS ******************/
+		
+			operator m_it() const {
+				return (m_it(const_cast<typename m_it::iterator_type>(current), &tree));
+	  		};
+
+			template <class Iter, class K, class U>
+			const_m_iterator & operator=(const const_m_iterator<Iter, K, U> & other) {
+				current = other.base();
+				tree = other.get_tree();
+				return (*this);
+			};
+
+			iterator_type base() const {
+				return (current);
+			};
+			
+			reference operator*() const {
+				return (*current);
+			};
+
+			pointer operator->() const {
+				return (current);
+			};
+
+			const_m_iterator & operator++() {
+ 				iterator_type p;
+				
+ 				if (!current)
+				{
+					current = tree->_root;
+					if (!current)
+						throw (std::exception());
+					while (current->left)
+						current = current->left;
+				}
+ 				else if (current->right)
+ 				{
+ 					current = current->right;
+					while (current->left)
+ 						current = current->left;	
+ 				}
+ 				else
+ 				{
+ 					p = current->parent;
+ 					while (p && current == p->right)
+ 					{
+ 						current = p;
+ 						p = p->parent;
+ 					}
+ 					current = p;
+ 				}
+ 				return (*this);
+			};
+
+			const_m_iterator & operator--() {
+				iterator_type p;
+
+				if (!current)
+ 				{
+					current = tree->_root;
+					if (!current)
+						throw (std::exception());
+					while (current->right)
+						current = current->right;
+				}
+				else if (current->left)
+				{
+					current = current->left;
+					while (current->right)
+						current = current->right;
+				}
+				else
+				{
+					p = current->parent;
+					while (p && current == p->left)
+					{
+						current = p;
+						p = p->parent;
+					}
+					current = p;
+				}
+				return (*this);
+			};
+
+			const_m_iterator operator++(int) {
+				const_m_iterator tmp = *this;
+				operator++();
+				return (tmp);
+			};
+
+			const_m_iterator operator--(int) {
+				const_m_iterator tmp = *this;
+				operator--();
+				return (tmp);
+			};
+
+			ft::avl<Key, T>* get_tree() const {
+				return (this->tree);
+			};
+
+			/**************** NON MEMBER  FUNCTIONS ****************/
+
+			friend bool operator==(const const_m_iterator<Iterator, Key, T> & lhs, const const_m_iterator<Iterator, Key, T> & rhs) {
+				return ((lhs.current == rhs.current));
+			};
+	
+			friend bool operator!=(const const_m_iterator<Iterator, Key, T> & lhs, const const_m_iterator<Iterator, Key, T> & rhs) {
+				return (!(lhs == rhs));
+			};
+/*
+			friend bool operator<(const ft::const_m_iterator<Iterator> & lhs, const ft::const_m_iterator<Iterator> & rhs) {
+				return (lhs.base() < rhs.base());
+			};
+
+			friend bool operator<=(const ft::const_m_iterator<Iterator> & lhs, const ft::const_m_iterator<Iterator> & rhs) {
+				return (lhs.base() <= rhs.base());
+			};
+
+			friend bool operator>(const ft::const_m_iterator<Iterator> & lhs, const ft::const_m_iterator<Iterator> & rhs) {
+				return (lhs.base() > rhs.base());
+			};
+
+			friend bool operator>=(const ft::const_m_iterator<Iterator> & lhs, const ft::const_m_iterator<Iterator> & rhs) {
+				return (lhs.base() >= rhs.base());
+			};
+
+			friend const_m_iterator<Iterator> operator+(difference_type n, const const_m_iterator<Iterator> & it) {
+				return (const_m_iterator(it.base() + n));
+			};
+			
+			friend difference_type operator-(const const_m_iterator<Iterator> & lhs, const const_m_iterator<Iterator> & rhs) {
+				return (lhs.base() - rhs.base());
+			};*/
+		};
+		
 
 	template <class Iterator>
 	class reverse_iterator
