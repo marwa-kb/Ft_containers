@@ -1,42 +1,40 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
-#include <string>
 #include "avl.hpp"
-#include "utils.hpp"
-#include "iterators.hpp"
+
+// #include "iterators.hpp"
 
 namespace ft
 {
-
 	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::node<const Key, T> > >
 	class map
 	{
 
 		private :
 
-			typedef	ft::avl<Key, T>			avl;
-			typedef	ft::node<const Key, T>	node;
-			typedef	std::allocator<avl>		avl_allocator;
+			typedef	ft::avl<Key, T>									avl;
+			typedef	ft::node<const Key, T>							node;
+			typedef	std::allocator<avl>								avl_allocator;
 
 
 		public:
 
-			typedef Key	 														key_type;
-			typedef T	 														mapped_type;
-			typedef Compare	 													key_compare;
-			typedef ft::pair<const Key, T>										value_type;
-			typedef Allocator	 												allocator_type;
-			typedef std::size_t													size_type;
-			typedef std::ptrdiff_t												difference_type;
-			typedef value_type&													reference;
-			typedef const value_type&											const_reference;
-			typedef value_type*													pointer;
-			typedef const value_type*											const_pointer;
-			typedef typename ft::m_iterator<node*, Key, T>						iterator;
-			typedef typename ft::m_iterator<const node*, Key, T>				const_iterator;
-			typedef typename ft::reverse_iterator<iterator>						reverse_iterator;
-			typedef typename ft::reverse_iterator<const_iterator>				const_reverse_iterator;
+			typedef Key	 											key_type;
+			typedef T	 											mapped_type;
+			typedef Compare	 										key_compare;
+			typedef ft::pair<const Key, T>							value_type;
+			typedef Allocator	 									allocator_type;
+			typedef std::size_t										size_type;
+			typedef std::ptrdiff_t									difference_type;
+			typedef value_type&										reference;
+			typedef const value_type&								const_reference;
+			typedef value_type*										pointer;
+			typedef const value_type*								const_pointer;
+			typedef typename ft::m_iterator<node*, Key, T>			iterator;
+			typedef typename ft::m_iterator<const node*, Key, T>	const_iterator;
+			typedef typename ft::reverse_iterator<iterator>			reverse_iterator;
+			typedef typename ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 
 			class value_compare : public ft::binary_function<value_type, value_type, bool>
@@ -158,17 +156,12 @@ namespace ft
 			template <class InputIterator>
 			void insert(InputIterator first, InputIterator last,
 							typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type = 0) {
-				for (InputIterator it = first; it != last; it++){
-					insert(it, ft::make_pair(it->first, it->second));
+				for (; first != last; first++){
+					insert(first, ft::make_pair(first->first, first->second));
 				}
 			};
 			
-			// pb rencontre : erase ne fonctionne pas bien avec position
-
 			void erase(iterator position) {
-				// if (find(position->first) != end())
-				// 	_tree->delete_node(position.base(), position->first);
-
 				erase(position->first);
 			};
 			
@@ -185,23 +178,6 @@ namespace ft
 					tmp.push_back(first->first);
 				for (size_t x = 0; x < tmp.size(); x++)
 					erase(tmp[x]);
-			};
-			
-			void swap(map<Key, T, Compare, Allocator>& x) {
-				key_compare	tmp_comp = x._comp;
-				allocator_type tmp_alloc = x._alloc;
-				avl_allocator tmp_avl_alloc = x._avl_alloc;
-				avl* tmp_tree = x._tree;
-
-				x._tree = this->_tree;
-				x._alloc = this->_alloc;
-				x._avl_alloc = this->_avl_alloc;
-				x._tree = this->_tree;
-
-				this->_tree = tmp_tree;
-				this->_alloc = tmp_alloc;
-				this->_avl_alloc = tmp_avl_alloc;
-				this->_tree = tmp_tree;
 			};
 			
 			void clear() {
@@ -274,32 +250,49 @@ namespace ft
 				return (end());
 			};
 			
-			pair<iterator, iterator>
-			equal_range(const key_type& x) {
-				iterator lb = lower_bound(x);
-				iterator ub = upper_bound(x);
-				if (lb == end())
-					lb = special_it();
-				if (ub == end())
-					ub = special_it();
-				return (ft::make_pair<iterator, iterator>(lb, ub));
-			};
+			// pair<iterator, iterator>
+			// equal_range(const key_type& x) {
+			// 	iterator lb = lower_bound(x);
+			// 	iterator ub = upper_bound(x);
+			// 	if (lb == end())
+			// 		lb = special_it();
+			// 	if (ub == end())
+			// 		ub = special_it();
+			// 	return (ft::make_pair<iterator, iterator>(lb, ub));
+			// };
 			
-			pair<const_iterator, const_iterator>
-			equal_range(const key_type& x) const {
-				const_iterator lb = lower_bound(x);
-				const_iterator ub = upper_bound(x);
-				if (lb == end())
-				{
-					lb = const_iterator(rbegin().base());
-					lb->second = 0;
-				}
-				if (ub == end())
-				{
-					ub = const_iterator(rbegin().base());
-					ub->second = 0;
-				}
-				return (ft::make_pair<const_iterator, const_iterator>(lb, ub));
+			// pair<const_iterator, const_iterator>
+			// equal_range(const key_type& x) const {
+			// 	const_iterator lb = lower_bound(x);
+			// 	const_iterator ub = upper_bound(x);
+			// 	if (lb == end())
+			// 	{
+			// 		lb = const_iterator(rbegin().base());
+			// 		lb->second = 0;
+			// 	}
+			// 	if (ub == end())
+			// 	{
+			// 		ub = const_iterator(rbegin().base());
+			// 		ub->second = 0;
+			// 	}
+			// 	return (ft::make_pair<const_iterator, const_iterator>(lb, ub));
+			// };
+
+			void swap(map<Key, T, Compare, Allocator>& x) {
+				key_compare	tmp_comp = x._comp;
+				allocator_type tmp_alloc = x._alloc;
+				avl_allocator tmp_avl_alloc = x._avl_alloc;
+				avl* tmp_tree = x._tree;
+
+				x._tree = this->_tree;
+				x._alloc = this->_alloc;
+				x._avl_alloc = this->_avl_alloc;
+				x._tree = this->_tree;
+
+				this->_tree = tmp_tree;
+				this->_alloc = tmp_alloc;
+				this->_avl_alloc = tmp_avl_alloc;
+				this->_tree = tmp_tree;
 			};
 
 

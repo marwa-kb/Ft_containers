@@ -155,9 +155,7 @@ void map_tests()
 		mymap['f'] = 60;
 		mymap['g'] = 70;
 		mymap['h'] = 80;
-
 		print_map(mymap, "mymap");
-
 
 		it = mymap.find('e');
 		mymap.erase(it);	// erasing by iterator
@@ -213,7 +211,7 @@ void map_tests()
 		
 		NAMESPACE::map<char, int>::iterator it = mymap.begin();
 		do
-		std::cout << it->first << " => " << it->second << '\n';
+			std::cout << it->first << " => " << it->second << '\n';
 		while (mymap.value_comp()(*it++, highest));
 	}
 
@@ -289,10 +287,10 @@ void map_tests()
 		mymap.erase(itlow, itup);	// erases [itlow,itup)
 		print_map(mymap, "mymap");
 
-		NAMESPACE::pair<NAMESPACE::map<int, float>::iterator, NAMESPACE::map<int, float>::iterator> ret;
-		ret = mymap.equal_range(5);
-		std::cout << YE << "equal_range(5) from " NC << "(" << ret.first->first << ", " << ret.first->second << ")";
-		std::cout << YE << " to " NC << "(" << ret.second->first << ", " << ret.second->second << ")" << '\n';
+		// NAMESPACE::pair<NAMESPACE::map<int, float>::iterator, NAMESPACE::map<int, float>::iterator> ret;
+		// ret = mymap.equal_range(5);
+		// std::cout << YE << "equal_range(5) from " NC << "(" << ret.first->first << ", " << ret.first->second << ")";
+		// std::cout << YE << " to " NC << "(" << ret.second->first << ", " << ret.second->second << ")" << '\n';
 	}
 
 

@@ -1,14 +1,19 @@
 #ifndef ITERATORS_HPP
 # define ITERATORS_HPP
 
-#include <string>
-#include "utils.hpp"
 #include "avl.hpp"
-
 
 namespace ft
 {
+	template <class Key, class T>
+	class node;
 
+	template <class Key, class T>
+	class avl;
+}
+
+namespace ft
+{
 	template <class Iterator, typename = void>
 	struct iterator_traits
 	{
@@ -203,7 +208,7 @@ namespace ft
 			typedef typename std::allocator<ft::avl<Key, T> > 			avl_allocator;
 
 			iterator_type		current;
-			ft::avl<Key, T>			*tree;
+			ft::avl<Key, T>		*tree;
 			allocator			node_alloc;
 			avl_allocator		avl_alloc;
 
@@ -355,7 +360,6 @@ namespace ft
 				return (lhs.base() - rhs.base());
 			};*/
 		};
-
 
 	template <class Iterator>
 	class reverse_iterator

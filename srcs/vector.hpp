@@ -1,14 +1,7 @@
-
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
-#include <iostream>
-#include <string>
-#include <cstddef>
-#include <stdexcept>
-#include <exception>
 #include <math.h>
-#include "colors.h"
 #include "iterators.hpp"
 
 

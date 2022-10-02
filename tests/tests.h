@@ -11,13 +11,12 @@
 #include <algorithm>
 
 /*** MINE ***/
-#include "../srcs/stack.hpp"
+#include "../srcs/colors.h"
+
 #include "../srcs/vector.hpp"
+#include "../srcs/stack.hpp"
 #include "../srcs/map.hpp"
 
-#include "../srcs/iterators.hpp"
-#include "../srcs/utils.hpp"
-#include "../srcs/colors.h"
 
 
 void stack_tests();

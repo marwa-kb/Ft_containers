@@ -1,8 +1,17 @@
 #ifndef AVL_HPP
 # define AVL_HPP
 
-#include "iterators.hpp"
 #include "utils.hpp"
+#include "iterators.hpp"
+
+namespace ft
+{
+	template <class Key, class T, class Compare, class Allocator>
+	class map;
+	
+	template <class Iterator, class Key, class T>
+	class m_iterator;
+}
 
 namespace ft
 {
@@ -82,9 +91,10 @@ namespace ft
 
 		public:
 
-			typedef std::size_t				size_type;
-			typedef	ft::node<const Key, T>	node;
-			typedef	std::allocator<node>	allocator;
+			typedef std::size_t						size_type;
+			typedef	ft::node<const Key, T>			node;
+			typedef	std::allocator<node>			allocator;
+			// typedef	ft::m_iterator<node*, Key, T>	iterator;
 
 			node		*_root;
 			size_type	_size;
@@ -282,7 +292,10 @@ namespace ft
 
 						if (l)
 							l->parent = n;
-
+						// std::cout << BY << "In delete node, n->first = " << n->first << " et n->second = " << n->second << NC << std::endl;
+						// std::cout << BO << "In delete node, it->first = " << it->first << " et it->second = " << it->second << NC << std::endl;
+						// it = iterator(n, tree);
+						// std::cout << BO << "In delete node, it->first = " << it->first << " et it->second = " << it->second << NC << std::endl;
 						destroy_node(tmp);
 					}
 				}
