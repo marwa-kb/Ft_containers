@@ -199,11 +199,11 @@ namespace ft
 
 		protected :
 
-			typedef typename std::allocator<node<const Key, T> >	allocator;
-			typedef typename std::allocator<avl<Key, T> > 			avl_allocator;
+			typedef typename std::allocator<ft::node<const Key, T> >	allocator;
+			typedef typename std::allocator<ft::avl<Key, T> > 			avl_allocator;
 
 			iterator_type		current;
-			avl<Key, T>			*tree;
+			ft::avl<Key, T>			*tree;
 			allocator			node_alloc;
 			avl_allocator		avl_alloc;
 
@@ -221,7 +221,7 @@ namespace ft
 				*this = other;
 			};
 
-			m_iterator(const iterator_type p, avl<Key, T> *const* t) : current(iterator_type(p)), tree(*t), node_alloc(), avl_alloc() {};
+			m_iterator(const iterator_type p, ft::avl<Key, T> *const* t) : current(iterator_type(p)), tree(*t), node_alloc(), avl_alloc() {};
 
 
 			/****************** MEMBER  FUNCTIONS ******************/
@@ -317,7 +317,7 @@ namespace ft
 				return (tmp);
 			};
 
-			avl<Key, T>* get_tree() const {
+			ft::avl<Key, T>* get_tree() const {
 				return (this->tree);
 			};
 

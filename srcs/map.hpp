@@ -9,15 +9,15 @@
 namespace ft
 {
 
-	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<node<const Key, T> > >
+	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::node<const Key, T> > >
 	class map
 	{
 
 		private :
 
-			typedef	avl<Key, T>			avl;
-			typedef	node<const Key, T>	node;
-			typedef	std::allocator<avl>	avl_allocator;
+			typedef	ft::avl<Key, T>			avl;
+			typedef	ft::node<const Key, T>	node;
+			typedef	std::allocator<avl>		avl_allocator;
 
 
 		public:
