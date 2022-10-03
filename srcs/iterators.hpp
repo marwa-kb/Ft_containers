@@ -685,23 +685,23 @@ namespace ft
 			};
 	
 			friend bool operator!=(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
-				return (lhs.base() != rhs.base());
+				return (!(lhs == rhs));
 			};
 
 			friend bool operator<(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
-				return (rhs.base() < lhs.base());
+				return (lhs.base() > rhs.base());
 			};
 
 			friend bool operator<=(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
-				return (rhs.base() >= lhs.base());
+				return (lhs.base() >= rhs.base());
 			};
 
 			friend bool operator>(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
-				return (rhs.base() < lhs.base());
+				return (lhs.base() < rhs.base());
 			};
 
 			friend bool operator>=(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
-				return (rhs.base() <= lhs.base());
+				return (lhs.base() <= rhs.base());
 			};
 
 			friend ft::reverse_iterator<Iterator> operator+(difference_type n, const ft::reverse_iterator<Iterator> & it) {
@@ -721,13 +721,13 @@ namespace ft
 		};
 
   		template<typename IteratorL, typename IteratorR>
-    	bool operator<(const ft::reverse_iterator<IteratorL>& lhs, const ft::reverse_iterator<IteratorR>& rhs) {
-			return (lhs.base() > rhs.base());
+    	bool operator!=(const ft::reverse_iterator<IteratorL>& lhs, const ft::reverse_iterator<IteratorR>& rhs) {
+			return (!(lhs == rhs));
 		};
 
   		template<typename IteratorL, typename IteratorR>
-    	bool operator!=(const ft::reverse_iterator<IteratorL>& lhs, const ft::reverse_iterator<IteratorR>& rhs) {
-			return (lhs.base() != rhs.base());
+    	bool operator<(const ft::reverse_iterator<IteratorL>& lhs, const ft::reverse_iterator<IteratorR>& rhs) {
+			return (lhs.base() > rhs.base());
 		};
 
   		template<typename IteratorL, typename IteratorR>
