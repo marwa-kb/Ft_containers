@@ -188,6 +188,44 @@ namespace ft
 		};
 
 
+		/**************** NON MEMBER  FUNCTIONS ****************/
+
+		template <class IteratorL, class IteratorR>
+		bool operator==(const ft::v_iterator<IteratorL> & lhs, const ft::v_iterator<IteratorR> & rhs) {
+			return (lhs.base() == rhs.base());
+		};
+
+		template <class IteratorL, class IteratorR>
+		bool operator!=(const ft::v_iterator<IteratorL> & lhs, const ft::v_iterator<IteratorR> & rhs) {
+			return (!(lhs == rhs));
+		};
+
+		template <class IteratorL, class IteratorR>
+		bool operator<(const ft::v_iterator<IteratorL> & lhs, const ft::v_iterator<IteratorR> & rhs) {
+			return (lhs.base() < rhs.base());
+		};
+
+		template <class IteratorL, class IteratorR>
+		bool operator<=(const ft::v_iterator<IteratorL> & lhs, const ft::v_iterator<IteratorR> & rhs) {
+			return (lhs.base() <= rhs.base());
+		};
+
+		template <class IteratorL, class IteratorR>
+		bool operator>(const ft::v_iterator<IteratorL> & lhs, const ft::v_iterator<IteratorR> & rhs) {
+			return (lhs.base() > rhs.base());
+		};
+
+		template <class IteratorL, class IteratorR>
+		bool operator>=(const ft::v_iterator<IteratorL> & lhs, const ft::v_iterator<IteratorR> & rhs) {
+			return (lhs.base() >= rhs.base());
+		};
+			
+		template <class IteratorL, class IteratorR>
+		typename ft::v_iterator<IteratorL>::difference_type operator-(const ft::v_iterator<IteratorL> & lhs, const ft::v_iterator<IteratorR> & rhs) {
+			return (lhs.base() - rhs.base());
+		};
+
+
 	template <class Iterator, class Key, class T>
 	class m_iterator
 	{
@@ -642,11 +680,11 @@ namespace ft
 	
 			/**************** NON MEMBER  FUNCTIONS ****************/
 
-			friend bool operator==(const reverse_iterator<Iterator> & lhs, const reverse_iterator<Iterator> & rhs) {
+			friend bool operator==(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
 				return (lhs.base() == rhs.base());
 			};
 	
-			friend bool operator!=(const reverse_iterator<Iterator> & lhs, const reverse_iterator<Iterator> & rhs) {
+			friend bool operator!=(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
 				return (lhs.base() != rhs.base());
 			};
 
@@ -666,13 +704,51 @@ namespace ft
 				return (rhs.base() <= lhs.base());
 			};
 
-			friend reverse_iterator<Iterator> operator+(difference_type n, const reverse_iterator<Iterator> & it) {
-				return (reverse_iterator(it.base() - n));
+			friend ft::reverse_iterator<Iterator> operator+(difference_type n, const ft::reverse_iterator<Iterator> & it) {
+				return (ft::reverse_iterator<Iterator>(it.base() - n));
 			};
 			
-			friend difference_type operator-(const reverse_iterator<Iterator> & lhs, const reverse_iterator<Iterator> & rhs) {
+			friend difference_type operator-(const ft::reverse_iterator<Iterator> & lhs, const ft::reverse_iterator<Iterator> & rhs) {
 				return (rhs.base() - lhs.base());
 			};
+		};
+
+		/**************** NON MEMBER  FUNCTIONS ****************/
+
+   		template <typename IteratorL, typename IteratorR>
+    	bool operator==(const ft::reverse_iterator<IteratorL>& lhs, const ft::reverse_iterator<IteratorR>& rhs) {
+			return (lhs.base() == rhs.base());
+		};
+
+  		template<typename IteratorL, typename IteratorR>
+    	bool operator<(const ft::reverse_iterator<IteratorL>& lhs, const ft::reverse_iterator<IteratorR>& rhs) {
+			return (lhs.base() > rhs.base());
+		};
+
+  		template<typename IteratorL, typename IteratorR>
+    	bool operator!=(const ft::reverse_iterator<IteratorL>& lhs, const ft::reverse_iterator<IteratorR>& rhs) {
+			return (lhs.base() != rhs.base());
+		};
+
+  		template<typename IteratorL, typename IteratorR>
+    	bool operator>(const ft::reverse_iterator<IteratorL>& lhs, const ft::reverse_iterator<IteratorR>& rhs) {
+			return (lhs.base() < rhs.base());
+		};
+
+  		template<typename IteratorL, typename IteratorR>
+    	bool operator<=(const ft::reverse_iterator<IteratorL>& lhs, const ft::reverse_iterator<IteratorR>& rhs) {
+			return (lhs.base() >= rhs.base());
+		};
+
+  		template<typename IteratorL, typename IteratorR>
+    	bool operator>=(const ft::reverse_iterator<IteratorL>& lhs, const ft::reverse_iterator<IteratorR>& rhs) {
+			return (lhs.base() <= rhs.base());
+		};
+
+  		template<typename IteratorL, typename IteratorR>
+    	typename ft::reverse_iterator<IteratorL>::difference_type
+		operator-(const ft::reverse_iterator<IteratorL>& lhs, const ft::reverse_iterator<IteratorR>& rhs) {
+			return (rhs.base() - lhs.base());
 		};
 
 }

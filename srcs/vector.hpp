@@ -406,6 +406,8 @@ namespace ft
 			/**************** NON MEMBER  FUNCTIONS ****************/
 		
 			friend bool operator==(const ft::vector<T, Allocator>& lhs, const ft::vector<T, Allocator>& rhs) {
+				if (lhs.size() != rhs.size())
+					return (false);
 				return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 			}
 
