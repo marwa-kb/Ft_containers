@@ -69,11 +69,11 @@ namespace ft
 					clear();
 					_alloc.deallocate(_tab, _capacity);
 				}
-				_size = other.size();
 				_capacity = other.capacity();
 				_alloc = other.get_allocator();
 				_tab = _alloc.allocate(_capacity);
 				assign(other.begin(), other.end());
+				_size = other.size();
 				return (*this);
 			};
 
