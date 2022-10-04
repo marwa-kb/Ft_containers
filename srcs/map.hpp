@@ -288,12 +288,12 @@ namespace ft
 				avl_allocator tmp_avl_alloc = x._avl_alloc;
 				avl* tmp_tree = x._tree;
 
-				x._tree = this->_tree;
+				x._comp = this->_comp;
 				x._alloc = this->_alloc;
 				x._avl_alloc = this->_avl_alloc;
 				x._tree = this->_tree;
 
-				this->_tree = tmp_tree;
+				this->_comp = tmp_comp;
 				this->_alloc = tmp_alloc;
 				this->_avl_alloc = tmp_avl_alloc;
 				this->_tree = tmp_tree;
@@ -342,6 +342,8 @@ namespace ft
 			/**************** NON MEMBER  FUNCTIONS ****************/
 
 			friend bool operator==(const ft::map<Key, T, Compare, Allocator>& lhs, const ft::map<Key, T, Compare, Allocator>& rhs) {
+				if (lhs.size() != rhs.size())
+					return (false);
 				return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 			};
 			

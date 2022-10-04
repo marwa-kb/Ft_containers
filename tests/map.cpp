@@ -160,19 +160,23 @@ void map_tests()
 		it = mymap.find('e');
 		mymap.erase(it);	// erasing by iterator
 		std::cout << YE << "erase(find('e'));" << NC << std::endl;
+		std::cout << "size = " << mymap.size() << std::endl;
 		print_map(mymap, "mymap");
 
 		mymap.erase('b');		// erasing by key
 		std::cout << YE << "erase('b');" << NC << std::endl;
+		std::cout << "size = " << mymap.size() << std::endl;
 		print_map(mymap, "mymap");
 
 		mymap.erase('d');		// erasing by key
 		std::cout << YE << "erase('d');" << NC << std::endl;
+		std::cout << "size = " << mymap.size() << std::endl;
 		print_map(mymap, "mymap");
 
 		it = mymap.find('c');
 		mymap.erase(it, mymap.end());	// erasing by range
 		std::cout << YE << "erase(find('c'), mymap.end());" << NC << std::endl;
+		std::cout << "size = " << mymap.size() << std::endl;
 		print_map(mymap, "mymap");
 	}
 

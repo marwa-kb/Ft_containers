@@ -94,7 +94,6 @@ namespace ft
 			typedef std::size_t						size_type;
 			typedef	ft::node<const Key, T>			node;
 			typedef	std::allocator<node>			allocator;
-			// typedef	ft::m_iterator<node*, Key, T>	iterator;
 
 			node		*_root;
 			size_type	_size;
@@ -297,6 +296,7 @@ namespace ft
 						// it = iterator(n, tree);
 						// std::cout << BO << "In delete node, it->first = " << it->first << " et it->second = " << it->second << NC << std::endl;
 						destroy_node(tmp);
+						_size--;
 					}
 				}
 

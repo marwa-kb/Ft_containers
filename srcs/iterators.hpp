@@ -399,6 +399,16 @@ namespace ft
 				return (lhs.base() - rhs.base());
 			};*/
 		};
+
+		// template <class IteratorL, class IteratorR, class Key, class T>
+		// bool operator==(const m_iterator<IteratorL, Key, T> & lhs, const m_iterator<IteratorR, Key, T> & rhs) {
+		// 		return ((lhs.current == rhs.current));
+		// };
+	
+		// template <class IteratorL, class IteratorR, class Key, class T>
+		// bool operator!=(const m_iterator<IteratorL, Key, T> & lhs, const m_iterator<IteratorR, Key, T> & rhs) {
+		// 		return (!(lhs == rhs));
+		// };
 		
 	template <class Iterator, class Key, class T>
 	class const_m_iterator
@@ -447,9 +457,9 @@ namespace ft
 
 			/****************** MEMBER  FUNCTIONS ******************/
 		
-			operator m_it() const {
-				return (m_it(const_cast<typename m_it::iterator_type>(current), &tree));
-	  		};
+			// operator m_it() const {
+			// 	return (m_it(const_cast<typename m_it::iterator_type>(current), &tree));
+	  		// };
 
 			template <class Iter, class K, class U>
 			const_m_iterator & operator=(const const_m_iterator<Iter, K, U> & other) {
