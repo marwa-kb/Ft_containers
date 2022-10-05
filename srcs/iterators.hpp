@@ -263,7 +263,7 @@ namespace ft
  
 			template <class Iter, class K, class U, class Comp>
   			m_iterator(const m_iterator<Iter, K, U, Comp> & other)
-					: current(other.base()), tree(NULL), node_alloc(), avl_alloc() {
+					: current(other.base()), tree(other.get_tree()), node_alloc(other.get_node_alloc()), avl_alloc(other.get_avl_alloc()) {
 				*this = other;
 			};
 
@@ -277,6 +277,8 @@ namespace ft
 			m_iterator & operator=(const m_iterator<Iter, K, U, Comp> & other) {
 				current = other.base();
 				tree = other.get_tree();
+				node_alloc = other.get_node_alloc();
+				avl_alloc = other.get_avl_alloc();
 				return (*this);
 			};
 
@@ -368,6 +370,16 @@ namespace ft
 				return (this->tree);
 			};
 
+			allocator get_node_alloc() const {
+				allocator x;
+				return (x);
+			};
+
+			avl_allocator get_avl_alloc() const {
+				avl_allocator x;
+				return (x);
+			};
+
 			/**************** NON MEMBER  FUNCTIONS ****************/
 
 			friend bool operator==(const m_iterator<Iterator, Key, T, Compare> & lhs, const m_iterator<Iterator, Key, T, Compare> & rhs) {
@@ -451,7 +463,7 @@ namespace ft
 					: current(iterator_type(x)), tree(NULL), node_alloc(), avl_alloc() {};
 
 			const_m_iterator(const m_it & x)
-					: current(x.base()), tree(x.get_tree()), node_alloc(), avl_alloc() {};
+					: current(x.base()), tree(x.get_tree()), node_alloc(x.get_node_alloc()), avl_alloc(x.get_avl_alloc()) {};
  
 			template <class Iter, class K, class U, class Comp>
   			const_m_iterator(const const_m_iterator<Iter, K, U, Comp> & other)
@@ -473,6 +485,8 @@ namespace ft
 			const_m_iterator & operator=(const const_m_iterator<Iter, K, U, Comp> & other) {
 				current = other.base();
 				tree = other.get_tree();
+				node_alloc = other.get_node_alloc();
+				avl_alloc = other.get_avl_alloc();
 				return (*this);
 			};
 
@@ -562,6 +576,16 @@ namespace ft
 
 			ft::avl<Key, T, Compare>* get_tree() const {
 				return (this->tree);
+			};
+
+			allocator get_node_alloc() const {
+				allocator x;
+				return (x);
+			};
+
+			avl_allocator get_avl_alloc() const {
+				avl_allocator x;
+				return (x);
 			};
 
 			/**************** NON MEMBER  FUNCTIONS ****************/
