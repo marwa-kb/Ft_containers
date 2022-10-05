@@ -362,15 +362,6 @@ namespace ft
 					return (NULL);
 				}
 			};
-
-			node * recursive_search(node * r, const Key & val) const {
-				if (!r || r->first == val)
-					return (r);
-				else if (_comp(val, r->first))
-					return (recursive_search(r->left, val));
-				return (recursive_search(r->right, val));
-			};
-
 	};
 }
 
