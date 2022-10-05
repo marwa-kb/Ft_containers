@@ -194,14 +194,14 @@ namespace ft
 			};
 
 			iterator find(const key_type& x) {
-				node * n = _tree->iterative_search(x); // or recursive ?
+				node * n = _tree->iterative_search(x);
 				if (!n)
 					return (end());
 				return (iterator(n));
 			};
 			
 			const_iterator find(const key_type& x) const {
-				node * n = _tree->iterative_search(x); // or recursive ?
+				node * n = _tree->iterative_search(x);
 				if (!n)
 					return (end());
 				return (const_iterator(n));

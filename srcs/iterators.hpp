@@ -451,7 +451,7 @@ namespace ft
 					: current(iterator_type(x)), tree(NULL), node_alloc(), avl_alloc() {};
 
 			const_m_iterator(const m_it & x)
-					: current(x.base()), tree(NULL), node_alloc(), avl_alloc() {};
+					: current(x.base()), tree(x.get_tree()), node_alloc(), avl_alloc() {};
  
 			template <class Iter, class K, class U, class Comp>
   			const_m_iterator(const const_m_iterator<Iter, K, U, Comp> & other)
