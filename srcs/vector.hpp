@@ -2,6 +2,7 @@
 # define VECTOR_HPP
 
 #include <math.h>
+#include <iostream>
 #include "iterators.hpp"
 
 
