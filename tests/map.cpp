@@ -525,10 +525,15 @@ void map_tests()
 		mymap.erase(itlow, itup);	// erases [itlow,itup)
 		print_map(mymap, "mymap");
 
-		// NAMESPACE::pair<NAMESPACE::map<int, float>::iterator, NAMESPACE::map<int, float>::iterator> ret;
-		// ret = mymap.equal_range(5);
-		// std::cout << YE << "equal_range(5) from " NC << "(" << ret.first->first << ", " << ret.first->second << ")";
-		// std::cout << YE << " to " NC << "(" << ret.second->first << ", " << ret.second->second << ")" << '\n';
+		NAMESPACE::pair<NAMESPACE::map<int, float>::iterator, NAMESPACE::map<int, float>::iterator> ret;
+		ret = mymap.equal_range(1);
+		std::cout << YE << "equal_range(1) from " NC << "(" << ret.first->first << ", " << ret.first->second << ")";
+		std::cout << YE << " to " NC << "(" << ret.second->first << ", " << ret.second->second << ")" << '\n';
+
+		// NAMESPACE::pair<NAMESPACE::map<int, float>::iterator, NAMESPACE::map<int, float>::iterator> ret2;
+		// ret2 = mymap.equal_range(5);
+		// std::cout << YE << "equal_range(5) from " NC << "(" << ret2.first->first << ", " << ret2.first->second << ")";
+		// std::cout << YE << " to " NC << "(" << ret2.second->first << ", " << ret2.second->second << ")" << '\n';
 	}
 
 

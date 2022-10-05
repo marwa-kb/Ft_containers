@@ -80,6 +80,8 @@ namespace ft
 
 			~map() {
 				_destroy_avl();
+				// if (_special)
+				// 	_destroy_node(_special);
 			};
 
 
@@ -91,6 +93,7 @@ namespace ft
 				if (_tree)
 					_destroy_avl();
 				_tree = _create_avl();
+				// _special = NULL;
 				insert(x.begin(), x.end());
 				return (*this);
 			};
@@ -258,10 +261,10 @@ namespace ft
 				iterator lb = lower_bound(x);
 				iterator ub = upper_bound(x);
 				// if (lb == end())
-				// 	lb = special_it();
+				// 	lb = get_special_node();
 				// if (ub == end())
-				// 	ub = special_it();
-				return (ft::make_pair<iterator, iterator>(lb, ub));
+				// 	ub = get_special_node();		
+				return (ft::make_pair(lb, ub));
 			};
 			
 			pair<const_iterator, const_iterator>
@@ -269,16 +272,10 @@ namespace ft
 				const_iterator lb = lower_bound(x);
 				const_iterator ub = upper_bound(x);
 				// if (lb == end())
-				// {
-				// 	lb = const_iterator(rbegin().base());
-				// 	lb->second = 0;
-				// }
+				// 	lb = get_special_node();
 				// if (ub == end())
-				// {
-				// 	ub = const_iterator(rbegin().base());
-				// 	ub->second = 0;
-				// }
-				return (ft::make_pair<const_iterator, const_iterator>(lb, ub));
+				// 	ub = get_special_node();
+				return (ft::make_pair(lb, ub));
 			};
 
 			void swap(map<Key, T, Compare, Allocator>& x) {
@@ -374,11 +371,13 @@ namespace ft
 
 		private :
 
+			typedef typename ft::m_iterator<ft::pair<const size_type, int>*, size_type, int> special_it;
+			
 			key_compare			_comp;
 			allocator_type		_alloc;
 			avl_allocator		_avl_alloc;
 			avl					*_tree;
-			node				_special;
+			// node				*_special;
 
 			avl *_create_avl() {
 				avl *tree = _avl_alloc.allocate(1);
@@ -404,18 +403,19 @@ namespace ft
 				n = NULL;
 			};
 
-			iterator special_it() {
-				return (iterator(special_node()));
-			};
-			
-			const_iterator special_it() const {
-				return (const_iterator(special_node()));
-			};
+			// iterator get_special_node() {
+			// 	if (_special)
+			// 		_destroy_node(_special);
+			// 	_special = _create_node(ft::make_pair(size(), 0));
+			// 	return (iterator(_special));
+			// };
 
-			node * special_node() {
-				_special = node(ft::make_pair(size(), 0));
-				return (&_special);
-			}
+			// const_iterator get_special_node() const {
+			// 	if (_special)
+			// 		_destroy_node(_special);
+			// 	_special = _create_node(ft::make_pair(size(), 0));
+			// 	return (const_iterator(_special));
+			// };
 
 		};
 
