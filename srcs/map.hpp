@@ -1,13 +1,14 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
+#include <iostream>
 #include "avl.hpp"
 #include "vector.hpp"
 #include "iterators.hpp"
 
 namespace ft
 {
-	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::node<const Key, T> > >
+	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > >
 	class map
 	{
 
@@ -15,7 +16,6 @@ namespace ft
 
 			typedef	ft::avl<Key, T, Compare>								avl;
 			typedef	ft::node<const Key, T>									node;
-			typedef	std::allocator<avl>										avl_allocator;
 
 
 		public:
@@ -61,20 +61,20 @@ namespace ft
 			/************* CONSTRUCTOR AND  DESTRUCTOR *************/
 
 			explicit map(const Compare& comp = Compare(), const Allocator& alloc = Allocator())
-					: _comp(comp), _alloc(alloc), _avl_alloc(avl_allocator()), _tree(NULL) {
+					: _comp(comp), _alloc(alloc), _node_alloc(node_allocator()), _avl_alloc(avl_allocator()), _tree(NULL) {
 				_tree = _create_avl();
 			};
 
 			template <class InputIterator>
 			map(InputIterator first, InputIterator last, const Compare & comp = Compare(), const Allocator & alloc = Allocator(),
 						typename ft::enable_if<!ft::is_integral<InputIterator>::value, int>::type = 0)
-					: _comp(comp), _alloc(alloc), _avl_alloc(avl_allocator()), _tree(NULL) {
+					: _comp(comp), _alloc(alloc), _node_alloc(node_allocator()), _avl_alloc(avl_allocator()), _tree(NULL) {
 				_tree = _create_avl();
 				insert(first, last);
 			};
 
 			map(const map<Key, T, Compare, Allocator>& x)
-					: _comp(x._comp), _alloc(x._alloc), _avl_alloc(avl_allocator()), _tree(NULL) {
+					: _comp(x._comp), _alloc(x._alloc), _node_alloc(node_allocator()), _avl_alloc(avl_allocator()), _tree(NULL) {
 				*this = x;
 			};
 
@@ -281,16 +281,19 @@ namespace ft
 			void swap(map<Key, T, Compare, Allocator>& x) {
 				key_compare	tmp_comp = x._comp;
 				allocator_type tmp_alloc = x._alloc;
+				node_allocator tmp_node_alloc = x._node_alloc;
 				avl_allocator tmp_avl_alloc = x._avl_alloc;
 				avl* tmp_tree = x._tree;
 
 				x._comp = this->_comp;
 				x._alloc = this->_alloc;
+				x._node_alloc = this->_node_alloc;
 				x._avl_alloc = this->_avl_alloc;
 				x._tree = this->_tree;
 
 				this->_comp = tmp_comp;
 				this->_alloc = tmp_alloc;
+				this->_node_alloc = tmp_node_alloc;
 				this->_avl_alloc = tmp_avl_alloc;
 				this->_tree = tmp_tree;
 			};
@@ -371,10 +374,13 @@ namespace ft
 
 		private :
 
+			typedef typename allocator_type::template rebind<node>::other	node_allocator;
+			typedef	typename allocator_type::template rebind<avl>::other	avl_allocator;
 			typedef typename ft::m_iterator<ft::pair<const size_type, int>*, size_type, int> special_it;
 			
 			key_compare			_comp;
 			allocator_type		_alloc;
+			node_allocator		_node_alloc;
 			avl_allocator		_avl_alloc;
 			avl					*_tree;
 			// node				*_special;
@@ -392,14 +398,14 @@ namespace ft
 			};
 
 			node *_create_node(const value_type & x) {
-				node * n = _alloc.allocate(1);
-				_alloc.construct(&n[0], x);
+				node * n = _node_alloc.allocate(1);
+				_node_alloc.construct(&n[0], x);
 				return (n);
 			};
 
 			void _destroy_node(node * n) {
-				_alloc.destroy(&n[0]);
-				_alloc.deallocate(n, 1);
+				_node_alloc.destroy(&n[0]);
+				_node_alloc.deallocate(n, 1);
 				n = NULL;
 			};
 
