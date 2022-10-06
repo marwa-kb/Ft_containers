@@ -309,9 +309,11 @@ namespace ft
 			void push_back(const value_type & val) {
 				if (_size + 1 > _capacity)
 				{
+					T* tab = NULL;
 					if (!_capacity)
-						_capacity++;
-					T* tab = _alloc.allocate(_capacity * 2);
+						tab = _alloc.allocate(++_capacity);
+					else
+						tab = _alloc.allocate(_capacity *= 2);
 					for (size_type i = 0; i < _size; i++)
 						_alloc.construct(&tab[i], value_type(_tab[i]));
 					_alloc.construct(&tab[_size], value_type(val));
@@ -320,7 +322,6 @@ namespace ft
 					_alloc.deallocate(_tab, _capacity);
 					_tab = tab;
 					_size = size + 1;
-					_capacity *= 2;
 				}
 				else
 				{
