@@ -129,7 +129,7 @@ namespace ft
 			};
 			
 			size_type max_size() const {
-				return (_alloc.max_size());
+				return (_node_alloc.max_size());
 			};
 			
 			pair<iterator, bool> insert(const value_type & x) {
