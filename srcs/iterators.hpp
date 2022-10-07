@@ -14,6 +14,9 @@ namespace ft
 
 namespace ft
 {
+
+	//====================================== ITERATOR_TRAITS ======================================//
+
 	template <class Iterator, typename = void>
 	struct iterator_traits
 	{
@@ -55,6 +58,8 @@ namespace ft
 		typedef std::random_access_iterator_tag	iterator_category;
 	};
 
+
+	//====================================== VECTOR ITERATOR ======================================//
 
 	template <class Iterator>
 	class v_iterator
@@ -226,6 +231,8 @@ namespace ft
 		};
 
 
+	//======================================= MAP ITERATORS =======================================//
+
 	template <class Iterator, class Key, class T, class Compare = std::less<Key> >
 	class m_iterator
 	{
@@ -233,11 +240,11 @@ namespace ft
 		public :
 
 			typedef Iterator													iterator_type;
-			typedef typename ft::iterator_traits<Iterator>::iterator_category	iterator_category;
-			typedef typename ft::iterator_traits<Iterator>::value_type			value_type;
-			typedef typename ft::iterator_traits<Iterator>::difference_type		difference_type;
-			typedef typename ft::iterator_traits<Iterator>::pointer				pointer;
-			typedef typename ft::iterator_traits<Iterator>::reference			reference;
+			typedef typename std::bidirectional_iterator_tag					iterator_category;
+			typedef typename std::ptrdiff_t										difference_type;
+			typedef ft::node<const Key, T>										value_type;
+			typedef value_type*													pointer;
+			typedef value_type&													reference;
 	
 
 		protected :
@@ -389,41 +396,9 @@ namespace ft
 			friend bool operator!=(const m_iterator<Iterator, Key, T, Compare> & lhs, const m_iterator<Iterator, Key, T, Compare> & rhs) {
 				return (!(lhs == rhs));
 			};
-/*
-			friend bool operator<(const ft::m_iterator<Iterator> & lhs, const ft::m_iterator<Iterator> & rhs) {
-				return (lhs.base() < rhs.base());
-			};
 
-			friend bool operator<=(const ft::m_iterator<Iterator> & lhs, const ft::m_iterator<Iterator> & rhs) {
-				return (lhs.base() <= rhs.base());
-			};
-
-			friend bool operator>(const ft::m_iterator<Iterator> & lhs, const ft::m_iterator<Iterator> & rhs) {
-				return (lhs.base() > rhs.base());
-			};
-
-			friend bool operator>=(const ft::m_iterator<Iterator> & lhs, const ft::m_iterator<Iterator> & rhs) {
-				return (lhs.base() >= rhs.base());
-			};
-
-			friend m_iterator<Iterator> operator+(difference_type n, const m_iterator<Iterator> & it) {
-				return (m_iterator(it.base() + n));
-			};
-			
-			friend difference_type operator-(const m_iterator<Iterator> & lhs, const m_iterator<Iterator> & rhs) {
-				return (lhs.base() - rhs.base());
-			};*/
 		};
 
-		// template <class IteratorL, class IteratorR, class Key, class T>
-		// bool operator==(const m_iterator<IteratorL, Key, T> & lhs, const m_iterator<IteratorR, Key, T> & rhs) {
-		// 		return ((lhs.current == rhs.current));
-		// };
-	
-		// template <class IteratorL, class IteratorR, class Key, class T>
-		// bool operator!=(const m_iterator<IteratorL, Key, T> & lhs, const m_iterator<IteratorR, Key, T> & rhs) {
-		// 		return (!(lhs == rhs));
-		// };
 		
 	template <class Iterator, class Key, class T, class Compare =  std::less<Key> >
 	class const_m_iterator
@@ -433,13 +408,11 @@ namespace ft
 
 			typedef Iterator													iterator_type;
 			typedef typename ft::m_iterator<Iterator, Key, T, Compare>			m_it;
-			typedef typename ft::iterator_traits<Iterator>::iterator_category	iterator_category;
-			typedef typename ft::iterator_traits<Iterator>::value_type			value_type;
-			typedef typename ft::iterator_traits<Iterator>::difference_type		difference_type;
-			typedef ft::node<const Key, T>										type;
-			typedef const type													const_type;
-			typedef const type*													pointer;
-			typedef const type&													reference;
+			typedef typename std::bidirectional_iterator_tag					iterator_category;
+			typedef typename std::ptrdiff_t										difference_type;
+			typedef ft::node<const Key, T>										value_type;
+			typedef const value_type*											pointer;
+			typedef const value_type&											reference;
 
 		protected :
 
@@ -476,10 +449,6 @@ namespace ft
 
 
 			/****************** MEMBER  FUNCTIONS ******************/
-		
-			// operator m_it() const {
-			// 	return (m_it(const_cast<typename m_it::iterator_type>(current), &tree));
-	  		// };
 
 			template <class Iter, class K, class U, class Comp>
 			const_m_iterator & operator=(const const_m_iterator<Iter, K, U, Comp> & other) {
@@ -597,32 +566,10 @@ namespace ft
 			friend bool operator!=(const const_m_iterator<Iterator, Key, T, Compare> & lhs, const const_m_iterator<Iterator, Key, T, Compare> & rhs) {
 				return (!(lhs == rhs));
 			};
-/*
-			friend bool operator<(const ft::const_m_iterator<Iterator> & lhs, const ft::const_m_iterator<Iterator> & rhs) {
-				return (lhs.base() < rhs.base());
-			};
-
-			friend bool operator<=(const ft::const_m_iterator<Iterator> & lhs, const ft::const_m_iterator<Iterator> & rhs) {
-				return (lhs.base() <= rhs.base());
-			};
-
-			friend bool operator>(const ft::const_m_iterator<Iterator> & lhs, const ft::const_m_iterator<Iterator> & rhs) {
-				return (lhs.base() > rhs.base());
-			};
-
-			friend bool operator>=(const ft::const_m_iterator<Iterator> & lhs, const ft::const_m_iterator<Iterator> & rhs) {
-				return (lhs.base() >= rhs.base());
-			};
-
-			friend const_m_iterator<Iterator> operator+(difference_type n, const const_m_iterator<Iterator> & it) {
-				return (const_m_iterator(it.base() + n));
-			};
-			
-			friend difference_type operator-(const const_m_iterator<Iterator> & lhs, const const_m_iterator<Iterator> & rhs) {
-				return (lhs.base() - rhs.base());
-			};*/
 		};
 		
+		
+	//===================================== REVERSE  ITERATOR =====================================//
 
 	template <class Iterator>
 	class reverse_iterator
@@ -675,7 +622,7 @@ namespace ft
 				return (&(operator*()));
 			};
 
-			reference operator[](difference_type n) const {  // NEW, A TESTER
+			reference operator[](difference_type n) const {
 				return (*(*this + n));
 			};
 
