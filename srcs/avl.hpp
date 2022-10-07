@@ -207,14 +207,14 @@ namespace ft
 				int bf = balance_factor(n);
 				if (bf > 1 && _comp(new_node->first, n->left->first))		//left left
 					return (right_rotate(n));
-				if (bf < -1 && _comp(n->right->first, new_node->first))	//right right
+				if (bf < -1 && _comp(n->right->first, new_node->first))		//right right
 					return (left_rotate(n));
 				if (bf > 1 && _comp(n->left->first, new_node->first))		//left right
 				{
 					n->left = left_rotate(n->left);
 					return (right_rotate(n));
 				}
-				if (bf < -1 && _comp(new_node->first, n->right->first))	// right left 
+				if (bf < -1 && _comp(new_node->first, n->right->first))		// right left 
 				{
 					n->right = right_rotate(n->right);
 					return (left_rotate(n));

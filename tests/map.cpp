@@ -118,13 +118,13 @@ void map_tests()
 
 		// second insert function version (with hint position): 
 		NAMESPACE::map<char,int>::iterator it = mymap.begin();
-		NAMESPACE::map<char,int>::iterator itret = mymap.insert(it, NAMESPACE::pair<char,int>('b', 300));		// max efficiency inserting
+		NAMESPACE::map<char,int>::iterator itret = mymap.insert(it, NAMESPACE::pair<char,int>('b', 300));
 		if (itret == mymap.end())
 			std::cout << BR << "NOPE" << NC << std::endl;
 		else
 			std::cout << UP << "itret: " << itret->first << ", " << itret->second << NC << std::endl;
 		print_map(mymap, "mymap");
-		NAMESPACE::map<char,int>::iterator itret1 = mymap.insert(it, NAMESPACE::pair<char,int>('c', 400));		// no max efficiency inserting
+		NAMESPACE::map<char,int>::iterator itret1 = mymap.insert(it, NAMESPACE::pair<char,int>('c', 400));
 		if (itret1 == mymap.end())
 			std::cout << BR << "NOPE" << NC << std::endl;
 		else
@@ -529,11 +529,6 @@ void map_tests()
 		ret = mymap.equal_range(1);
 		std::cout << YE << "equal_range(1) from " NC << "(" << ret.first->first << ", " << ret.first->second << ")";
 		std::cout << YE << " to " NC << "(" << ret.second->first << ", " << ret.second->second << ")" << '\n';
-
-		// NAMESPACE::pair<NAMESPACE::map<int, float>::iterator, NAMESPACE::map<int, float>::iterator> ret2;
-		// ret2 = mymap.equal_range(5);
-		// std::cout << YE << "equal_range(5) from " NC << "(" << ret2.first->first << ", " << ret2.first->second << ")";
-		// std::cout << YE << " to " NC << "(" << ret2.second->first << ", " << ret2.second->second << ")" << '\n';
 	}
 
 
@@ -593,7 +588,6 @@ void map_tests()
 	
 	return ;
 }
-
 
 template <class Key, class T>
 void print_map(NAMESPACE::map<Key, T> & x, std::string s)
