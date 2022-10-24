@@ -1,5 +1,4 @@
 #include "tests.h"
-// /!\ remets les tests quand t'as fini
 
 int main(int argc, char *argv[])
 {	
