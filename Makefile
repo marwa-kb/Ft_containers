@@ -18,7 +18,7 @@ OBJS2		=	$(addprefix $(OBJDIR2)/, $(SRCS:.cpp=.o))
 
 RM			=	rm -rf
 
-CXX			=	c++
+CXX			=	clang++
 
 CXXFLAGS	=	-Wall -Wextra -Werror -std=c++98 #-g -fsanitize=address
 
@@ -50,4 +50,4 @@ fclean			:	clean
 
 re				:	fclean all
 
-.PHONY			:	all clean fclean re test
+.PHONY			:	all clean fclean re containers
