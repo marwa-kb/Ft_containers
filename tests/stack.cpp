@@ -25,7 +25,7 @@ void stack_tests()
 	NAMESPACE::stack<float> stack0;
 	std::cout << GN << "Creation of stack1 via default (container) constructor" << NC << std::endl;
 	NAMESPACE::stack<int, ft::vector<int> > stack1(v1);
-	std::cout << GN << "Creation of stack2 via copy constructor" << NC << std::endl;
+	std::cout << GN << "Creation of stack2 via implicit copy constructor" << NC << std::endl;
 	NAMESPACE::stack<int, ft::vector<int> > stack2(stack1);
 	std::cout << CY << "Creation of stack3 via assignation operator" << NC << std::endl;
 	NAMESPACE::stack<int, ft::vector<int> > stack3 = stack2;
@@ -55,7 +55,7 @@ void stack_tests()
 
 
 	/******* testing member functions on a const stack *******/
-	std::cout << GN << "Creation of stack4 (const) via copy constructor" << NC << std::endl;
+	std::cout << GN << "Creation of stack4 (const) via implicit copy constructor" << NC << std::endl;
 	ft::vector<int> const v2(v1);
 	NAMESPACE::stack<int, ft::vector<int> > const stack4(v2);
 	std::cout << YE << "stack4 (const) empty : " << NC << (stack4.empty() ? "true" : "false") << std::endl

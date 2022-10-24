@@ -27,8 +27,6 @@ namespace ft
 
 			explicit stack(const Container & cont = Container()) : c(cont) {};
 
-			stack(const stack & other) : c(other.c) {};
-
 			~stack() {};
 
 
