@@ -11,7 +11,7 @@
 #include <algorithm>
 
 /*** MINE ***/
-#include "../srcs/colors.h"
+#include "colors.h"
 
 #include "../srcs/vector.hpp"
 #include "../srcs/stack.hpp"
