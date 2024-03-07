@@ -2,9 +2,9 @@
 ## In this 42 project, we had to implement a few container types of the C++ standard template library.
 
 ### Containers:
-* vector
-* map
-* stack  
+* vector: _sequence container representing an array that can change in size (dynamically allocated)_
+* map: _associative container that store elements (key value + mapped value) in the form of a BST (Binary Search Tree)_
+* stack: _container adaptator that allows manipulating other containers in a LIFO manner (last-in first-out)_  
   
 ### Additional:
 * iterators_traits
