@@ -21,4 +21,4 @@ only, and the other one with the STL containers
 * compare outputs and performance / timing
 
 ------------------------------------------  
-This is the first project I made after learning C++.  
+This is the first project I made after learning C++ basics.  
